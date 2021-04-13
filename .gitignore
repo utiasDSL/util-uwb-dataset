@@ -1,2 +1,4 @@
 *.bag
-*/__pycache__/
+*/__pycache__
+ros_ws/build
+ros_ws/devel
