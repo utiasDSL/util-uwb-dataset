@@ -1,2 +1,0 @@
-cf_msgs
--DCATKIN_DEVEL_PREFIX=/home/abhi/repositories/dsl/dsl__projects__uwbDataset/ros_ws/devel -DCMAKE_INSTALL_PREFIX=/home/abhi/repositories/dsl/dsl__projects__uwbDataset/ros_ws/install -G Unix Makefiles
