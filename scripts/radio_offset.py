@@ -34,7 +34,7 @@ def get_vicon_anchor_dist(bag_file):
     
     return anchor_pos
 
-def get_range_data(bag_file, src_dest):
+def plot_error_data(bag_file, src_dest):
     anchor_pos = get_vicon_anchor_dist(path + "/" + bag_file)
     gt_rng_data = {}
     for src, dests in src_dest.items():
@@ -49,7 +49,7 @@ def get_range_data(bag_file, src_dest):
         src_dest = msg.mobile + "-" + msg.anchors[0]
         if src_dest in uwb_data:
             uwb_data[src_dest].append(msg.data[0])
-            err_data[src_dest].append(msg.data[0] - gt_rng_data[src_dest])
+            err_data[src_dest].append(gt_rng_data[src_dest]-msg.data[0])
         else:
             uwb_data[src_dest] = []
             err_data[src_dest] = []
@@ -68,7 +68,8 @@ def get_range_data(bag_file, src_dest):
         p = norm.pdf(bins, mu, std)
         plt.plot(bins, p, 'k', linewidth=2)
         plt.title("%s: mean:%.2f (m) std:%.2f (m)"%(src_dest, mu, std))
-        plt.ylabel("Range error (m)")
+        plt.xlabel("Range error (m)")
+        plt.ylabel("Count")
         plt.xlim([-0.35, 0.35])
         plt.grid()
         plt.savefig(path + "/" + src_dest + ".png", format="png")
@@ -80,18 +81,27 @@ if __name__ == "__main__":
     bag_file = "anc1_anc2anc5.bag"
     src_dest = {"anchor_1" : ["anchor_2", "anchor_5"]}
     print("Processing bag:%s"%(path + "/" + bag_file))
-    get_range_data(bag_file, src_dest)
+    plot_error_data(bag_file, src_dest)
     #
     bag_file = "anc2_anc1anc5.bag"
     src_dest = {"anchor_2" : ["anchor_1", "anchor_5"]}
     print("Processing bag:%s"%(path + "/" + bag_file))
-    get_range_data(bag_file, src_dest)
+    plot_error_data(bag_file, src_dest)
     #
     bag_file = "anc5_anc1anc2.bag"
     src_dest = {"anchor_5" : ["anchor_1", "anchor_2"]}
     print("Processing bag:%s"%(path + "/" + bag_file))
-    get_range_data(bag_file, src_dest)
-    
+    plot_error_data(bag_file, src_dest)
 
 
-
+### TODO: Automate this
+############## code to calculate antenna offset
+    A = np.array([[1, 1, 0],
+                [1, 0, 1],
+                [1, 1, 0],
+                [0, 1, 1],
+                [1, 0, 1],
+                [0, 1, 1]], dtype=float)
+    b = (np.array([0.15, 0.06, 0.14, -0.03, 0.07, -0.01], dtype=float)).T
+    offsets = np.dot(np.linalg.pinv(A), b)
+    print("Antenna offsets:", offsets)
