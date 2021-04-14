@@ -37,15 +37,17 @@ if __name__ == "__main__":
         # print(k, event_name)
         t = (data['timestamp'] - start_time) / 1000
         ax[k].scatter(t, t*0)
-        ax[k].set_title(event_name)
+        ax[k].set_title(event_name, fontsize=15)
 
         print(data.keys())
 
         crs = mplcursors.cursor(ax[k],hover=True)
 
         crs.connect("add", functools.partial(showAnnotation, data))
+        ax[k].tick_params(axis='y', which='major', labelsize=15)
 
-    ax[-1].set_xlabel('Time [s]')
-
+    ax[-1].set_xlabel('Time [s]', fontsize=20)
+    plt.xticks(fontsize=15)
+    
 
     plt.show()
