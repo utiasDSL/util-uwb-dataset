@@ -1,5 +1,5 @@
 '''
-Visualize the sensor measurements
+Visualize the sensor measurements in rosbag
 '''
 import os, sys
 import numpy as np
@@ -13,7 +13,8 @@ from tkinter.filedialog import askopenfilename
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
 # current path of the script
-pathname = os.path.dirname(sys.argv[0])
+curr = os.path.dirname(sys.argv[0])
+pathname = os.path.abspath(curr+'/../2_data/rosbag/')
 bagFile = askopenfilename(initialdir = pathname, title = "Select rosbag")
 # access rosbag 
 bag = rosbag.Bag(bagFile)
@@ -71,14 +72,22 @@ plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=
 fig2 = plt.figure()
 ax2 = fig2.add_subplot(111)
 ax2.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
+ax2.legend(loc='best')
+ax2.set_xlabel(r'Time [s]')
+ax2.set_ylabel(r'ToF measurement [m]') 
 plt.title(r"Z-range measurements", fontsize=13, fontweight=0, color='black')
 # flow pixel
 fig3 = plt.figure()
 ax3 = fig3.add_subplot(211)
+plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
 ax3.scatter(flow[:,0], flow[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel x")
+ax3.set_ylabel(r'number of accelerated pixel in x') 
 bx3 = fig3.add_subplot(212)
 bx3.scatter(flow[:,0], flow[:,2], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel y")
-plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
+bx3.set_ylabel(r'number of accelerated pixel in y') 
+bx3.set_xlabel(r'Time [s]')
+plt.legend(loc='best')
+
 
 fig4 = plt.figure()
 ax_t = fig4.add_subplot(111, projection = '3d')
