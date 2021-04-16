@@ -3,6 +3,7 @@ survey util functions
 '''
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
 
 def pointcloud_alignment(src_points, dest_points):
     '''
@@ -74,4 +75,34 @@ def getRMSE(err):
     return RMSE
 
 
+def plot_survey(anchor_pos, vicon):
+    fig_traj = plt.figure(facecolor = "white")
+    ax_t = fig_traj.add_subplot(111, projection = '3d')
+    counter = 0
+    for i in range(len(anchor_pos)):
+        if counter == 0:    
+            ax_t.scatter(anchor_pos[i,0], anchor_pos[i,1], anchor_pos[i,2], s=5, marker='o',color='yellow')
+            counter+=1
+        elif counter == 1:
+            ax_t.scatter(anchor_pos[i,0], anchor_pos[i,1], anchor_pos[i,2], s=5, marker='o',color='red')
+            counter+=1
+        elif counter == 2:
+            ax_t.scatter(anchor_pos[i,0], anchor_pos[i,1], anchor_pos[i,2], s=5, marker='o',color='green')
+            counter+=1
+        elif counter == 3:
+            ax_t.scatter(anchor_pos[i,0], anchor_pos[i,1], anchor_pos[i,2], s=5, marker='o',color='blue')
+            counter = 0
+            
+            
+    # use LaTeX fonts in the plot
+    ax_t.set_xlabel(r'X [m]')
+    ax_t.set_ylabel(r'Y [m]')
+    ax_t.set_zlabel(r'Z [m]')
+    plt.title(r"UWB Anchor Survey Results", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    ax_t.set_xlim([-5.0, 5.0])
+    ax_t.set_ylim([-5.0, 5.0])
+    ax_t.set_zlim([0.0, 5.0])
+    # plot vicon frame
+    for idx in range(len(vicon)):
+        ax_t.scatter(vicon[idx,0], vicon[idx,1], vicon[idx,2],s=5, marker='o',color='red')
 
