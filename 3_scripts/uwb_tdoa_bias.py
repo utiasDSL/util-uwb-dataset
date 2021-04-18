@@ -8,7 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import pyplot as plt
 import matplotlib.style as style
 import rosbag
-from scipy import stats
+from scipy import stats, interpolate
 from tkinter.filedialog import askopenfilename
 # select the matplotlib plotting style
 style.use('ggplot')
@@ -61,7 +61,7 @@ gt_pose = np.array(gt_pose)
 
 # select the anchor pair for visualization
 # possible anchor ID = [0,1,2,3,4,5,6,7] 
-an_i = 1;     an_j = 2
+an_i = 3;     an_j = 4
 
 # get the id for tdoa_ij measurements
 tdoa_id = np.where((tdoa[:,1]==[an_i])&(tdoa[:,2]==[an_j]))
@@ -70,61 +70,48 @@ tdoa_meas = np.squeeze(tdoa[tdoa_id, :])
 an_pos_i = anchor_pos[an_i,:].reshape(1,-1)
 an_pos_j = anchor_pos[an_j,:].reshape(1,-1)
 # cf position from vicon measurement
-cf_pos = gt_pose[:,1:4]      # [time, x, y, z]
-d_i = np.asarray(linalg.norm(an_pos_i - cf_pos, axis = 1))
-d_j = np.asarray(linalg.norm(an_pos_j - cf_pos, axis = 1))
+# To compute the bias, we need to interpolate the vicon measurements. 
+# interpolate the vicon measurements to compute error of tdoa uwb measurements
+f_x = interpolate.splrep(gt_pose[:,0], gt_pose[:,1], s = 0.5)  
+f_y = interpolate.splrep(gt_pose[:,0], gt_pose[:,2], s = 0.5)
+f_z = interpolate.splrep(gt_pose[:,0], gt_pose[:,3], s = 0.5) 
+
+# synchronized position
+x_interp = interpolate.splev(tdoa_meas[:,0], f_x, der = 0).reshape(-1,1)
+y_interp = interpolate.splev(tdoa_meas[:,0], f_y, der = 0).reshape(-1,1)
+z_interp = interpolate.splev(tdoa_meas[:,0], f_z, der = 0).reshape(-1,1)
+pos_syn = np.concatenate((x_interp, y_interp, z_interp), axis = 1)
+
+d_i = np.asarray(linalg.norm(an_pos_i - pos_syn, axis = 1))
+d_j = np.asarray(linalg.norm(an_pos_j - pos_syn, axis = 1))
 # measurement model
 d_ij = d_j - d_i
 
+# bias = tdoa - gt
+bias_ij = tdoa_meas[:,3] - d_ij
+
 # visualization 
 # UWB TDOA
-fig1 = plt.figure()
-ax1 = fig1.add_subplot(111)
-ax1.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
-ax1.plot(gt_pose[:,0], d_ij, color='red',linewidth=1.5, label = "Vicon ground truth")
-ax1.legend(loc='best')
-ax1.set_xlabel(r'Time [s]')
-ax1.set_ylabel(r'TDoA measurement [m]') 
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
+ax.plot(tdoa_meas[:,0], d_ij, color='red',linewidth=1.5, label = "Vicon ground truth")
+ax.legend(loc='best')
+ax.set_xlabel(r'Time [s]')
+ax.set_ylabel(r'TDoA measurement [m]') 
 plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
-# Z-range ToF
-fig2 = plt.figure()
-ax2 = fig2.add_subplot(111)
-ax2.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
-ax2.plot(gt_pose[:,0], gt_pose[:,3], color='red',linewidth=1.5, label = "Vicon ground truth")
-ax2.legend(loc='best')
-ax2.set_xlabel(r'Time [s]')
-ax2.set_ylabel(r'ToF measurement [m]') 
-plt.title(r"Z-range measurements", fontsize=13, fontweight=0, color='black')
-# flow pixel
-fig3 = plt.figure()
-ax3 = fig3.add_subplot(211)
-plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
-ax3.scatter(flow[:,0], flow[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel x")
-ax3.set_ylabel(r'number of accelerated pixel in x') 
-bx3 = fig3.add_subplot(212)
-bx3.scatter(flow[:,0], flow[:,2], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel y")
-bx3.set_ylabel(r'number of accelerated pixel in y') 
-bx3.set_xlabel(r'Time [s]')
-plt.legend(loc='best')
-# baremeter
-fig4 = plt.figure()
-ax4 = fig4.add_subplot(111)
-plt.title(r"Baro measurements", fontsize=13, fontweight=0, color='black')
-ax4.scatter(baro[:,0], baro[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "baro asl")
-ax4.set_ylabel(r'asl') 
-plt.legend(loc='best')
-# trajectory
-fig5 = plt.figure()
-ax_t = fig5.add_subplot(111, projection = '3d')
-ax_t.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9)
-ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red')
-ax_t.set_xlim3d(np.amin(anchor_pos[:,0])-0.5, np.amax(anchor_pos[:,0])+0.5)  
-ax_t.set_ylim3d(np.amin(anchor_pos[:,1])-0.5, np.amax(anchor_pos[:,1])+0.5)  
-ax_t.set_zlim3d(np.amin(anchor_pos[:,2])-0.1, np.amax(anchor_pos[:,2])+0.3)  
-ax_t.set_xlabel(r'X [m]')
-ax_t.set_ylabel(r'Y [m]')
-ax_t.set_zlabel(r'Z [m]')
-plt.legend(['Trajectory','Anchor position'])
-plt.title(r"Trajectory of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+
+fig1 = plt.figure()
+bx = fig1.add_subplot(111)
+bx.scatter(tdoa_meas[:,0], bias_ij, color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa biases")
+bx.legend(loc='best')
+bx.set_xlabel(r'Time [s]')
+bx.set_ylabel(r'TDoA bias [m]') 
+plt.title(r"UWB tdoa biases, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
 
 plt.show()
+
+
+
+
+
