@@ -1,0 +1,232 @@
+(1) 0425-traj1  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.4)
+        Z = 1.5
+        
+(2) 0425-traj2  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+        Z = 1.5
+        
+(3) 0425-traj3  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.8)
+        Z = 1.5
+        
+(4) 0425-traj4  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 1.0)
+        Z = 1.5
+        
+(5) 0425-traj5  (repeat traj 1)  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.4)
+        Z = 1.5        
+
+(6) 0425-traj6 (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.4)
+		Z = 1.5
+		
+		
+(7) 0425-traj7  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+		Z = 1.5	
+		
+		
+(8) 0425-traj8  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.8)
+		Z = 1.5	
+		
+(9) 0425-traj9  (TDOA2)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 1.0)
+		Z = 1.5			
+		
+(10) 0425-traj10 (TDOA2) repeat exp1
+		cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+        Z = 1.5
+		
+(11) 0425-traj11 (TDOA2) repeat exp2
+		cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+        Z = 1.5
+		
+(12) 0425-traj12 (TDOA2) repeat exp3
+		cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+        Z = 1.5		
+		
+		
+# ---------------------------------------------------------------------- #
+TDOA 3		
+		
+(13) 0425-traj13 (TDOA3) 
+		cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.4)
+        Z = 1.5		
+		
+		
+(14) 0425-traj14 (TDOA3) 
+		cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+        Z = 1.5		
+		
+(15) 0425-traj15 (TDOA3) 
+		cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.8)
+        Z = 1.5				
+		
+(16) 0425-traj16 (TDOA3) 
+		cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 1.0)
+        Z = 1.5		
+		
+		
+(17) 0425-traj17 (TDOA3)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.4)
+		Z = 1.5
+				
+		
+(18) 0425-traj18 (TDOA3)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+		Z = 1.5
+		
+		
+(19) 0425-traj19 (TDOA3)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.8)
+		Z = 1.5
+		
+		
+(20) 0425-traj20 (TDOA3)
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z + np.sin(0.5*omega * t + phi) * 0.5
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 1.0)
+		Z = 1.5
+		
+		
+(21) 0425-traj21 (TDOA3)   repeat-exp1
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+		Z = 1.5	
+		
+(22) 0425-traj22 (TDOA3)   repeat-exp2
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+		Z = 1.5		
+		
+(23) 0425-traj23 (TDOA3)   repeat-exp2
+        cmd_x = radius * np.cos(omega * t + phi)  
+        cmd_y = radius * np.sin(omega * t + phi)
+        cmd_z = Z 
+        
+        goCircle(timeHelper, cf1, radius=1.5, round_num = 2.0, omega = 0.6)
+		Z = 1.5		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+     
+ 

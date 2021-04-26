@@ -1,5 +1,5 @@
 '''
-Visualize the sensor measurements in rosbag
+Visualize the TDOA measurement biases in rosbag
 '''
 import os, sys
 import numpy as np

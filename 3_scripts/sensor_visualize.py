@@ -61,7 +61,7 @@ gt_pose = np.array(gt_pose)
 
 # select the anchor pair for visualization
 # possible anchor ID = [0,1,2,3,4,5,6,7] 
-an_i = 1;     an_j = 2
+an_i = 4;     an_j = 5
 
 # get the id for tdoa_ij measurements
 tdoa_id = np.where((tdoa[:,1]==[an_i])&(tdoa[:,2]==[an_j]))
@@ -86,6 +86,7 @@ ax1.legend(loc='best')
 ax1.set_xlabel(r'Time [s]')
 ax1.set_ylabel(r'TDoA measurement [m]') 
 plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
+
 # Z-range ToF
 fig2 = plt.figure()
 ax2 = fig2.add_subplot(111)
