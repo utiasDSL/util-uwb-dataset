@@ -17,8 +17,8 @@ plt.rcParams['figure.facecolor'] = 'w'
 # current path of the script
 curr = os.path.dirname(sys.argv[0])
 # load the anchor pose
-anchor_pos = np.load(curr+'/survey/AnchorPos_0415.npy')
-anchor_qaut = np.load(curr+'/survey/AnchorQuat_0415.npy')
+anchor_pos = np.load(curr+'/survey/0425-numpy/AnchorPos_0425.npy')
+anchor_qaut = np.load(curr+'/survey/0425-numpy/AnchorQuat_0425.npy')
 # access rosbag
 bag_path = os.path.abspath(curr+'/../2_data/rosbag/')
 bagFile = askopenfilename(initialdir = bag_path, title = "Select rosbag")
@@ -61,7 +61,7 @@ gt_pose = np.array(gt_pose)
 
 # select the anchor pair for visualization
 # possible anchor ID = [0,1,2,3,4,5,6,7] 
-an_i = 4;     an_j = 5
+an_i = 0;     an_j = 6
 
 # get the id for tdoa_ij measurements
 tdoa_id = np.where((tdoa[:,1]==[an_i])&(tdoa[:,2]==[an_j]))
@@ -87,33 +87,33 @@ ax1.set_xlabel(r'Time [s]')
 ax1.set_ylabel(r'TDoA measurement [m]') 
 plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
 
-# Z-range ToF
-fig2 = plt.figure()
-ax2 = fig2.add_subplot(111)
-ax2.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
-ax2.plot(gt_pose[:,0], gt_pose[:,3], color='red',linewidth=1.5, label = "Vicon ground truth")
-ax2.legend(loc='best')
-ax2.set_xlabel(r'Time [s]')
-ax2.set_ylabel(r'ToF measurement [m]') 
-plt.title(r"Z-range measurements", fontsize=13, fontweight=0, color='black')
-# flow pixel
-fig3 = plt.figure()
-ax3 = fig3.add_subplot(211)
-plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
-ax3.scatter(flow[:,0], flow[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel x")
-ax3.set_ylabel(r'number of accelerated pixel in x') 
-bx3 = fig3.add_subplot(212)
-bx3.scatter(flow[:,0], flow[:,2], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel y")
-bx3.set_ylabel(r'number of accelerated pixel in y') 
-bx3.set_xlabel(r'Time [s]')
-plt.legend(loc='best')
-# baremeter
-fig4 = plt.figure()
-ax4 = fig4.add_subplot(111)
-plt.title(r"Baro measurements", fontsize=13, fontweight=0, color='black')
-ax4.scatter(baro[:,0], baro[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "baro asl")
-ax4.set_ylabel(r'asl') 
-plt.legend(loc='best')
+# # Z-range ToF
+# fig2 = plt.figure()
+# ax2 = fig2.add_subplot(111)
+# ax2.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
+# ax2.plot(gt_pose[:,0], gt_pose[:,3], color='red',linewidth=1.5, label = "Vicon ground truth")
+# ax2.legend(loc='best')
+# ax2.set_xlabel(r'Time [s]')
+# ax2.set_ylabel(r'ToF measurement [m]') 
+# plt.title(r"Z-range measurements", fontsize=13, fontweight=0, color='black')
+# # flow pixel
+# fig3 = plt.figure()
+# ax3 = fig3.add_subplot(211)
+# plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
+# ax3.scatter(flow[:,0], flow[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel x")
+# ax3.set_ylabel(r'number of accelerated pixel in x') 
+# bx3 = fig3.add_subplot(212)
+# bx3.scatter(flow[:,0], flow[:,2], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel y")
+# bx3.set_ylabel(r'number of accelerated pixel in y') 
+# bx3.set_xlabel(r'Time [s]')
+# plt.legend(loc='best')
+# # baremeter
+# fig4 = plt.figure()
+# ax4 = fig4.add_subplot(111)
+# plt.title(r"Baro measurements", fontsize=13, fontweight=0, color='black')
+# ax4.scatter(baro[:,0], baro[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "baro asl")
+# ax4.set_ylabel(r'asl') 
+# plt.legend(loc='best')
 # trajectory
 fig5 = plt.figure()
 ax_t = fig5.add_subplot(111, projection = '3d')

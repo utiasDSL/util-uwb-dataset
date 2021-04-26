@@ -35,13 +35,21 @@ NUM_vicon = 6
 vicon_frame = pos[0:NUM_vicon,:]                  # 6 points in Vicon frame
 anchor_marker = pos[NUM_vicon:,:]                 # uwb anchor pose 
 
-
-vicon_marks = np.array([[-6.1015,    1520.0397,    5.1068],
-                        [9.6667,       8.8408,     5.1986],
-                        [1492.5110,    42.1710,    8.9143],
-                        [27.3472,   -1001.0138,    9.2206],
-                        [-989.8257,   -10.6660,    3.9086],
-                        [-945.6361, -2006.8177,   13.0570]
+# # 0415
+# vicon_marks = np.array([[-6.1015,    1520.0397,    5.1068],
+#                         [9.6667,       8.8408,     5.1986],
+#                         [1492.5110,    42.1710,    8.9143],
+#                         [27.3472,   -1001.0138,    9.2206],
+#                         [-989.8257,   -10.6660,    3.9086],
+#                         [-945.6361, -2006.8177,   13.0570]
+#                         ]) / 1000.0
+# 0425
+vicon_marks = np.array([[6.4833,     9.5857,     5.4701],
+                        [996.7297,   20.6892,    6.5530],
+                        [1493.6611,  30.2870,    8.0861],
+                        [1483.5196,  530.8999,   7.4837],
+                        [502.6914,   516.7251,   5.6232],
+                        [11.2639,    522.5133,   5.0284]
                         ]) / 1000.0
 
 dest_point = vicon_marks
@@ -91,9 +99,9 @@ for i in range(An_num):
     # three markers in the inertial frame
     dest_points = Marker_pos[idx:idx+3,:]
     # 3 markers in the Anchor frame. Order: [left, up, forward]
-    src_points = np.array([[0.0,   123.0,   0.0],
-                           [110.0,  0.0,  0.0],
-                           [0.0,    0.0,   80.0]]) / 1000.0 
+    src_points = np.array([[110.0,   0.0,   0.0],
+                           [0.0,   121.0,   0.0],
+                           [0.0,     0.0,  80.0]]) / 1000.0 
     # compute the rotation from body to inertial frame
     (C_survey, t_est) = pointcloud_alignment(src_points, dest_points)   
     # save the quaternion from anchor body frame to inertial frame
@@ -109,5 +117,5 @@ print(np.round(anchor_position,3))
 
 print(np.round(anchor_quaterion,3))
 
-# np.save('AnchorPos_0415.npy', anchor_position)
-# np.save('AnchorQuat_0415.npy', anchor_quaterion)
+np.save('AnchorPos_0425.npy', anchor_position)
+np.save('AnchorQuat_0425.npy', anchor_quaterion)

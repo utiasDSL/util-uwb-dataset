@@ -17,8 +17,8 @@ plt.rcParams['figure.facecolor'] = 'w'
 # current path of the script
 curr = os.path.dirname(sys.argv[0])
 # load the anchor pose
-anchor_pos = np.load(curr+'/survey/AnchorPos_0415.npy')
-anchor_qaut = np.load(curr+'/survey/AnchorQuat_0415.npy')
+anchor_pos = np.load(curr+'/survey/0425-numpy/AnchorPos_0425.npy')
+anchor_qaut = np.load(curr+'/survey/0425-numpy/AnchorQuat_0425.npy')
 # access rosbag
 bag_path = os.path.abspath(curr+'/../2_data/rosbag/')
 bagFile = askopenfilename(initialdir = bag_path, title = "Select rosbag")
