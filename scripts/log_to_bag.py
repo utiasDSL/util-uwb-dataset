@@ -6,9 +6,11 @@ import numpy as np
 import functools
 import rosbag
 import rospy
+from sensor_msgs.msg import Imu
 
 def parseGyroData(data, start_time, bag_file):
     from cf_msgs.msg import Gyro
+    gyro_data = []
     for (t, x, y, z) in zip(data['timestamp'],
         data['gyro.x'], data['gyro.y'], data['gyro.z']):
         stamp = (t - start_time)/1000;
@@ -19,9 +21,12 @@ def parseGyroData(data, start_time, bag_file):
         msg.y = y;
         msg.z = z;
         bag_file.write("/gyro_data", msg, rospy.Time(stamp));
+        gyro_data.append([stamp, x, y, z])
+    return np.array(gyro_data)
 
 def parseAccelData(data, start_time, bag_file):
     from cf_msgs.msg import Accel
+    accel_data = []
     for (t, x, y, z) in zip(data['timestamp'], 
         data['acc.x'], data['acc.y'], data['acc.z']):
         stamp = (t - start_time)/1000;
@@ -32,6 +37,8 @@ def parseAccelData(data, start_time, bag_file):
         msg.y = y;
         msg.z = z;
         bag_file.write("/accel_data", msg, rospy.Time(stamp));
+        accel_data.append([stamp, x, y, z])
+    return np.array(accel_data)
 
 def parsePosedata(data, start_time, bag_file):
     from geometry_msgs.msg import PoseWithCovarianceStamped
@@ -98,6 +105,25 @@ def parseFlowData(data, start_time, bag_file):
         msg.deltaY = dy;
         bag_file.write("/flow_data", msg, rospy.Time(stamp));
 
+def writeCombIMU(gyro_data, accel_data, bag_file):
+    ax_int = np.interp(gyro_data[:,0], accel_data[:, 0], accel_data[:, 1]);
+    ay_int = np.interp(gyro_data[:,0], accel_data[:, 0], accel_data[:, 2]);
+    az_int = np.interp(gyro_data[:,0], accel_data[:, 0], accel_data[:, 3]);
+    accel_int_data = []
+    for (t, gx, gy, gz, ax, ay, az) in zip(gyro_data[:,0], gyro_data[:,1], gyro_data[:,2], gyro_data[:,3], ax_int, ay_int, az_int):
+        msg = Imu()
+        msg.header.frame_id = "imu"
+        msg.header.stamp = rospy.Time(t)
+        msg.linear_acceleration.x = ax;
+        msg.linear_acceleration.y = ay;
+        msg.linear_acceleration.z = az;
+        msg.angular_velocity.x = gx;
+        msg.angular_velocity.y = gy;
+        msg.angular_velocity.z = gz;
+        bag_file.write("/imu_data", msg, rospy.Time(t))
+        accel_int_data.append([t, ax, ay, az])
+    return np.array(accel_int_data)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("file_usd")
@@ -117,14 +143,17 @@ if __name__ == "__main__":
         else:
             start_time = min(start_time, data['timestamp'][0])
 
+    gyro_data = []
+    accel_data = []
+    accel_int_data = []
     for k, (event_name, data) in enumerate(data_usd.items()):
         print(k, event_name)
-        if event_name == "estPose":
-            parsePosedata(data, start_time, bag_file)
-        elif event_name == "estGyroscope":
-            parseGyroData(data, start_time, bag_file)
+        if event_name == "estGyroscope":
+            gyro_data = parseGyroData(data, start_time, bag_file)
         elif event_name == "estAcceleration":
-            parseAccelData(data, start_time, bag_file)
+            accel_data = parseAccelData(data, start_time, bag_file)
+        elif event_name == "estPose":
+            parsePosedata(data, start_time, bag_file)
         elif event_name == "estTDOA":
             parseTdoaData(data, start_time, bag_file)
         elif event_name == "estTOF":
@@ -133,5 +162,12 @@ if __name__ == "__main__":
             parseBaroData(data, start_time, bag_file)
         elif event_name == "estFlow":
             parseFlowData(data, start_time, bag_file)
+    print(accel_data)
+
+    if len(gyro_data) > 0 and len(accel_data) > 0:
+        print("Writing combined IMU data")
+        accel_int_data = writeCombIMU(gyro_data, accel_data, bag_file)
+        print(accel_data[0:10,:])
+        print(accel_int_data[0:10,:])
 
     bag_file.close()
