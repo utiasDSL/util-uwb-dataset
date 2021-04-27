@@ -1,5 +1,9 @@
+
+sd-card-data/__pycache__/
+
 *.bag
 */__pycache__
 ros_ws/build
 ros_ws/devel
 *.pyc
+3_scripts/survey/__pycache__/
