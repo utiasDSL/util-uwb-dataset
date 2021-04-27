@@ -162,12 +162,9 @@ if __name__ == "__main__":
             parseBaroData(data, start_time, bag_file)
         elif event_name == "estFlow":
             parseFlowData(data, start_time, bag_file)
-    print(accel_data)
 
     if len(gyro_data) > 0 and len(accel_data) > 0:
         print("Writing combined IMU data")
         accel_int_data = writeCombIMU(gyro_data, accel_data, bag_file)
-        print(accel_data[0:10,:])
-        print(accel_int_data[0:10,:])
 
     bag_file.close()
