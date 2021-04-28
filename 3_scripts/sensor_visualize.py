@@ -17,8 +17,8 @@ plt.rcParams['figure.facecolor'] = 'w'
 # current path of the script
 curr = os.path.dirname(sys.argv[0])
 # load the anchor pose
-anchor_pos = np.load(curr+'/survey/0425-numpy/AnchorPos_0425.npy')
-anchor_qaut = np.load(curr+'/survey/0425-numpy/AnchorQuat_0425.npy')
+anchor_pos = np.load(curr+'/survey/0426-numpy/AnchorPos_0426.npy')
+anchor_qaut = np.load(curr+'/survey/0426-numpy/AnchorQuat_0426.npy')
 # access rosbag
 bag_path = os.path.abspath(curr+'/../2_data/rosbag/')
 bagFile = askopenfilename(initialdir = bag_path, title = "Select rosbag")
@@ -27,9 +27,10 @@ base = os.path.basename(bagFile)
 selected_bag = os.path.splitext(base)[0]
 # -------------------- extract the rosbag ----------------------------- #
 acc = [];   gyro = [];  flow = [];  tdoa = [];  tof = [];  baro = [] 
+imu = []  # combined IMU data
 gt_pose = [] 
 
-for topic, msg, t in bag.read_messages(['/accel_data', '/gyro_data', '/flow_data', '/tdoa_data', '/tof_data', '/baro_data', '/pose_data']):
+for topic, msg, t in bag.read_messages(['/accel_data', '/gyro_data', '/flow_data', '/tdoa_data', '/tof_data', '/baro_data', '/pose_data', "/imu_data"]):
     if topic == '/accel_data':
         acc.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
                     msg.x, msg.y, msg.z])
@@ -52,16 +53,23 @@ for topic, msg, t in bag.read_messages(['/accel_data', '/gyro_data', '/flow_data
         gt_pose.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
                         msg.pose.pose.position.x,    msg.pose.pose.position.y,    msg.pose.pose.position.z, msg.pose.pose.orientation.x, msg.pose.pose.orientation.y,
                         msg.pose.pose.orientation.z, msg.pose.pose.orientation.w ])
+    if topic == "/imu_data":
+        imu.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
+                    msg.linear_acceleration.x, msg.linear_acceleration.y, msg.linear_acceleration.z,
+                    msg.angular_velocity.x,    msg.angular_velocity.y,    msg.angular_velocity.z])
+        
         
 # convert to numpy array
 acc = np.array(acc);     gyro = np.array(gyro)
 flow = np.array(flow);   tdoa = np.array(tdoa)
 tof = np.array(tof);     baro = np.array(baro)
+imu = np.array(imu)
+
 gt_pose = np.array(gt_pose)
 
 # select the anchor pair for visualization
 # possible anchor ID = [0,1,2,3,4,5,6,7] 
-an_i = 0;     an_j = 6
+an_i = 0;     an_j = 1
 
 # get the id for tdoa_ij measurements
 tdoa_id = np.where((tdoa[:,1]==[an_i])&(tdoa[:,2]==[an_j]))
@@ -114,6 +122,7 @@ plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=
 # ax4.scatter(baro[:,0], baro[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "baro asl")
 # ax4.set_ylabel(r'asl') 
 # plt.legend(loc='best')
+
 # trajectory
 fig5 = plt.figure()
 ax_t = fig5.add_subplot(111, projection = '3d')
@@ -127,5 +136,20 @@ ax_t.set_ylabel(r'Y [m]')
 ax_t.set_zlabel(r'Z [m]')
 plt.legend(['Trajectory','Anchor position'])
 plt.title(r"Trajectory of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+
+# plot separate x,y,z
+fig6 = plt.figure()
+a_x = fig6.add_subplot(311)
+a_x.plot(gt_pose[:,0],gt_pose[:,1],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt x")
+a_x.legend(loc='best')
+a_y = fig6.add_subplot(312)
+a_y.plot(gt_pose[:,0],gt_pose[:,2],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt y")
+a_y.legend(loc='best')
+a_z = fig6.add_subplot(313)
+a_z.plot(gt_pose[:,0],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt z")
+a_z.legend(loc='best')
+a_z.set_xlabel(r'Time [s]')
+
+plt.title(r"Ground truth of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
 plt.show()
