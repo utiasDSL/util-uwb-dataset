@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+
+  <node name="EKF_node" pkg="eskf" type="eskf_node.py" output="screen" required="True"/>
+  <node name="rviz" pkg = "rviz" type = "rviz"/>
+
+</launch>

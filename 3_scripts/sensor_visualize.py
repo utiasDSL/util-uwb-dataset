@@ -74,11 +74,32 @@ an_i = 0;     an_j = 1
 # get the id for tdoa_ij measurements
 tdoa_id = np.where((tdoa[:,1]==[an_i])&(tdoa[:,2]==[an_j]))
 tdoa_meas = np.squeeze(tdoa[tdoa_id, :])
+
+# visual r_nrr
+# note: in tdoa2, there are a few meas. doen't follow the round-robbin range mechanism
+t_nrr_id = np.where((tdoa[:,2]-tdoa[:,1]!=1) & (tdoa[:,2]-tdoa[:,1]!=-7))
+r_nrr = np.squeeze(tdoa[t_nrr_id, :])
+# compute the gt for r_nrr
+gt_nrr = []
+for idx in range(len(r_nrr)):
+    anchor_i = anchor_pos[int(r_nrr[idx,1]),:].reshape(1,-1)
+    anchor_j = anchor_pos[int(r_nrr[idx,2]),:].reshape(1,-1)
+    cf_x = np.interp(r_nrr[idx,0], gt_pose[:,0], gt_pose[:,1])
+    cf_y = np.interp(r_nrr[idx,0], gt_pose[:,0], gt_pose[:,2])
+    cf_z = np.interp(r_nrr[idx,0], gt_pose[:,0], gt_pose[:,3])
+    cf = np.array([cf_x, cf_y, cf_z]).reshape(1,-1)
+    dis_i = np.asarray(linalg.norm(anchor_i - cf, axis = 1))
+    dis_j = np.asarray(linalg.norm(anchor_j - cf, axis = 1))
+    dis_ij = dis_j - dis_i
+    gt_nrr.append(dis_ij)
+
+gt_nrr = np.array(gt_nrr)
+
 # compute the ground truth for tdoa_ij
 an_pos_i = anchor_pos[an_i,:].reshape(1,-1)
 an_pos_j = anchor_pos[an_j,:].reshape(1,-1)
 # cf position from vicon measurement
-cf_pos = gt_pose[:,1:4]      # [time, x, y, z]
+cf_pos = gt_pose[:,1:4]      # [x, y, z]
 d_i = np.asarray(linalg.norm(an_pos_i - cf_pos, axis = 1))
 d_j = np.asarray(linalg.norm(an_pos_j - cf_pos, axis = 1))
 # measurement model
@@ -94,6 +115,17 @@ ax1.legend(loc='best')
 ax1.set_xlabel(r'Time [s]')
 ax1.set_ylabel(r'TDoA measurement [m]') 
 plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
+
+
+# TDOA2 r_nrr
+# note: In tdoa2, there are a few measurements that are not in round robbin, yet the measurement error is closed to zero mean.
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(r_nrr[:,0], np.squeeze(gt_nrr) - r_nrr[:,3], color='red', s = 2.5, alpha = 0.9, label = "r_nrr error")
+ax.legend(loc='best')
+ax.set_xlabel(r'Time [s]')
+ax.set_ylabel(r'TDoA measurement error [m]') 
+plt.title(r"UWB tdoa2 measurements error (not in round robbin),", fontsize=13, fontweight=0, color='black')
 
 # # Z-range ToF
 # fig2 = plt.figure()
