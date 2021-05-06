@@ -3,6 +3,10 @@ Visualize the nlos data on 0505 experiments
 genericLogTopic_log1_Variables: ["tdoa3.d1-2", "tdoa3.d2-1", "tdoa3.d2-1", "tdoa3.snr_1", "tdoa3.powerdiff_1", "tdoa3.snr_2", "tdoa3.powerdiff_2"]
 genericLogTopic_log2_Variables: ["tdoa3.an1_rx_snr", "tdoa3.an1_rx_powerdif", "tdoa3.an1_tof",
                                  "tdoa3.an2_rx_snr", "tdoa3.an2_rx_powerdif", "tdoa3.an2_tof"]
+                                 
+For an_tag nlos metal trial 9, the bias is around -3.9 [m], and the SNR of anchor1 is ~51.09, power_diff is ~17.29
+For other metal trials, the bias is around -0.2 ~ -0.5 [m], and the SNR of anchor1 is ~23, power_diff is ~21.89.
+The reason is that, in trial 9, it is likely the metal cabenit totally block the los signal. UWB tag receives a multipath signal from anchor 1 (likely reflected from the roof). Therefore, in this trial, the signal quality is better, yet the meas. errors are larger. 
 '''
 import os, sys
 import numpy as np
@@ -29,7 +33,7 @@ selected_bag = os.path.splitext(base)[0]
 
 # ------------ parameter ----------- #
 XY_FONTSIZE = 7;   LABEL_SIZE = 12
-VISUAL = False;    SAVE_NUMPY = True
+VISUAL = True;    SAVE_NUMPY = False
 
 # ---------------------------------- #
 
