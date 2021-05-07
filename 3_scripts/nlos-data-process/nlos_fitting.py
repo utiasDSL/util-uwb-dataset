@@ -9,8 +9,14 @@ import rosbag
 from scipy import stats
 from glob import glob     # module used for finding pathnames matching a specific pattern
 
+
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
+
+# -------------- param --------------- #
+VISUAL = False;  FIT_lognorm = True
+
+
 # current path of the script
 curr = os.path.dirname(sys.argv[0])
 
@@ -73,46 +79,94 @@ anAn_nlos_err  = anAn_nlos_err  - los_bias
 los_err        = los_err        - los_bias  
 # ---------------------------------------------- #
 
-fig = plt.figure(facecolor="white")
-mu=0;  sigma=0
-ax = plt.subplot(111)
-(mu, sigma) = stats.norm.fit(anTag_nlos_err)
-print("mean0: ", mu, "std0: ", sigma)
-print("\n")
-yhist, xhist, patches = plt.hist(anTag_nlos_err, bins=15000,color='steelblue',alpha=0.75, density=True)   # 15000
-plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
-plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
-plt.xlabel('nlos error [m]')
-plt.ylabel('Percent of Total Frequency')
-# plt.title('TDOA3 err_12 los') 
-ax.set_xlim([-1.0, 1.0]) 
+# TODO: how to effectively fit a long-tail distribution
+idx = np.where(np.abs(anTag_nlos_err)<1.0)
+nlos_err = -anTag_nlos_err[idx]
+anTag_nlos_err = -anTag_nlos_err
+# dummy
+# nlos_err=stats.lognorm(0.5,loc=0,scale=1).rvs(size=5000) 
+
+lognorm_param = stats.lognorm.fit(nlos_err)
+std = lognorm_param[0]; loc=lognorm_param[1]; scale=lognorm_param[2]
+###
+# Y(samp) ~ lognormal(mu, sigma), X ~ norm(mu, sigma), exp(X) = Y
+# X = np.log(samp) => np.std(X) = std, np.mean(X) = scale
+###
+print("The param for log-normal \nstd: {0}, loc: {1}, scale: {2}".format(std, loc, scale)) 
+x=np.linspace(-1.5, 1.5, 1000)
+pdf_fitted = stats.lognorm.pdf(x, std, loc=loc, scale=scale) # fitted distribution
+
+# the fitted function
+###
+# lognorm.pdf(x, std, loc, scale) is identically equivalent to 
+# lognorm.pdf(y, std) / scale with y = (x - loc) / scale
+###
+sigma = std;  loc = loc; scale = scale;  PI=np.pi
+lognorm_scratch = np.zeros_like(x)
+for i in range(len(x)):
+    y = (x[i] - loc)/scale
+    a = (1.0/(sigma * y * np.sqrt(2*PI)))
+    b = -(np.log(y))**2
+    c = 2*sigma**2
+    lognorm_scratch[i] = (a*np.exp(b/c))/scale
     
-fig1 = plt.figure(facecolor="white")
-mu=0;  sigma=0
-bx = plt.subplot(111)
-(mu, sigma) = stats.norm.fit(anAn_nlos_err)
-print("mean0: ", mu, "std0: ", sigma)
-print("\n")
-yhist, xhist, patches = plt.hist(anAn_nlos_err, bins=15000,color='steelblue',alpha=0.75, density=True)   # 15000
-plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
-plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
-plt.xlabel('nlos error [m]')
-plt.ylabel('Percent of Total Frequency')
-# plt.title('TDOA3 err_12 los') 
-bx.set_xlim([-0.5, 0.5]) 
+l_norm_s, l_norm_p = stats.kstest(anTag_nlos_err, 'lognorm', args=lognorm_param)
+print("The probability of being a lognorm distribution is {0}%".format(l_norm_p*100))    
+    
+fig = plt.figure(facecolor="white")
+ax = plt.subplot(111)
+plt.plot(x,pdf_fitted,'r--', linewidth=1.5, label='fitted lognorm')
+# plt.plot(x,lognorm_scratch,'g-', linewidth=1)
 
-fig2 = plt.figure(facecolor="white")
-mu=0;  sigma=0
-bx = plt.subplot(111)
-(mu, sigma) = stats.norm.fit(los_err)
-print("mean0: ", mu, "std0: ", sigma)
-print("\n")
-yhist, xhist, patches = plt.hist(los_err, bins=100,color='steelblue',alpha=0.75, density=True)   # 15000
-plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
-plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
-plt.xlabel('los error [m]')
+plt.xlabel('Error [m]')
 plt.ylabel('Percent of Total Frequency')
-# plt.title('TDOA3 err_12 los') 
-bx.set_xlim([-0.5, 0.5]) 
-
+plt.title('nlos error') 
+ax.legend()
+plt.hist(anTag_nlos_err,bins=15000,density=True,alpha=.3)
+ax.set_xlim([-1.5, 1.5]) 
 plt.show()
+
+if VISUAL:
+    fig = plt.figure(facecolor="white")
+    mu=0;  sigma=0
+    ax = plt.subplot(111)
+    (mu, sigma) = stats.norm.fit(anTag_nlos_err)
+    print("mean0: ", mu, "std0: ", sigma)
+    print("\n")
+    yhist, xhist, patches = plt.hist(anTag_nlos_err, bins=15000,color='steelblue',alpha=0.75, density=True)   # 15000
+    plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
+    plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
+    plt.xlabel('nlos error [m]')
+    plt.ylabel('Percent of Total Frequency')
+    # plt.title('TDOA3 err_12 los') 
+    ax.set_xlim([-1.0, 1.0]) 
+        
+    fig1 = plt.figure(facecolor="white")
+    mu=0;  sigma=0
+    bx = plt.subplot(111)
+    (mu, sigma) = stats.norm.fit(anAn_nlos_err)
+    print("mean0: ", mu, "std0: ", sigma)
+    print("\n")
+    yhist, xhist, patches = plt.hist(anAn_nlos_err, bins=15000,color='steelblue',alpha=0.75, density=True)   # 15000
+    plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
+    plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
+    plt.xlabel('nlos error [m]')
+    plt.ylabel('Percent of Total Frequency')
+    # plt.title('TDOA3 err_12 los') 
+    bx.set_xlim([-0.5, 0.5]) 
+
+    fig2 = plt.figure(facecolor="white")
+    mu=0;  sigma=0
+    bx = plt.subplot(111)
+    (mu, sigma) = stats.norm.fit(los_err)
+    print("mean0: ", mu, "std0: ", sigma)
+    print("\n")
+    yhist, xhist, patches = plt.hist(los_err, bins=100,color='steelblue',alpha=0.75, density=True)   # 15000
+    plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
+    plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
+    plt.xlabel('los error [m]')
+    plt.ylabel('Percent of Total Frequency')
+    # plt.title('TDOA3 err_12 los') 
+    bx.set_xlim([-0.5, 0.5]) 
+
+    plt.show()
