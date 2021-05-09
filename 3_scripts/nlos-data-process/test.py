@@ -1,270 +1,133 @@
-from __future__ import print_function, division
-
+''' test code '''
+import os, sys
 import numpy as np
-import matplotlib.pylab as plt
-import seaborn as sns
+from numpy import linalg
+from matplotlib import pyplot as plt
+import rosbag
+from scipy import stats
+from scipy.stats import skewnorm, gamma
+from glob import glob     # module used for finding pathnames matching a specific pattern
 
-from scipy.special import gamma
-from scipy.stats import t, uniform
 
-# __all__ = ['SkewStudent']
-
-# __author__ = "Stanislav Khrapov"
-# __email__ = "khrapovs@gmail.com"
+# set window background to white
+plt.rcParams['figure.facecolor'] = 'w'
+# for 4K screen distplay
 import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
 
-class SkewStudent(object):
 
-    """Skewed Student distribution class.
+# current path of the script
+curr = os.path.dirname(sys.argv[0])
 
-    Attributes
-    ----------
-    eta : float
-        Degrees of freedom. :math:`2 < \eta < \infty`
-    lam : float
-        Skewness. :math:`-1 < \lambda < 1`
+def fast_scandir(dirname):
+    # get all the subfolders in "dirname"
+    subfolders= [f.path for f in os.scandir(dirname) if f.is_dir()]
+    for dirname in list(subfolders):
+        subfolders.extend(fast_scandir(dirname))
+    return subfolders
 
-    Methods
-    -------
-    pdf
-        Probability density function (PDF)
-    cdf
-        Cumulative density function (CDF)
-    ppf
-        Inverse cumulative density function (ICDF)
-    rvs
-        Random variates with mean zero and unit variance
+# ------------------------- load numpy data ----------------------------- #
+# load the data for nlos between anchor and tag
+PATH_anTag = curr+'/nlos_error/an_tag/'
+EXT = "*.npy"
+subdir = fast_scandir(PATH_anTag)
+all_files = []
+for path in subdir:
+    # print(os.path.join(path,EXT))
+    files = [file for file in glob(os.path.join(path,EXT))]
+    all_files.extend(files)
+    
+anTag_nlos_err = []
+for filename in all_files:
+    err = np.load(filename)
+    anTag_nlos_err.append(err)
 
-    """
+# flatten the list to numpy array
+anTag_nlos_err = np.concatenate(anTag_nlos_err).ravel()
 
-    def __init__(self, eta=7., lam=-.1):
-        """Initialize the class.
+# -------------------- testing with different models --------------------- #
+anTag_nlos_err = - anTag_nlos_err    # easy for log-norm fitting
 
-        Parameters
-        ----------
-        eta : float
-            Degrees of freedom. :math:`2 < \eta < \infty`
-        lam : float
-            Skewness. :math:`-1 < \lambda < 1`
+# reject large outliers. How to select the threshold?
+outlier = []; THRESHOLD = 5.0
+for idx in range(len(anTag_nlos_err)):
+    if np.abs(anTag_nlos_err[idx]) > THRESHOLD:
+        outlier.append(idx)
 
-        """
-        self.eta = eta
-        self.lam = lam
+anTag_nlos_err = np.delete(anTag_nlos_err, outlier)
 
-    def __const_a(self):
-        """Compute a constant.
+# log-norm
+samp = anTag_nlos_err
+lognorm_param = stats.lognorm.fit(samp)
+std = lognorm_param[0]; loc=lognorm_param[1]; scale=lognorm_param[2]
+###
+# Y(samp) ~ lognormal(mu, sigma), X ~ norm(mu, sigma), exp(X) = Y
+# X = np.log(samp) => np.std(X) = std, np.mean(X) = scale
+###
+print("The param for log-normal \nstd: {0}, loc: {1}, scale: {2}".format(std, loc, scale)) 
+x=np.linspace(-1.0, 1.0, 1000)
+# x=np.linspace(min(samp), max(samp), 1000000)
+pdf_fitted = stats.lognorm.pdf(x, std, loc=loc, scale=scale) # fitted distribution
 
-        Returns
-        -------
-        a : float
+# the fitted function
+###
+# lognorm.pdf(x, std, loc, scale) is identically equivalent to 
+# lognorm.pdf(y, std) / scale with y = (x - loc) / scale
+###
+sigma = std;  loc = loc; scale = scale;  PI=np.pi
+lognorm_scratch = np.zeros_like(x)
+for i in range(len(x)):
+    y = (x[i] - loc)/scale
+    a = (1.0/(sigma * y * np.sqrt(2*PI)))
+    b = -(np.log(y))**2
+    c = 2*sigma**2
+    lognorm_scratch[i] = (a*np.exp(b/c))/scale
 
-        """
-        return 4*self.lam*self.__const_c()*(self.eta-2)/(self.eta-1)
+# Perform the Kolmogorov-Smirnov test for goodness of fit
+# first value is the test statistics, and second value is the p-value. 
+# if the p-value is less than 0.95 (for a level of significance of 5%), 
+# this means that you cannot reject the Null-Hypothese that the two sample distributions are identical.
+l_norm_s, l_norm_p = stats.kstest(samp, 'lognorm', args=lognorm_param)
+print("The probability of being a lognorm distribution is {0}%".format(l_norm_p*100))
 
-    def __const_b(self):
-        """Compute b constant.
+# ------ Gaussian + Gamma distribution ------ #
+# This model is reasonable. But it's difficult to fit the param.
+x_t = np.linspace(-1.0, 1.0, 1000)
+a_t = np.zeros_like(x_t)
+b_t = np.zeros_like(x_t)
+y_t = np.zeros_like(x_t)
 
-        Returns
-        -------
-        b : float
-
-        """
-        return (1 + 3*self.lam**2 - self.__const_a()**2)**.5
-
-    def __const_c(self):
-        """Compute c constant.
-
-        Returns
-        -------
-        c : float
-
-        """
-        return gamma((self.eta+1)/2) \
-            / ((np.pi*(self.eta-2))**.5*gamma(self.eta/2))
-
-    def pdf(self, arg):
-        """Probability density function (PDF).
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate PDF at
-
-        Returns
-        -------
-        array
-            PDF values. Same shape as the input.
-
-        """
-        c = self.__const_c()
-        a = self.__const_a()
-        b = self.__const_b()
-
-        return b*c*(1 + 1/(self.eta-2) \
-            *((b*arg+a)/(1+np.sign(arg+a/b)*self.lam))**2)**(-(self.eta+1)/2)
-
-    def loglikelihood(self, param, arg):
-        """Probability density function (PDF).
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate PDF at
-
-        Returns
-        -------
-        array
-            PDF values. Same shape as the input.
-
-        """
-        self.eta, self.lam = param
-
-        return -np.log(self.pdf(arg)).sum()
-
-    def cdf(self, arg):
-        """Cumulative density function (CDF).
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate CDF at
-
-        Returns
-        -------
-        array
-            CDF values. Same shape as the input.
-
-        """
-        a = self.__const_a()
-        b = self.__const_b()
-
-        y = (b*arg+a)/(1+np.sign(arg+a/b)*self.lam) * (1-2/self.eta)**(-.5)
-        cond = arg < -a/b
-
-        return cond * (1-self.lam) * t.cdf(y, self.eta) \
-            + ~cond * (-self.lam + (1+self.lam) * t.cdf(y, self.eta))
-
-    def ppf(self, arg):
-        """Inverse cumulative density function (ICDF).
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate ICDF at. Must belong to (0, 1)
-
-        Returns
-        -------
-        array
-            ICDF values. Same shape as the input.
-
-        """
-        arg = np.atleast_1d(arg)
-
-        a = self.__const_a()
-        b = self.__const_b()
-
-        cond = arg < (1-self.lam)/2
-
-        ppf1 = t.ppf(arg / (1-self.lam), self.eta)
-        ppf2 = t.ppf(.5 + (arg - (1-self.lam)/2) / (1+self.lam), self.eta)
-        ppf = -999.99*np.ones_like(arg)
-        ppf = np.nan_to_num(ppf1) * cond \
-            + np.nan_to_num(ppf2) * np.logical_not(cond)
-        ppf = (ppf * (1+np.sign(arg-(1-self.lam)/2)*self.lam) \
-            * (1-2/self.eta)**.5 - a)/b
-
-        if ppf.shape == (1, ):
-            return float(ppf)
-        else:
-            return ppf
-    def rvs(self, size=1):
-        """Random variates with mean zero and unit variance.
-
-        Parameters
-        ----------
-        size : int or tuple
-            Size of output array
-
-        Returns
-        -------
-        array
-            Array of random variates
-
-        """
-        return self.ppf(uniform.rvs(size=size))
-
-    def plot_pdf(self, arg=np.linspace(-2, 2, 100)):
-        """Plot probability density function.
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate PDF at
-
-        """
-        scale = (self.eta/(self.eta-2))**.5
-        plt.plot(arg, t.pdf(arg, self.eta, scale=1/scale),
-                 label='t distribution')
-        plt.plot(arg, self.pdf(arg), label='skew-t distribution')
-        plt.legend()
-        plt.show()
-
-    def plot_cdf(self, arg=np.linspace(-2, 2, 100)):
-        """Plot cumulative density function.
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate CDF at
-
-        """
-        scale = (self.eta/(self.eta-2))**.5
-        plt.plot(arg, t.cdf(arg, self.eta, scale=1/scale),
-                 label='t distribution')
-        plt.plot(arg, self.cdf(arg), label='skew-t distribution')
-        plt.legend()
-        plt.show()
-
-    def plot_ppf(self, arg=np.linspace(.01, .99, 100)):
-        """Plot inverse cumulative density function.
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate ICDF at
-
-        """
-        scale = (self.eta/(self.eta-2))**.5
-        plt.plot(arg, t.ppf(arg, self.eta, scale=1/scale),
-                 label='t distribution')
-        plt.plot(arg, self.ppf(arg), label='skew-t distribution')
-        plt.legend()
-        plt.show()
-
-    def plot_rvspdf(self, arg=np.linspace(-2, 2, 100), size=1000):
-        """Plot kernel density estimate of a random sample.
-
-        Parameters
-        ----------
-        arg : array
-            Grid of point to evaluate ICDF at. Must belong to (0, 1)
-
-        """
-        rvs = self.rvs(size=size)
-        xrange = [arg.min(), arg.max()]
-        sns.kdeplot(rvs, clip=xrange, label='kernel')
-        plt.plot(arg, self.pdf(arg), label='true pdf')
-        plt.xlim(xrange)
-        plt.legend()
-        plt.show()
+sigma_t = 0.05;     mu_t = 0.0
+lambda_t = 3.5;     k_t = 2 
+for i in range(len(x)):
+    a_t[i] = 1.0/(sigma_t*np.sqrt(2*np.pi)) * np.exp(-(x[i]-mu_t)**2 / (2*sigma_t**2))
+    
+    gamma_dist = gamma(2.75, -0.05, 0.1)
+    b_t[i] = gamma_dist.pdf(x[i])
+    y_t[i] = a_t[i]/2.0 + b_t[i]/2.0
 
 
-if __name__ == '__main__':
+# ------------------------------- visualization ------------------------------------------ #
+fig = plt.figure(facecolor="white")
+mu=0;  sigma=0
+ax = plt.subplot(111)
+(mu, sigma) = stats.norm.fit(anTag_nlos_err)
+print("mean0: ", mu, "std0: ", sigma)
+print("\n")
+# plt.plot(x, pdf_fitted,'--', color='orange', linewidth=1.5, label='fitted lognorm')
+plt.plot(x_t, a_t/2.0,'--', color = 'orange', linewidth=1.5, label='Gaussian')
+plt.plot(x_t, b_t/2.0,'--', color = 'navy', linewidth=1.5, label='Gamma')
+plt.plot(x_t, y_t,'--', color = 'red', linewidth=1.5, label='Gaussian+Gamma')
 
-    sns.set_context('paper')
-    skewt = SkewStudent(eta=2, lam=-.7)
-    skewt.plot_pdf()
-    skewt.plot_cdf()
-    skewt.plot_ppf()
-    skewt.plot_rvspdf()
+# note: add param stacked doesn't make a difference
+# with outlier rejection, bins = 150. without outlier rejection, bins = 15000
+yhist, xhist, patches = plt.hist(anTag_nlos_err, bins=150,color='steelblue',alpha=0.45, density=True, stacked=True)   
+plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'green')
+plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
+plt.xlabel('nlos error [m]')
+plt.ylabel('Percent of Total Frequency')
+ax.set_xlim([-1.0, 1.0]) 
+ax.legend()
+plt.show()
+
+

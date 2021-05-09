@@ -18,7 +18,7 @@ import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
 
 # -------------- param --------------- #
-VISUAL = False;  FIT_lognorm = True
+VISUAL = True;  FIT_lognorm = False
 
 
 # current path of the script
