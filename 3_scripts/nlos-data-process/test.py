@@ -5,9 +5,10 @@ from numpy import linalg
 from matplotlib import pyplot as plt
 import rosbag
 from scipy import stats
-from scipy.stats import skewnorm, gamma
+from scipy.stats import norm, gamma
 from glob import glob     # module used for finding pathnames matching a specific pattern
-
+from scipy.io import savemat
+from scipy import signal
 
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
@@ -45,6 +46,9 @@ for filename in all_files:
 # flatten the list to numpy array
 anTag_nlos_err = np.concatenate(anTag_nlos_err).ravel()
 
+# save for matlab 
+# m_data = {'nlos_err': anTag_nlos_err}
+# savemat('anTag_nlos_error.mat', m_data)
 # -------------------- testing with different models --------------------- #
 anTag_nlos_err = - anTag_nlos_err    # easy for log-norm fitting
 
@@ -106,7 +110,20 @@ for i in range(len(x)):
     b_t[i] = gamma_dist.pdf(x[i])
     y_t[i] = a_t[i]/2.0 + b_t[i]/2.0
 
+a_dist = norm(0.0, 0.05)
+b_dist = gamma(2.75, -0.05, 0.1)
 
+delta = 1e-4
+big_grid = np.arange(-1.0,1.0,delta)
+conv_pdf = signal.fftconvolve(a_dist.pdf(big_grid), b_dist.pdf(big_grid), 'same') * 3e-4
+
+fig1 = plt.figure(facecolor="white")
+bx = plt.subplot(111)
+plt.plot(big_grid,a_dist.pdf(big_grid), label='Gaussian')
+plt.plot(big_grid,b_dist.pdf(big_grid), label='Gamma')
+plt.plot(big_grid,conv_pdf, label='Sum')
+bx.legend()
+plt.show() 
 # ------------------------------- visualization ------------------------------------------ #
 fig = plt.figure(facecolor="white")
 mu=0;  sigma=0
