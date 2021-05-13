@@ -9,7 +9,7 @@ import rosbag
 from scipy import stats
 from scipy.stats import skewnorm
 from glob import glob     # module used for finding pathnames matching a specific pattern
-
+from scipy.io import savemat
 
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
@@ -73,7 +73,7 @@ for filename in os.listdir(PATH_los):
 # load the nlos data with a selected obstacle   
 # PATH_nlos = curr + '/nlos_error/an_tag/metal';      BIN = 1000 
 # PATH_nlos = curr + '/nlos_error/an_tag/woodshelf';  BIN = 100  
-PATH_nlos = curr + '/nlos_error/an_tag/wood-side-cabinet'; BIN = 8000
+PATH_nlos = curr + '/nlos_error/an_an/metal'; BIN = 800
 select_nlos_err = []
 for filename in os.listdir(PATH_nlos):
     if filename.endswith('.npy'):
@@ -91,7 +91,27 @@ los_bias = np.mean(los_err)
 anTag_nlos_err = anTag_nlos_err - los_bias
 anAn_nlos_err  = anAn_nlos_err  - los_bias
 los_err        = los_err        - los_bias  
+
+# save for matlab 
+m_data = {'anTag_nlos_err': anTag_nlos_err, 'anAn_nlos_err': anAn_nlos_err, 'los_err': los_err}
+savemat('uwb_error.mat', m_data)
+
 # ---------------------------------------------- #
+# reject large outliers. How to select the threshold?
+outlier1 = [];    outlier2 = []
+THRESHOLD = 10.0
+for idx in range(len(anTag_nlos_err)):
+    if np.abs(anTag_nlos_err[idx]) > THRESHOLD:
+        outlier1.append(idx)
+
+for idx in range(len(anAn_nlos_err)):
+    if np.abs(anAn_nlos_err[idx]) > THRESHOLD:
+        outlier2.append(idx)
+
+anTag_nlos_err = np.delete(anTag_nlos_err, outlier1)
+anAn_nlos_err = np.delete(anAn_nlos_err, outlier2)
+
+
 if FIT_lognorm:
 
     X = np.linspace(-1.5, 1.5)
@@ -116,7 +136,7 @@ if VISUAL:
     (mu, sigma) = stats.norm.fit(anTag_nlos_err)
     print("mean0: ", mu, "std0: ", sigma)
     print("\n")
-    yhist, xhist, patches = plt.hist(anTag_nlos_err, bins=15000,color='steelblue',alpha=0.75, density=True)   # 15000
+    yhist, xhist, patches = plt.hist(anTag_nlos_err, bins=1000,color='steelblue',alpha=0.75, density=True)   # 15000
     plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
     plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
     plt.xlabel('nlos error [m]')
@@ -130,7 +150,7 @@ if VISUAL:
     (mu, sigma) = stats.norm.fit(anAn_nlos_err)
     print("mean0: ", mu, "std0: ", sigma)
     print("\n")
-    yhist, xhist, patches = plt.hist(anAn_nlos_err, bins=15000,color='steelblue',alpha=0.75, density=True)   # 15000
+    yhist, xhist, patches = plt.hist(anAn_nlos_err, bins=1000,color='steelblue',alpha=0.75, density=True)   # 15000
     plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
     plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
     plt.xlabel('nlos error [m]')

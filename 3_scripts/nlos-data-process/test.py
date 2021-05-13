@@ -7,7 +7,6 @@ import rosbag
 from scipy import stats
 from scipy.stats import norm, gamma
 from glob import glob     # module used for finding pathnames matching a specific pattern
-from scipy.io import savemat
 from scipy import signal
 
 # set window background to white
@@ -46,9 +45,7 @@ for filename in all_files:
 # flatten the list to numpy array
 anTag_nlos_err = np.concatenate(anTag_nlos_err).ravel()
 
-# save for matlab 
-# m_data = {'nlos_err': anTag_nlos_err}
-# savemat('anTag_nlos_error.mat', m_data)
+
 # -------------------- testing with different models --------------------- #
 anTag_nlos_err = - anTag_nlos_err    # easy for log-norm fitting
 

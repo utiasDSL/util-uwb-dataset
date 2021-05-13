@@ -2,7 +2,7 @@
 % estimation
 
 clear;clc;
-load('anTag_nlos_error.mat');
+load('uwb_error.mat');
 
 % better for log-norm fitting
 nlos_err = - nlos_err;

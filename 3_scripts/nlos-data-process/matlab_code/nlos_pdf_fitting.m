@@ -3,10 +3,10 @@ clear;clc;
 % fix random number, using the default random seed
 rng('default')
 
-load('anTag_nlos_error.mat');
-.
+load('uwb_error.mat');
+
 % better for log-norm fitting
-nlos_err = - nlos_err;
+nlos_err = - anTag_nlos_err;
 
 % sample 1000 values from raw nlos error data without replacement
 samp_err = datasample(nlos_err, 1000,'Replace',false);
@@ -40,6 +40,7 @@ y_gamma = dist_gamma.PDF(x_t);
 y_estConv2 = conv_dist2.PDF(x_t);
 y_norm2 = dist_normal2.PDF(x_t);
 y_lognorm = dist_lognorm .PDF(x_t);
+
 %% visualize PDF
 figure(1)
 plot(x_t, y_estConv1, 'r', 'LineWidth',5)
