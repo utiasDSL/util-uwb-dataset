@@ -135,9 +135,9 @@ plt.plot(x_t, y_t,'--', color = 'red', linewidth=1.5, label='Gaussian * Gamma')
 
 # note: add param stacked doesn't make a difference
 # with outlier rejection, bins = 150. without outlier rejection, bins = 15000
-yhist, xhist, patches = plt.hist(anTag_nlos_err, bins=150,color='steelblue',alpha=0.65, density=True, stacked=True)   
-# plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'green')
-# plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
+yhist, xhist, patches = plt.hist(anTag_nlos_err, bins=150,color='steelblue',alpha=0.65, density=True)   
+plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'green')
+plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
 plt.xlabel('nlos error [m]')
 plt.ylabel('Percent of Total Frequency')
 ax.set_xlim([-1.0, 1.0]) 

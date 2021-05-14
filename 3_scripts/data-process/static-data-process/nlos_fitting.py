@@ -112,23 +112,6 @@ anTag_nlos_err = np.delete(anTag_nlos_err, outlier1)
 anAn_nlos_err = np.delete(anAn_nlos_err, outlier2)
 
 
-if FIT_lognorm:
-
-    X = np.linspace(-1.5, 1.5)
-
-    fig = plt.figure(facecolor="white")
-    ax = plt.subplot(111)
-    ## skew norm doesn't fit the data
-    # plt.plot(X, skewnorm.pdf(X, *skewnorm.fit(anTag_nlos_err)), 'r--', linewidth=1.5, label='fitted skewnorm')
-
-    plt.xlabel('Error [m]')
-    plt.ylabel('Percent of Total Frequency')
-    plt.title('nlos error') 
-    ax.legend()
-    plt.hist(anTag_nlos_err,bins=15000,density=True,alpha=.3)
-    ax.set_xlim([-1.5, 1.5]) 
-    plt.show()
-
 if VISUAL:
     fig = plt.figure(facecolor="white")
     mu=0;  sigma=0

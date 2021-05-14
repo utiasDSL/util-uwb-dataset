@@ -1,12 +1,5 @@
 '''
-Visualize the nlos data on 0505 experiments
-genericLogTopic_log1_Variables: ["tdoa3.d1-2", "tdoa3.d2-1", "tdoa3.d2-1", "tdoa3.snr_1", "tdoa3.powerdiff_1", "tdoa3.snr_2", "tdoa3.powerdiff_2"]
-genericLogTopic_log2_Variables: ["tdoa3.an1_rx_snr", "tdoa3.an1_rx_powerdif", "tdoa3.an1_tof",
-                                 "tdoa3.an2_rx_snr", "tdoa3.an2_rx_powerdif", "tdoa3.an2_tof"]
-                                 
-For an_tag nlos metal trial 9, the bias is around -3.9 [m], and the SNR of anchor1 is ~51.09, power_diff is ~17.29
-For other metal trials, the bias is around -0.2 ~ -0.5 [m], and the SNR of anchor1 is ~23, power_diff is ~21.89.
-The reason is that, in trial 9, it is likely the metal cabenit totally block the los signal. UWB tag receives a multipath signal from anchor 1 (likely reflected from the roof). Therefore, in this trial, the signal quality is better, yet the meas. errors are larger. 
+visualize static signal testing data
 '''
 import os, sys
 import numpy as np
@@ -24,7 +17,7 @@ plt.rcParams['figure.facecolor'] = 'w'
 # current path of the script
 curr = os.path.dirname(sys.argv[0])
 # access rosbag
-bag_path = os.path.abspath(curr+'/../../2_data/rosbag/0505-data')
+bag_path = os.path.abspath(curr+'/../../../2_data/rosbag/static-signal-testing')
 
 bagFile = askopenfilename(initialdir = bag_path, title = "Select rosbag")
 bag = rosbag.Bag(bagFile)
@@ -33,7 +26,7 @@ selected_bag = os.path.splitext(base)[0]
 
 # ------------ parameter ----------- #
 XY_FONTSIZE = 7;   LABEL_SIZE = 12
-VISUAL = True;    SAVE_NUMPY = False
+VISUAL = False;     SAVE_NUMPY = True
 # for 4K screen distplay
 import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
@@ -132,7 +125,7 @@ power_diff_an2 = np.delete(power_diff_an2, outlier_an2)
 an1_rx_powerdif = np.delete(an1_rx_powerdif, outlier_rx_an1)
 an2_rx_powerdif = np.delete(an2_rx_powerdif, outlier_rx_an2)
 
-if obstacle!=[]:
+if obstacle.size > 0:
     # visualize the anchor, tag and obstacle
     fig_ob = plt.figure()
     ob_x = fig_ob.add_subplot(111, projection = '3d')
@@ -156,13 +149,14 @@ if obstacle!=[]:
 
 # save the meas. error from nlos signal testing 
 if SAVE_NUMPY:
-    np.save(curr+'/nlos_error/'+selected_bag+'_err.npy', err12)
+    # np.save(curr+'/nlos_testing/'+selected_bag+'_err.npy', err12)
+    np.save(curr+'/los_testing/'+selected_bag+'_err.npy', err12)
 
 if VISUAL:
     # visualize tdoa and error
     fig = plt.figure()
     ax = fig.add_subplot(2,1,1)
-    ax.set_ylim([-1, 1])
+    ax.set_ylim([-3.5, 3.5])
     ax.plot(t_1, tdoa12)
     plt.xlabel('Time [s]', fontsize=12)
     plt.ylabel('TDOA meas. [m]', fontsize=12)
@@ -235,7 +229,6 @@ if VISUAL:
     plt.axvline(x=mu_power2, alpha=1.0, linestyle ='--', color = 'red')
     plt.xlabel('Power difference An2', fontsize = LABEL_SIZE)
     plt.ylabel('PDF', fontsize = LABEL_SIZE)
-
 
     # visualize power between anchors
     fig2 = plt.figure()
