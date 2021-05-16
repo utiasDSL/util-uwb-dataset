@@ -4,7 +4,12 @@ load('uwb_error.mat');
 
 % better for log-norm fitting
 nlos_err = - anTag_nlos_err;
-
+% remove super large outliers
+for i =1:length(anAn_nlos_err)
+    if abs(anAn_nlos_err(i))<10
+      nlos_err_an(i) = anAn_nlos_err(i);
+    end
+end
 %
 los_norm = Normal(0.0,0.05);
 norm = Normal(-0.0091277,0.063622);
@@ -45,71 +50,128 @@ dist_nlos_los_nlos = Convolution(Normal(0.0,0.068), Lognormal(-3.002,1.3778));
 %% PDF nlos-nlos-nlos
 dist_nlos_nlos_nlos = Convolution(Normal(0.0,0.15), Normal(0.0,0.068));
 
-% visualization 
-figure(1)
-plot(x_t, dist_anTag_nlos1.PDF(x_t), 'Color', [0.4660 0.6740 0.1880]);
-hold on
-plot(x_t, los_norm.PDF(x_t), 'Color', [0, 0.4470, 0.7410]);
-hold on
-histogram(nlos_err, 'Normalization','pdf', 'FaceColor', [0.3010 0.7450 0.9330])
-hold on
-histogram(los_err, 'Normalization','pdf', 'FaceColor', [0, 0.4470, 0.7410])
-hold off
-xlim([-1.0 1.0])
+%% visualization 
+NLOS_COLOR = [1.0 0.0 0.0];
+LOS_COLOR  = [0, 0.4470, 0.7410];
+HIST_COLOR = [0.3010 0.7450 0.9330];
+close all
 
-figure(2)
-plot(-x_t, dist_anTag_nlos1.PDF(x_t), 'Color', [0.4660 0.6740 0.1880]);
+gcf = figure(1);
+histogram(los_err, 30,'Normalization','pdf', 'FaceColor', HIST_COLOR, 'FaceAlpha',0.6)
 hold on
-plot(x_t, los_norm.PDF(x_t), 'Color', [0, 0.4470, 0.7410]);
-hold on
-histogram(-nlos_err, 'Normalization','pdf', 'FaceColor', [0.3010 0.7450 0.9330])
-hold on
-histogram(los_err, 'Normalization','pdf', 'FaceColor', [0, 0.4470, 0.7410])
+plot(x_t, los_norm.PDF(x_t), '--','Color', LOS_COLOR, 'LineWidth',5);
 hold off
 xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('los-los-los histogram','los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'los-los-los.png')
 
-figure(3)
-plot(x_t, dist_nlos_nlos_los, 'Color', [0.4660 0.6740 0.1880]);
-hold on
-plot(x_t, los_norm.PDF(x_t), 'Color', [0, 0.4470, 0.7410]);
-hold on
-histogram(los_err, 'Normalization','pdf', 'FaceColor', [0, 0.4470, 0.7410])
-hold off
-xlim([-1.0 1.0])
 
-figure(4)
-plot(x_t, dist_los_los_nlos.PDF(x_t), 'Color', [0.4660 0.6740 0.1880]);
+gcf = figure(2);
+histogram(nlos_err, 'Normalization','pdf', 'FaceColor', HIST_COLOR)
 hold on
-plot(x_t, los_norm.PDF(x_t), 'Color', [0, 0.4470, 0.7410]);
+plot(x_t, dist_anTag_nlos1.PDF(x_t), '--', 'Color', NLOS_COLOR, 'LineWidth',5);
 hold on
-histogram(los_err, 'Normalization','pdf', 'FaceColor', [0, 0.4470, 0.7410])
+plot(x_t, los_norm.PDF(x_t), '--', 'Color', LOS_COLOR, 'LineWidth',2);
 hold off
 xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('los-nlos-los histogram', 'los-nlos-los pdf', 'los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'los-nlos-los.png')
 
-figure(5)
-plot(x_t, dist_nlos_los_nlos.PDF(x_t), 'Color', [0.4660 0.6740 0.1880]);
+gcf = figure(3);
+histogram(-nlos_err, 'Normalization','pdf', 'FaceColor', HIST_COLOR)
 hold on
-plot(x_t, los_norm.PDF(x_t), 'Color', [0, 0.4470, 0.7410]);
+plot(-x_t, dist_anTag_nlos1.PDF(x_t), '--','Color', NLOS_COLOR, 'LineWidth',5);
 hold on
-histogram(los_err, 'Normalization','pdf', 'FaceColor', [0, 0.4470, 0.7410])
+plot(x_t, los_norm.PDF(x_t),'--', 'Color', LOS_COLOR, 'LineWidth',2);
 hold off
 xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('nlos-los-los histogram', 'nlos-los-los pdf','los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'nlos-los-los.png')
 
-figure(6)
-plot(-x_t, dist_nlos_los_nlos.PDF(x_t), 'Color', [0.4660 0.6740 0.1880]);
+gcf = figure(4);
+plot(x_t, dist_nlos_nlos_los,'--', 'Color', NLOS_COLOR, 'LineWidth',5);
 hold on
-plot(x_t, los_norm.PDF(x_t), 'Color', [0, 0.4470, 0.7410]);
-hold on
-histogram(los_err, 'Normalization','pdf', 'FaceColor', [0, 0.4470, 0.7410])
+plot(x_t, los_norm.PDF(x_t),'--','Color', LOS_COLOR, 'LineWidth',2);
 hold off
 xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('nlos-nlos-los pdf','los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'nlos-nlos-los.png')
 
-figure(7)
-plot(x_t, dist_nlos_nlos_nlos.PDF(x_t), 'Color', [0.4660 0.6740 0.1880]);
+gcf = figure(5);
+histogram(nlos_err_an, 100,'Normalization','pdf', 'FaceColor', HIST_COLOR)
 hold on
-plot(x_t, los_norm.PDF(x_t), 'Color', [0, 0.4470, 0.7410]);
+plot(x_t, dist_los_los_nlos.PDF(x_t), '--', 'Color', NLOS_COLOR, 'LineWidth',5);
 hold on
-histogram(los_err, 'Normalization','pdf', 'FaceColor', [0, 0.4470, 0.7410])
+plot(x_t, los_norm.PDF(x_t), '--', 'Color', LOS_COLOR, 'LineWidth',2);
 hold off
 xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('los-los-nlos histogram', 'los-los-nlos pdf', 'los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'los-los-nlos.png')
+
+gcf = figure(6);
+plot(x_t, dist_nlos_los_nlos.PDF(x_t), '--','Color', NLOS_COLOR, 'LineWidth',5);
+hold on
+plot(x_t, los_norm.PDF(x_t), '--', 'Color', LOS_COLOR, 'LineWidth',2);
+hold off
+xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('nlos-los-nlos pdf', 'los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'nlos-los-nlos.png')
+
+gcf = figure(7);
+plot(-x_t, dist_nlos_los_nlos.PDF(x_t), '--', 'Color', NLOS_COLOR, 'LineWidth',5);
+hold on
+plot(x_t, los_norm.PDF(x_t), '--', 'Color', LOS_COLOR, 'LineWidth',2);
+hold off
+xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('los-nlos-nlos pdf', 'los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'los-nlos-nlos.png')
+
+gcf = figure(8);
+plot(x_t, dist_nlos_nlos_nlos.PDF(x_t), '--', 'Color', NLOS_COLOR, 'LineWidth',5);
+hold on
+plot(x_t, los_norm.PDF(x_t), '--', 'Color', LOS_COLOR, 'LineWidth',2);
+hold off
+xlim([-1.0 1.0])
+ylim([ 0.0 9.0])
+legend('nlos-nlos-nlos pdf', 'los-los-los pdf')
+xlabel('tdoa error')
+ylabel('probability density function')
+set(gca,'FontSize',32)
+set(gcf, 'Position', [10 10 900 600]);
+saveas(gcf,'nlos-nlos-nlos.png')
 
