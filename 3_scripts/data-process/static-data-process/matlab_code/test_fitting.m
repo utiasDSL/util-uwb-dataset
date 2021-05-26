@@ -1,4 +1,5 @@
 % test for numerical convolution
+% help function: negative_lognorm_pdf
 clear; clc;
 load('uwb_error.mat');
 

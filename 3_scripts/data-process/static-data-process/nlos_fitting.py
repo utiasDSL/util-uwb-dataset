@@ -34,7 +34,7 @@ def fast_scandir(dirname):
 
 # ------------------------- load numpy data ----------------------------- #
 # load the data for nlos between anchor and tag
-PATH_anTag = curr+'/nlos_error/an_tag/'
+PATH_anTag = curr+'/nlos_testing/an_tag/'
 EXT = "*.npy"
 subdir = fast_scandir(PATH_anTag)
 all_files = []
@@ -49,7 +49,7 @@ for filename in all_files:
     anTag_nlos_err.append(err)
 
 # load the data for nlos between anchor and anchor
-PATH_anAn = curr+'/nlos_error/an_an/'
+PATH_anAn = curr+'/nlos_testing/an_an/'
 subdir = fast_scandir(PATH_anAn)
 all_files = []
 for path in subdir:
@@ -63,7 +63,7 @@ for filename in all_files:
     anAn_nlos_err.append(err)
     
 # load the los data (no subfolder)
-PATH_los = curr+'/nlos_error/los/'
+PATH_los = curr+'/nlos_testing/los/'
 los_err = []
 for filename in os.listdir(PATH_los):
     if filename.endswith('.npy'):
@@ -71,9 +71,9 @@ for filename in os.listdir(PATH_los):
         los_err.append(err)
         
 # load the nlos data with a selected obstacle   
-# PATH_nlos = curr + '/nlos_error/an_tag/metal';      BIN = 1000 
-# PATH_nlos = curr + '/nlos_error/an_tag/woodshelf';  BIN = 100  
-PATH_nlos = curr + '/nlos_error/an_an/metal'; BIN = 800
+# PATH_nlos = curr + '/nlos_testing/an_tag/metal';      BIN = 1000 
+# PATH_nlos = curr + '/nlos_testing/an_tag/woodshelf';  BIN = 100  
+PATH_nlos = curr + '/nlos_testing/an_an/metal'; BIN = 800
 select_nlos_err = []
 for filename in os.listdir(PATH_nlos):
     if filename.endswith('.npy'):
@@ -92,8 +92,12 @@ anTag_nlos_err = anTag_nlos_err - los_bias
 anAn_nlos_err  = anAn_nlos_err  - los_bias
 los_err        = los_err        - los_bias  
 
+# np.save('anTag_nlos_err.npy', anTag_nlos_err)
+# np.save('anAn_nlos_err.npy', anAn_nlos_err)
+# np.save('los_err.npy', los_err)
+
 # save for matlab 
-m_data = {'anTag_nlos_err': anTag_nlos_err, 'anAn_nlos_err': anAn_nlos_err, 'los_err': los_err}
+m_data = {'anTag_nlos_err_noMetal': anTag_nlos_err, 'anAn_nlos_err': anAn_nlos_err, 'los_err': los_err}
 savemat('uwb_error.mat', m_data)
 
 # ---------------------------------------------- #
@@ -126,6 +130,7 @@ if VISUAL:
     plt.ylabel('Percent of Total Frequency')
     # plt.title('TDOA3 err_12 los') 
     ax.set_xlim([-1.0, 1.0]) 
+    plt.show()
         
     fig1 = plt.figure(facecolor="white")
     mu=0;  sigma=0
