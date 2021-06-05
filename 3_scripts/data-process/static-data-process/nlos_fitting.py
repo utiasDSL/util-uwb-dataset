@@ -71,9 +71,9 @@ for filename in os.listdir(PATH_los):
         los_err.append(err)
         
 # load the nlos data with a selected obstacle   
-# PATH_nlos = curr + '/nlos_testing/an_tag/metal';      BIN = 1000 
+PATH_nlos = curr + '/nlos_testing/an_tag/metal_an_tag';      BIN = 1000 
 # PATH_nlos = curr + '/nlos_testing/an_tag/woodshelf';  BIN = 100  
-PATH_nlos = curr + '/nlos_testing/an_an/metal'; BIN = 800
+# PATH_nlos = curr + '/nlos_testing/metal_an_tag'; BIN = 800
 select_nlos_err = []
 for filename in os.listdir(PATH_nlos):
     if filename.endswith('.npy'):
@@ -91,15 +91,18 @@ los_bias = np.mean(los_err)
 anTag_nlos_err = anTag_nlos_err - los_bias
 anAn_nlos_err  = anAn_nlos_err  - los_bias
 los_err        = los_err        - los_bias  
-
+select_nlos_err= select_nlos_err- los_bias
 # np.save('anTag_nlos_err.npy', anTag_nlos_err)
 # np.save('anAn_nlos_err.npy', anAn_nlos_err)
 # np.save('los_err.npy', los_err)
 
 # save for matlab 
-m_data = {'anTag_nlos_err_noMetal': anTag_nlos_err, 'anAn_nlos_err': anAn_nlos_err, 'los_err': los_err}
-savemat('uwb_error.mat', m_data)
+# uwb error norm: do not include Metal_nlos in an_tag and an_an. 'anTag_nlos_err_Metal' is the error with only metal anTag nlos
+# m_data = {'anTag_nlos_err_noMetal': anTag_nlos_err, 'anAn_nlos_err_noMetal': anAn_nlos_err, 'los_err': los_err, 'anTag_nlos_err_Metal': select_nlos_err}
+# savemat('uwb_error_norm.mat', m_data)
 
+m_data = {'anTag_nlos_err': anTag_nlos_err, 'anAn_nlos_err': anAn_nlos_err, 'los_err': los_err}
+savemat('uwb_error_skewNorm.mat', m_data)
 # ---------------------------------------------- #
 # reject large outliers. How to select the threshold?
 outlier1 = [];    outlier2 = []
