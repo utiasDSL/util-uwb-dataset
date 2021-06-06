@@ -35,15 +35,7 @@ NUM_vicon = 6
 vicon_frame = pos[0:NUM_vicon,:]                  # 6 points in Vicon frame
 anchor_marker = pos[NUM_vicon:,:]                 # uwb anchor pose 
 
-# # 0415
-# vicon_marks = np.array([[-6.1015,    1520.0397,    5.1068],
-#                         [9.6667,       8.8408,     5.1986],
-#                         [1492.5110,    42.1710,    8.9143],
-#                         [27.3472,   -1001.0138,    9.2206],
-#                         [-989.8257,   -10.6660,    3.9086],
-#                         [-945.6361, -2006.8177,   13.0570]
-#                         ]) / 1000.0
-# 0425
+# 0425: positions of the 6 vicon markers
 vicon_marks = np.array([[6.4833,     9.5857,     5.4701],
                         [996.7297,   20.6892,    6.5530],
                         [1493.6611,  30.2870,    8.0861],
