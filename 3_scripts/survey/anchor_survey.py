@@ -7,7 +7,6 @@ import os, sys
 import argparse
 import numpy as np
 from pyquaternion import Quaternion      # package for quaternion
-from tkinter.filedialog import askopenfilename
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import matplotlib.style as style
@@ -115,6 +114,11 @@ def plot_survey(anchor_pos, vicon):
         ax_t.scatter(vicon[idx,0], vicon[idx,1], vicon[idx,2],s=5, marker='o',color='red')
 
 if __name__ == "__main__":
+    # get the name of survey file
+    # save the anchor position and quaternion with the same name
+    txt_file = os.path.split(sys.argv[-1])[1]
+    txt_name = os.path.splitext(txt_file)[0]
+
     parser = argparse.ArgumentParser()
     parser.add_argument("survey_txt")
     args = parser.parse_args()
@@ -147,7 +151,10 @@ if __name__ == "__main__":
     # compute the C and r from src_point to dest_point
     (C_est, r_est) = pointcloud_alignment(src_point, dest_point)
     print('The result of point cloud alignment:\n')
-    print(C_est); print(r_est)
+    print("Rotation matrix (from total station survey to vicon frame):\n")
+    print(C_est) 
+    print("Translation vector (from total station survey to vicon frame):\n")
+    print(r_est)
     print('\n')
 
 
@@ -172,9 +179,6 @@ if __name__ == "__main__":
         
     Marker_pos = Marker_pos.T
 
-    plot_survey(Marker_pos, vicon_marker)
-    plt.show()
-
     # -------------------- Data Structure ------------------- #
     # An0_M0: x, y, z, 
     # An0_M1: x, y, z,
@@ -190,8 +194,8 @@ if __name__ == "__main__":
         dest_points = Marker_pos[idx:idx+3,:]
         # 3 markers in the Anchor frame. Order: [left, up, forward]
         src_points = np.array([[110.0,   0.0,   0.0],
-                            [0.0,   121.0,   0.0],
-                            [0.0,     0.0,  80.0]]) / 1000.0 
+                               [0.0,   121.0,   0.0],
+                               [0.0,     0.0,  80.0]]) / 1000.0 
         # compute the rotation from body to inertial frame
         (C_survey, t_est) = pointcloud_alignment(src_points, dest_points)   
         # save the quaternion from anchor body frame to inertial frame
@@ -202,10 +206,16 @@ if __name__ == "__main__":
         counter += 1
         idx += 4 
 
-
+    print('\n')
+    print("The anchor positions are")
     print(np.round(anchor_position,3))
-
+    print('\n')
+    print("The anchor orientations are")
     print(np.round(anchor_quaterion,3))
 
-    # np.save('AnchorPos_0426.npy', anchor_position)
-    # np.save('AnchorQuat_0426.npy', anchor_quaterion)
+    # save the anchor positions and orientation
+    np.savez(txt_name, an_pos = anchor_position, an_quat = anchor_quaterion)
+
+    # --------------- Visualization ---------------- #
+    plot_survey(Marker_pos, vicon_marker)
+    plt.show()
