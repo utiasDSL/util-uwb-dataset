@@ -114,8 +114,6 @@ if __name__ == "__main__":
     ax1.set_ylabel(r'TDoA measurement [m]') 
     plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
 
-
-
     # Z-range ToF
     fig2 = plt.figure()
     ax2 = fig2.add_subplot(111)
