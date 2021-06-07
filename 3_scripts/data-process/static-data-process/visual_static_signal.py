@@ -19,9 +19,9 @@ plt.rcParams['figure.facecolor'] = 'w'
 # ------------ parameter ----------- #
 XY_FONTSIZE = 7;   LABEL_SIZE = 12
 SAVE_NUMPY = False
-# for 4K screen distplay
-import matplotlib as mpl
-mpl.rcParams['figure.dpi'] = 300
+# # for 4K screen distplay
+# import matplotlib as mpl
+# mpl.rcParams['figure.dpi'] = 300
 # ---------------------------------- #
 
 if __name__ == "__main__":

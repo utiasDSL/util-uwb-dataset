@@ -61,7 +61,7 @@ cd 3_scripts/data-process/flying-data-process
 python3 visual_uwb_bias.py -i ../../survey/anchor_0425.npz ../../../2_data/rosbag/flying-data/(select the rosbag you wish to visualize)
 ```
 
-4. Run the script to visualize the position of obstalces
+5. Run the script to visualize the position of obstalces
 ```
 cd 3_scripts/data-process/flying-data-process
 python3 visual_obs.py -i ../../survey/anchor_0426.npz
