@@ -74,6 +74,18 @@ def parseTdoaData(data, start_time, bag_file):
         msg.data = diff;
         bag_file.write("/tdoa_data", msg, rospy.Time(stamp));
 
+def parseTwrData(data, start_time, bag_file):
+    from cf_msgs.msg import Twr
+    for (t, idA, dist) in zip(data['timestamp'], 
+        data['id'], data["distance"]):
+        stamp = (t - start_time)/1000;
+        msg = Twr()
+        msg.header.frame_id = "uwb"
+        msg.header.stamp = rospy.Time(stamp);
+        msg.id = idA;
+        msg.data = dist;
+        bag_file.write("/twr_data", msg, rospy.Time(stamp));
+
 def parseTofData(data, start_time, bag_file):
     from cf_msgs.msg import Tof
     for (t, zrange) in zip(data['timestamp'], data["range.zrange"]):
@@ -162,6 +174,8 @@ if __name__ == "__main__":
             parseBaroData(data, start_time, bag_file)
         elif event_name == "estFlow":
             parseFlowData(data, start_time, bag_file)
+        elif event_name == "estDistance":
+            parseTwrData(data, start_time, bag_file)
 
     if len(gyro_data) > 0 and len(accel_data) > 0:
         print("Writing combined IMU data")

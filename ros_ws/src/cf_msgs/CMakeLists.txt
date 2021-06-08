@@ -9,6 +9,7 @@ add_message_files(
   Gyro.msg
   Accel.msg
   Tdoa.msg
+  Twr.msg
   Tof.msg
   Baro.msg
   Flow.msg
