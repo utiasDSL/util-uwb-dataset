@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     # ------------ select the anchor pair for visualization---------- #
     # possible anchor ID = [0,1,2,3,4,5,6,7] 
-    an_i = 7;     an_j = 0
+    an_i = 0;     an_j = 1
     # --------------------------------------------------------------- #
 
     # get the id for tdoa_ij measurements
