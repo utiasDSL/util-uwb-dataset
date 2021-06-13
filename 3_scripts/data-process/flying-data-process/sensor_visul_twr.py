@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     # select the anchor pair for visualization
     # possible anchor ID = [0,1,2,3,4,5,6,7] 
-
+    
     # get the id for twr_ij measurements
     twr_0 = np.where((twr[:,1]==[0]))
     twr_meas_0 = np.squeeze(twr[twr_0, :])
