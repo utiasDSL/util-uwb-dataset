@@ -10,7 +10,6 @@ import csv
 import rosbag
 from itertools import zip_longest
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', action='store', nargs=2)
