@@ -56,11 +56,12 @@ if __name__ == "__main__":
             for i in range(len(msg.markers)):
                 if msg.markers[i].marker_name == '':     # four markers on the obstacle are without name
                     idx.append(i)  
-            obstacle.append([[msg.markers[idx[0]].translation.x, msg.markers[idx[0]].translation.y, msg.markers[idx[0]].translation.z], 
-                            [msg.markers[idx[1]].translation.x, msg.markers[idx[1]].translation.y, msg.markers[idx[1]].translation.z],
-                            [msg.markers[idx[2]].translation.x, msg.markers[idx[2]].translation.y, msg.markers[idx[2]].translation.z],
-                            [msg.markers[idx[3]].translation.x, msg.markers[idx[3]].translation.y, msg.markers[idx[3]].translation.z]
-                            ])
+            if len(idx) == 4:
+                obstacle.append([[msg.markers[idx[0]].translation.x, msg.markers[idx[0]].translation.y, msg.markers[idx[0]].translation.z], 
+                                [msg.markers[idx[1]].translation.x, msg.markers[idx[1]].translation.y, msg.markers[idx[1]].translation.z],
+                                [msg.markers[idx[2]].translation.x, msg.markers[idx[2]].translation.y, msg.markers[idx[2]].translation.z],
+                                [msg.markers[idx[3]].translation.x, msg.markers[idx[3]].translation.y, msg.markers[idx[3]].translation.z]
+                                ])
 
     min_t = min(t_log1 + t_log2)
     
@@ -152,11 +153,11 @@ if __name__ == "__main__":
 
         f.write('tag_quat,' + str(tag_quat[0]) + ',' + str(tag_quat[1]) + ',' + 
                               str(tag_quat[2]) + ',' + str(tag_quat[3])+'\n')
-
-        f.write('obs_m1,' + str(obstacle[0,0]) + ',' + str(obstacle[0,1]) + ',' +str(obstacle[0,2]) +'\n')
-        f.write('obs_m2,' + str(obstacle[1,0]) + ',' + str(obstacle[1,1]) + ',' +str(obstacle[1,2]) +'\n')
-        f.write('obs_m3,' + str(obstacle[2,0]) + ',' + str(obstacle[2,1]) + ',' +str(obstacle[2,2]) +'\n')
-        f.write('obs_m4,' + str(obstacle[3,0]) + ',' + str(obstacle[3,1]) + ',' +str(obstacle[3,2]) +'\n')
+        if len(obstacle) != 0:
+            f.write('obs_m1,' + str(obstacle[0,0]) + ',' + str(obstacle[0,1]) + ',' +str(obstacle[0,2]) +'\n')
+            f.write('obs_m2,' + str(obstacle[1,0]) + ',' + str(obstacle[1,1]) + ',' +str(obstacle[1,2]) +'\n')
+            f.write('obs_m3,' + str(obstacle[2,0]) + ',' + str(obstacle[2,1]) + ',' +str(obstacle[2,2]) +'\n')
+            f.write('obs_m4,' + str(obstacle[3,0]) + ',' + str(obstacle[3,1]) + ',' +str(obstacle[3,2]) +'\n')
                              
 
 

@@ -1,8 +1,8 @@
 '''
 visualize static los signal testing data
 read the data from csv
+python3 los_visual.py -i [csv data folder]
 '''
-
 import os, sys
 import argparse
 import numpy as np

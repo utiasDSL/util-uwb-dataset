@@ -1,8 +1,8 @@
 '''
 visualize static los signal testing data
 read the data from csv
+python3 nlos_visual.py -i [csv data folder]
 '''
-
 import os, sys
 import argparse
 import numpy as np
@@ -32,6 +32,9 @@ if __name__ == "__main__":
     # access csv file
     folder = args.i[0]
     data_name = os.path.split(sys.argv[-1])[1]
+    if len(data_name) == 0:
+        raise Exception("Cannot find the data for visualization \n Please remove the '/' at the end of the folder address\n")
+
     print("Visualize data: " + data_name + "\n")
     
     pose_txt = folder + '/' + data_name + '_pose.txt'
@@ -82,7 +85,10 @@ if __name__ == "__main__":
         # visualize the anchor, tag and obstacle
         fig_ob = plt.figure()
         ob_x = fig_ob.add_subplot(111, projection = '3d')
-        ob_x.scatter(obstacle[:,0], obstacle[:,1], obstacle[:,2], marker='o',color='navy')
+
+        if len(obstacle)!=0:
+            ob_x.scatter(obstacle[:,0], obstacle[:,1], obstacle[:,2], marker='o',color='navy')
+        
         ob_x.scatter(tag_p[0],   tag_p[1],  tag_p[2], marker='o',color='green')
         ob_x.scatter(an1_p[0],   an1_p[1],  an1_p[2], marker='o',color='red')
         ob_x.scatter(an2_p[0],   an2_p[1],  an2_p[2], marker='o',color='red')

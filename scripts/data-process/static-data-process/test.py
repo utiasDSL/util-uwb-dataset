@@ -15,7 +15,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # access rosbag
-    ros_bag = "/home/wenda/dsl__projects__uwbDataset/UWB_Dataset/rosbag/static-signal-testing/los-signal-testing/lineTest/line_t12.bag"
+    ros_bag = "/home/wenda/dsl__projects__uwbDataset/UWB_Dataset/rosbag/static-signal-testing/nlos-signal-testing/anTag-nlos/cardboard-anTag-nlos/cardboard-anTag-data6.bag"
     bag = rosbag.Bag(ros_bag)
     # bag_file = os.path.split(sys.argv[-1])[1]
 
@@ -30,9 +30,10 @@ if __name__ == "__main__":
     # anchor and tag positions (static)
     cf_uwb  = [];   an1_p = [];      an2_p = []
     cf_quat = [];   an1_quat = [];   an2_quat = []
-
+    obstacle = []
     for topic, msg, t in bag.read_messages(['/cf2/log1', '/cf2/log2', '/vicon/dsl_cf_uwb/dsl_cf_uwb', 
-                                            '/vicon/dsl_anchor1/dsl_anchor1', '/vicon/dsl_anchor2/dsl_anchor2']):
+                                            '/vicon/dsl_anchor1/dsl_anchor1', '/vicon/dsl_anchor2/dsl_anchor2',
+                                            '/vicon/markers']):
         if topic == '/cf2/log1':
             logData1.append(msg.values)
             t_log1.append(msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9)
@@ -48,7 +49,18 @@ if __name__ == "__main__":
         if topic == '/vicon/dsl_anchor2/dsl_anchor2':
             an2_p.append([msg.transform.translation.x, msg.transform.translation.y, msg.transform.translation.z])
             an2_quat.append([msg.transform.rotation.x, msg.transform.rotation.y, msg.transform.rotation.z, msg.transform.rotation.w])
-    
+        if topic == '/vicon/markers' and obstacle == []:
+            idx=[]
+            for i in range(len(msg.markers)):
+                if msg.markers[i].marker_name == '':     # four markers on the obstacle are without name
+                    idx.append(i)  
+            if len(idx) == 4:
+                obstacle.append([[msg.markers[idx[0]].translation.x, msg.markers[idx[0]].translation.y, msg.markers[idx[0]].translation.z], 
+                                [msg.markers[idx[1]].translation.x, msg.markers[idx[1]].translation.y, msg.markers[idx[1]].translation.z],
+                                [msg.markers[idx[2]].translation.x, msg.markers[idx[2]].translation.y, msg.markers[idx[2]].translation.z],
+                                [msg.markers[idx[3]].translation.x, msg.markers[idx[3]].translation.y, msg.markers[idx[3]].translation.z]
+                                ])   
+            
     min_t = min(t_log1 + t_log2)
     
     # convert to numpy array
