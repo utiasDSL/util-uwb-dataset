@@ -208,13 +208,24 @@ if __name__ == "__main__":
 
     print('\n')
     print("The anchor positions are")
-    print(np.round(anchor_position,3))
+    print(np.round(anchor_position,5))
     print('\n')
     print("The anchor orientations are")
-    print(np.round(anchor_quaterion,3))
+    print(np.round(anchor_quaterion,5))
 
-    # save the anchor positions and orientation
-    # np.savez(txt_name, an_pos = anchor_position, an_quat = anchor_quaterion)
+    # save the anchor positions and orientation into numpy array
+    np.savez(txt_name, an_pos = anchor_position, an_quat = anchor_quaterion)
+
+    # save txt for the anchor poses
+    txt_file = txt_name +'_survey.txt'
+    with open(txt_file,"w") as f:
+        for i in range(len(anchor_position)):
+            f.write('an'+str(i)+'_p,' + str(anchor_position[i,0]) + ',' + 
+                    str(anchor_position[i,1]) + ',' + str(anchor_position[i,2]) + '\n')
+
+        for j in range(len(anchor_quaterion)):
+            f.write('an'+str(j)+'_quat,' + str(anchor_quaterion[j,0]) + ',' + str(anchor_quaterion[j,1]) + ',' +
+                    str(anchor_quaterion[j,2]) + ',' + str(anchor_quaterion[j,3]) + '\n')
 
     # --------------- Visualization ---------------- #
     plot_survey(Marker_pos, vicon_marker)

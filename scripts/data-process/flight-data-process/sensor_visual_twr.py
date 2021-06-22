@@ -1,6 +1,6 @@
 '''
 Visualize the sensor measurements in rosbag.
-Visualize all the UWB twr2 measurements
+Visualize all the UWB twr measurements
 '''
 import os, sys
 import argparse
