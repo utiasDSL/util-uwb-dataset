@@ -8,12 +8,16 @@ from numpy import linalg
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import pyplot as plt
 import matplotlib.style as style
+from pyquaternion import Quaternion
 import rosbag
 from scipy import stats, interpolate
 # select the matplotlib plotting style
 style.use('ggplot')
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
+
+# translation vector from the quadcopter to UWB tag
+t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
 
 if __name__ == "__main__":
     # ---------------- access anchor survey and rosbag ---------------- #
@@ -75,9 +79,18 @@ if __name__ == "__main__":
     tof = np.array(tof);     baro = np.array(baro)
     gt_pose = np.array(gt_pose)
 
+    # external calibration: convert the gt_position to UWB antenna center
+    uwb_p = np.zeros((len(gt_pose), 3))
+    for idx in range(len(gt_pose)):
+        q_cf =Quaternion([gt_pose[idx,7], gt_pose[idx,4], gt_pose[idx,5], gt_pose[idx,6]])    # [q_w, q_x, q_y, q_z]
+        C_iv = q_cf.rotation_matrix       # rotation matrix from vehicle body frame to inertial frame
+
+        uwb_ac = C_iv.dot(t_uv) + gt_pose[idx,1:4].reshape(-1,1)
+        uwb_p[idx,:] = uwb_ac.reshape(1,-1)     # gt of uwb tag
+
     # select the anchor pair for visualization
     # possible anchor ID = [0,1,2,3,4,5,6,7] 
-    an_i = 7;     an_j = 0
+    an_i = 0;     an_j = 1
 
     # get the id for tdoa_ij measurements
     tdoa_id = np.where((tdoa[:,1]==[an_i])&(tdoa[:,2]==[an_j]))
@@ -85,12 +98,13 @@ if __name__ == "__main__":
     # compute the ground truth for tdoa_ij
     an_pos_i = anchor_pos[an_i,:].reshape(1,-1)
     an_pos_j = anchor_pos[an_j,:].reshape(1,-1)
-    # cf position from vicon measurement
+
+    # uwb position from vicon measurement
     # To compute the bias, we need to interpolate the vicon measurements. 
     # interpolate the vicon measurements to compute error of tdoa uwb measurements
-    f_x = interpolate.splrep(gt_pose[:,0], gt_pose[:,1], s = 0.5)  
-    f_y = interpolate.splrep(gt_pose[:,0], gt_pose[:,2], s = 0.5)
-    f_z = interpolate.splrep(gt_pose[:,0], gt_pose[:,3], s = 0.5) 
+    f_x = interpolate.splrep(gt_pose[:,0], uwb_p[:,0], s = 0.5)  
+    f_y = interpolate.splrep(gt_pose[:,0], uwb_p[:,1], s = 0.5)
+    f_z = interpolate.splrep(gt_pose[:,0], uwb_p[:,2], s = 0.5) 
 
     # synchronized position
     x_interp = interpolate.splev(tdoa_meas[:,0], f_x, der = 0).reshape(-1,1)

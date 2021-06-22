@@ -9,12 +9,17 @@ from numpy import linalg
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import pyplot as plt
 import matplotlib.style as style
+from pyquaternion import Quaternion
 import rosbag
 # select the matplotlib plotting style
 style.use('ggplot')
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
 
+# translation vector from the quadcopter to UWB tag
+t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
+# translation vector from the quadcopter to laser-ranging sensor 
+t_lv = np.array([0.0, 0.0, -0.0015]).reshape(-1,1)
 
 if __name__ == "__main__":
     # ---------------- access anchor survey and rosbag ---------------- #
@@ -83,6 +88,15 @@ if __name__ == "__main__":
 
     gt_pose = np.array(gt_pose)
 
+    # external calibration: convert the gt_position to UWB antenna center
+    uwb_p = np.zeros((len(gt_pose), 3))
+    for idx in range(len(gt_pose)):
+        q_cf =Quaternion([gt_pose[idx,7], gt_pose[idx,4], gt_pose[idx,5], gt_pose[idx,6]])    # [q_w, q_x, q_y, q_z]
+        C_iv = q_cf.rotation_matrix       # rotation matrix from vehicle body frame to inertial frame
+
+        uwb_ac = C_iv.dot(t_uv) + gt_pose[idx,1:4].reshape(-1,1)
+        uwb_p[idx,:] = uwb_ac.reshape(1,-1)     # gt of uwb tag
+
     # select the anchor pair for visualization
     # possible anchor ID = [0,1,2,3,4,5,6,7] 
 
@@ -111,55 +125,25 @@ if __name__ == "__main__":
     tdoa_67 = np.where((tdoa[:,1]==[6])&(tdoa[:,2]==[7]))
     tdoa_meas_67 = np.squeeze(tdoa[tdoa_67, :])
 
-    # # visual r_nrr
-    # # note: in tdoa2, there are a few meas. doesn't follow the round-robbin mechanism
-    # t_nrr_id = np.where((tdoa[:,2]-tdoa[:,1]!=1) & (tdoa[:,2]-tdoa[:,1]!=-7))
-    # r_nrr = np.squeeze(tdoa[t_nrr_id, :])
-    # # compute the gt for r_nrr
-    # gt_nrr = []
-    # for idx in range(len(r_nrr)):
-    #     anchor_i = anchor_pos[int(r_nrr[idx,1]),:].reshape(1,-1)
-    #     anchor_j = anchor_pos[int(r_nrr[idx,2]),:].reshape(1,-1)
-    #     cf_x = np.interp(r_nrr[idx,0], gt_pose[:,0], gt_pose[:,1])
-    #     cf_y = np.interp(r_nrr[idx,0], gt_pose[:,0], gt_pose[:,2])
-    #     cf_z = np.interp(r_nrr[idx,0], gt_pose[:,0], gt_pose[:,3])
-    #     cf = np.array([cf_x, cf_y, cf_z]).reshape(1,-1)
-    #     dis_i = np.asarray(linalg.norm(anchor_i - cf, axis = 1))
-    #     dis_j = np.asarray(linalg.norm(anchor_j - cf, axis = 1))
-    #     dis_ij = dis_j - dis_i
-    #     gt_nrr.append(dis_ij)
-
-    # gt_nrr = np.array(gt_nrr)
 
     # compute the ground truth for tdoa_ij
-    an_pos_0 = anchor_pos[0,:].reshape(1,-1)
-    an_pos_1 = anchor_pos[1,:].reshape(1,-1)
-    an_pos_2 = anchor_pos[2,:].reshape(1,-1)
-    an_pos_3 = anchor_pos[3,:].reshape(1,-1)
-    an_pos_4 = anchor_pos[4,:].reshape(1,-1)
-    an_pos_5 = anchor_pos[5,:].reshape(1,-1)
-    an_pos_6 = anchor_pos[6,:].reshape(1,-1)
-    an_pos_7 = anchor_pos[7,:].reshape(1,-1)
-    # cf position from vicon measurement
-    cf_pos = gt_pose[:,1:4]      # [x, y, z]
-    d_0 = np.asarray(linalg.norm(an_pos_0 - cf_pos, axis = 1))
-    d_1 = np.asarray(linalg.norm(an_pos_1 - cf_pos, axis = 1))
-    d_2 = np.asarray(linalg.norm(an_pos_2 - cf_pos, axis = 1))
-    d_3 = np.asarray(linalg.norm(an_pos_3 - cf_pos, axis = 1))
-    d_4 = np.asarray(linalg.norm(an_pos_4 - cf_pos, axis = 1))
-    d_5 = np.asarray(linalg.norm(an_pos_5 - cf_pos, axis = 1))
-    d_6 = np.asarray(linalg.norm(an_pos_6 - cf_pos, axis = 1))
-    d_7 = np.asarray(linalg.norm(an_pos_7 - cf_pos, axis = 1))
-    # measurement model
-    d_70 = d_0 - d_7
-    d_01 = d_1 - d_0
-    d_12 = d_2 - d_1
-    d_23 = d_3 - d_2
+    d = []
+    for i in range(8):
+        d.append(linalg.norm(anchor_pos[i,:].reshape(1,-1) - uwb_p, axis = 1))
 
-    d_34 = d_4 - d_3
-    d_45 = d_5 - d_4
-    d_56 = d_6 - d_5
-    d_67 = d_7 - d_6
+    d = np.array(d)
+
+    # measurement model
+    d_70 = d[0] - d[7]
+    d_01 = d[1] - d[0]
+    d_12 = d[2] - d[1]
+    d_23 = d[3] - d[2]
+
+    d_34 = d[4] - d[3]
+    d_45 = d[5] - d[4]
+    d_56 = d[6] - d[5]
+    d_67 = d[7] - d[6]
+    
     # visualization 
     # UWB TDOA
     fig1 = plt.figure()
@@ -230,21 +214,10 @@ if __name__ == "__main__":
     dx2.set_ylabel(r'TDoA measurement [m]') 
     plt.title(r"UWB tdoa measurements, (An6, An7)", fontsize=13, fontweight=0, color='black')
 
-    # TDOA2 r_nrr
-    # # note: In tdoa2, there are a few measurements that are not in round robbin, yet the measurement error is closed to zero mean.
-    # fig = plt.figure()
-    # ax = fig.add_subplot(111)
-    # ax.scatter(r_nrr[:,0], np.squeeze(gt_nrr) - r_nrr[:,3], color='red', s = 2.5, alpha = 0.9, label = "r_nrr error")
-    # ax.legend(loc='best')
-    # ax.set_xlabel(r'Time [s]')
-    # ax.set_ylabel(r'TDoA measurement error [m]') 
-    # plt.title(r"UWB tdoa2 measurements error (not in round robbin),", fontsize=13, fontweight=0, color='black')
-
     # Z-range ToF
     fig3 = plt.figure()
     ax3 = fig3.add_subplot(111)
     ax3.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
-    ax3.plot(gt_pose[:,0], gt_pose[:,3], color='red',linewidth=1.5, label = "Vicon ground truth")
     ax3.legend(loc='best')
     ax3.set_xlabel(r'Time [s]')
     ax3.set_ylabel(r'ToF measurement [m]') 
@@ -281,8 +254,8 @@ if __name__ == "__main__":
     ax_t.set_xlabel(r'X [m]')
     ax_t.set_ylabel(r'Y [m]')
     ax_t.set_zlabel(r'Z [m]')
-    plt.legend(['Trajectory','Anchor position'])
-    plt.title(r"Trajectory of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    plt.legend(['Quadcopter Trajectory','Anchor position'])
+    plt.title(r"Trajectory of the quadcopter", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
     # plot separate x,y,z
     fig6 = plt.figure()
@@ -297,6 +270,6 @@ if __name__ == "__main__":
     a_z.legend(loc='best')
     a_z.set_xlabel(r'Time [s]')
 
-    plt.title(r"Ground truth of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    plt.title(r"Ground truth of the quadcopter trajectory", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
     plt.show()

@@ -10,13 +10,17 @@ from numpy import linalg
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import pyplot as plt
 import matplotlib.style as style
+from pyquaternion import Quaternion
 import rosbag
 # select the matplotlib plotting style
 style.use('ggplot')
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
 
-
+# translation vector from the quadcopter to UWB tag
+t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
+# translation vector from the quadcopter to laser-ranging sensor 
+t_lv = np.array([0.0, 0.0, -0.0015]).reshape(-1,1)
 
 if __name__ == "__main__":
     # ---------------- access anchor survey and rosbag ---------------- #
@@ -84,6 +88,15 @@ if __name__ == "__main__":
 
     gt_pose = np.array(gt_pose)
 
+    # external calibration: convert the gt_position to UWB antenna center
+    uwb_p = np.zeros((len(gt_pose), 3))
+    for idx in range(len(gt_pose)):
+        q_cf =Quaternion([gt_pose[idx,7], gt_pose[idx,4], gt_pose[idx,5], gt_pose[idx,6]])    # [q_w, q_x, q_y, q_z]
+        C_iv = q_cf.rotation_matrix       # rotation matrix from vehicle body frame to inertial frame
+
+        uwb_ac = C_iv.dot(t_uv) + gt_pose[idx,1:4].reshape(-1,1)
+        uwb_p[idx,:] = uwb_ac.reshape(1,-1)     # gt of uwb tag
+
     # ------------ select the anchor pair for visualization---------- #
     # possible anchor ID = [0,1,2,3,4,5,6,7] 
     an_i = 0;     an_j = 1
@@ -96,10 +109,10 @@ if __name__ == "__main__":
     # compute the ground truth for tdoa_ij
     an_pos_i = anchor_pos[an_i,:].reshape(1,-1)
     an_pos_j = anchor_pos[an_j,:].reshape(1,-1)
-    # cf position from vicon measurement
-    cf_pos = gt_pose[:,1:4]      # [x, y, z]
-    d_i = np.asarray(linalg.norm(an_pos_i - cf_pos, axis = 1))
-    d_j = np.asarray(linalg.norm(an_pos_j - cf_pos, axis = 1))
+
+    # ground truth for the distance between anchor and tag
+    d_i = np.asarray(linalg.norm(an_pos_i - uwb_p, axis = 1))
+    d_j = np.asarray(linalg.norm(an_pos_j - uwb_p, axis = 1))
     # measurement model
     d_ij = d_j - d_i
 
@@ -118,7 +131,6 @@ if __name__ == "__main__":
     fig2 = plt.figure()
     ax2 = fig2.add_subplot(111)
     ax2.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
-    ax2.plot(gt_pose[:,0], gt_pose[:,3], color='red',linewidth=1.5, label = "Vicon ground truth")
     ax2.legend(loc='best')
     ax2.set_xlabel(r'Time [s]')
     ax2.set_ylabel(r'ToF measurement [m]') 
@@ -155,8 +167,8 @@ if __name__ == "__main__":
     ax_t.set_xlabel(r'X [m]')
     ax_t.set_ylabel(r'Y [m]')
     ax_t.set_zlabel(r'Z [m]')
-    plt.legend(['Trajectory','Anchor position'])
-    plt.title(r"Trajectory of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    plt.legend(['Quadcopter Trajectory','Anchor position'])
+    plt.title(r"Trajectory of the quadcopter", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
     # plot separate x,y,z
     fig6 = plt.figure()
@@ -171,6 +183,6 @@ if __name__ == "__main__":
     a_z.legend(loc='best')
     a_z.set_xlabel(r'Time [s]')
 
-    plt.title(r"Ground truth of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    plt.title(r"Ground truth of the quadcopter trajectory", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
     plt.show()
