@@ -1,5 +1,0 @@
-To visualize the sd-card data
-
-run
-python3 plotevents.py UWB-eventlog00(filename)
-
