@@ -1,0 +1,79 @@
+% Visualize the sensor measurements (TDOA2)
+clear;clc;
+csv = '/home/wenda/dsl__projects__uwbDataset/dataset/flight-dataset/const1/const1-log1.csv';
+data = readtable(csv);
+
+%% import data and remove the NAN in each sensor topic
+% toda: [timestamp, idA, idB, tdoa measurement]
+tdoa = [data.t_tdoa(~isnan(data.t_tdoa)),  data.idA(~isnan(data.idA)), ...
+        data.idB(~isnan(data.idB)),        data.tdoa_meas(~isnan(data.tdoa_meas))];
+% acceleration: [timestamp, acc_x, acc_y, acc_z]
+acc  = [data.t_acc(~isnan(data.t_acc)),    data.acc_x(~isnan(data.acc_x)),...
+        data.acc_y(~isnan(data.acc_y)),    data.acc_y(~isnan(data.acc_z))];
+% gyroscope: [timestamp, gyro_x, gyro_y, gyro_z]
+gyro = [data.t_gyro(~isnan(data.t_gyro)),  data.gyro_x(~isnan(data.gyro_x)),...
+        data.gyro_y(~isnan(data.gyro_y)),  data.gyro_z(~isnan(data.gyro_z))];
+% laser-ranging: [timestamp, tof] 
+tof  = [data.t_tof(~isnan(data.t_tof)),    data.tof(~isnan(data.tof))];
+% optical flow: [timestamp, motion_deltaX, motion_deltaY]
+flow = [data.t_flow(~isnan(data.t_flow)),  data.deltaX(~isnan(data.deltaX)),...
+        data.deltaY(~isnan(data.deltaY))];
+% barometer: [timestamp, barometer]
+baro = [data.t_baro(~isnan(data.t_baro)),  data.baro(~isnan(data.baro))];
+% ground truth pose: [timestamp, x, y, z, qx, qy, qz, qw]
+pose = [data.t_pose(~isnan(data.t_pose)),   data.pose_x(~isnan(data.pose_x)),   data.pose_y(~isnan(data.pose_y)),   data.pose_z(~isnan(data.pose_z)),...
+        data.pose_qx(~isnan(data.pose_qx)), data.pose_qy(~isnan(data.pose_qy)), data.pose_qz(~isnan(data.pose_qz)), data.pose_qw(~isnan(data.pose_qw))];
+% combined imu: []
+imu = [data.t_comb_imu(~isnan(data.t_comb_imu)), data.comb_ax(~isnan(data.comb_ax)),...
+       data.comb_ay(~isnan(data.comb_ay)),       data.comb_az(~isnan(data.comb_az)),...
+       data.comb_gx(~isnan(data.comb_gx)),       data.comb_gy(~isnan(data.comb_gy)),  data.comb_gz(~isnan(data.comb_gz))];
+   
+%%
+% translation vector from the quadcopter to UWB tag
+t_uv = [-0.01245; 0.00127; 0.0908];
+% translation vector from the quadcopter to laser-ranging sensor 
+t_lv = [0.0; 0.0; -0.0015];
+
+% convert the gt position to UWB antenna center
+for idx = 1:size(pose,1)
+    q_cf = pose(idx,5:8);
+    R_iv = quat_to_rot(q_cf);
+    
+    gt_p = reshape(pose(idx,2:4),[],1);  % gt position of the vehicle
+    uwb_p(idx,:) = R_iv * t_uv + gt_p;
+end
+
+tdoa_70 = find(tdoa(:,2)==7 & tdoa(:,3)==0);
+tdoa_meas_70 = tdoa(tdoa_70, :);
+
+scatter(tdoa_meas_70(:,1), tdoa_meas_70(:,4), 3, 'filled')
+
+function R = quat_to_rot(q)
+    qw = q(4); q1 = q(1); q2 = q(2); q3=q(3);
+    % first row of the rotation matrix
+    r00 = 2 * (qw * qw + q1 * q1) - 1;
+    r01 = 2 * (q1 * q2 - qw * q3);
+    r02 = 2 * (q1 * q3 + qw * q2);
+    % second row of the rotation matrix
+    r10 = 2 * (q1 * q2 + qw * q3);
+    r11 = 2 * (qw * qw + q2 * q2) - 1;
+    r12 = 2 * (q2 * q3 - qw * q1);
+    % third row of the rotation matrix
+    r20 = 2 * (q1 * q3 - qw * q2);
+    r21 = 2 * (q2 * q3 + qw * q1);
+    r22 = 2 * (qw * qw + q3 * q3) - 1;
+    
+    R = [r00, r01, r02;
+         r10, r11, r12;
+         r20, r21, r22];
+end
+
+
+
+
+
+
+
+
+  
+ 
