@@ -141,14 +141,14 @@ if __name__ == "__main__":
     ax3 = fig3.add_subplot(211)
     plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
     ax3.scatter(flow[:,0], flow[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel x")
-    ax3.set_ylabel(r'number of accelerated pixel in x') 
+    ax3.set_ylabel(r'motion delta x') 
     bx3 = fig3.add_subplot(212)
     bx3.scatter(flow[:,0], flow[:,2], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel y")
-    bx3.set_ylabel(r'number of accelerated pixel in y') 
+    bx3.set_ylabel(r'motion delta y') 
     bx3.set_xlabel(r'Time [s]')
     plt.legend(loc='best')
 
-    # baremeter
+    # barometer
     fig4 = plt.figure()
     ax4 = fig4.add_subplot(111)
     plt.title(r"Baro measurements", fontsize=13, fontweight=0, color='black')
@@ -171,16 +171,20 @@ if __name__ == "__main__":
     plt.title(r"Trajectory of the quadcopter", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
     # plot separate x,y,z
+    # plot separate x,y,z
     fig6 = plt.figure()
     a_x = fig6.add_subplot(311)
     a_x.plot(gt_pose[:,0],gt_pose[:,1],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt x")
     a_x.legend(loc='best')
+    a_x.set_ylabel(r'X [m]') 
     a_y = fig6.add_subplot(312)
     a_y.plot(gt_pose[:,0],gt_pose[:,2],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt y")
     a_y.legend(loc='best')
+    a_y.set_ylabel(r'Y [m]') 
     a_z = fig6.add_subplot(313)
     a_z.plot(gt_pose[:,0],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt z")
     a_z.legend(loc='best')
+    a_z.set_ylabel(r'Z [m]')
     a_z.set_xlabel(r'Time [s]')
 
     plt.title(r"Ground truth of the quadcopter trajectory", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )

@@ -130,19 +130,20 @@ if __name__ == "__main__":
     d = []
     for i in range(8):
         d.append(linalg.norm(anchor_pos[i,:].reshape(1,-1) - uwb_p, axis = 1))
-
+    
+    # shape of d is 8 x n
     d = np.array(d)
 
     # measurement model
-    d_70 = d[0] - d[7]
-    d_01 = d[1] - d[0]
-    d_12 = d[2] - d[1]
-    d_23 = d[3] - d[2]
+    d_70 = d[0,:] - d[7,:]
+    d_01 = d[1,:] - d[0,:]
+    d_12 = d[2,:] - d[1,:]
+    d_23 = d[3,:] - d[2,:]
 
-    d_34 = d[4] - d[3]
-    d_45 = d[5] - d[4]
-    d_56 = d[6] - d[5]
-    d_67 = d[7] - d[6]
+    d_34 = d[4,:] - d[3,:]
+    d_45 = d[5,:] - d[4,:]
+    d_56 = d[6,:] - d[5,:]
+    d_67 = d[7,:] - d[6,:]
     
     # visualization 
     # UWB TDOA
@@ -152,16 +153,16 @@ if __name__ == "__main__":
     ax1.plot(gt_pose[:,0], d_70, color='red',linewidth=1.5, label = "Vicon ground truth")
     ax1.legend(loc='best')
     ax1.set_xlabel(r'Time [s]')
-    ax1.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An7, An0)", fontsize=13, fontweight=0, color='black')
+    ax1.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An7, An0)", fontsize=13, fontweight=0, color='black')
 
     bx1 = fig1.add_subplot(222)
     bx1.scatter(tdoa_meas_01[:,0], tdoa_meas_01[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
     bx1.plot(gt_pose[:,0], d_01, color='red',linewidth=1.5, label = "Vicon ground truth")
     bx1.legend(loc='best')
     bx1.set_xlabel(r'Time [s]')
-    bx1.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An0, An1)", fontsize=13, fontweight=0, color='black')
+    bx1.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An0, An1)", fontsize=13, fontweight=0, color='black')
 
 
     cx1 = fig1.add_subplot(223)
@@ -169,16 +170,16 @@ if __name__ == "__main__":
     cx1.plot(gt_pose[:,0], d_12, color='red',linewidth=1.5, label = "Vicon ground truth")
     cx1.legend(loc='best')
     cx1.set_xlabel(r'Time [s]')
-    cx1.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An1, An2)", fontsize=13, fontweight=0, color='black')
+    cx1.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An1, An2)", fontsize=13, fontweight=0, color='black')
 
     dx1 = fig1.add_subplot(224)
     dx1.scatter(tdoa_meas_23[:,0], tdoa_meas_23[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
     dx1.plot(gt_pose[:,0], d_23, color='red',linewidth=1.5, label = "Vicon ground truth")
     dx1.legend(loc='best')
     dx1.set_xlabel(r'Time [s]')
-    dx1.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An2, An3)", fontsize=13, fontweight=0, color='black')
+    dx1.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An2, An3)", fontsize=13, fontweight=0, color='black')
 
 
     fig2 = plt.figure()
@@ -187,65 +188,65 @@ if __name__ == "__main__":
     ax2.plot(gt_pose[:,0], d_34, color='red',linewidth=1.5, label = "Vicon ground truth")
     ax2.legend(loc='best')
     ax2.set_xlabel(r'Time [s]')
-    ax2.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An3, An4)", fontsize=13, fontweight=0, color='black')
+    ax2.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An3, An4)", fontsize=13, fontweight=0, color='black')
 
     bx2 = fig2.add_subplot(222)
     bx2.scatter(tdoa_meas_45[:,0], tdoa_meas_45[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
     bx2.plot(gt_pose[:,0], d_45, color='red',linewidth=1.5, label = "Vicon ground truth")
     bx2.legend(loc='best')
     bx2.set_xlabel(r'Time [s]')
-    bx2.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An4, An5)", fontsize=13, fontweight=0, color='black')
+    bx2.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An4, An5)", fontsize=13, fontweight=0, color='black')
 
     cx2 = fig2.add_subplot(223)
     cx2.scatter(tdoa_meas_56[:,0], tdoa_meas_56[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
     cx2.plot(gt_pose[:,0], d_56, color='red',linewidth=1.5, label = "Vicon ground truth")
     cx2.legend(loc='best')
     cx2.set_xlabel(r'Time [s]')
-    cx2.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An5, An6)", fontsize=13, fontweight=0, color='black')
+    cx2.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An5, An6)", fontsize=13, fontweight=0, color='black')
 
     dx2 = fig2.add_subplot(224)
     dx2.scatter(tdoa_meas_67[:,0], tdoa_meas_67[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
     dx2.plot(gt_pose[:,0], d_67, color='red',linewidth=1.5, label = "Vicon ground truth")
     dx2.legend(loc='best')
     dx2.set_xlabel(r'Time [s]')
-    dx2.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An6, An7)", fontsize=13, fontweight=0, color='black')
+    dx2.set_ylabel(r'TDOA measurement [m]') 
+    plt.title(r"UWB TDOA measurements, (An6, An7)", fontsize=13, fontweight=0, color='black')
 
-    # Z-range ToF
+    # laser-ranging ToF
     fig3 = plt.figure()
     ax3 = fig3.add_subplot(111)
     ax3.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
     ax3.legend(loc='best')
     ax3.set_xlabel(r'Time [s]')
     ax3.set_ylabel(r'ToF measurement [m]') 
-    plt.title(r"Z-range measurements", fontsize=13, fontweight=0, color='black')
+    plt.title(r"Laser-ranging measurements", fontsize=13, fontweight=0, color='black')
 
-    # flow pixel
+    # optical flow
     fig4 = plt.figure()
     ax4 = fig4.add_subplot(211)
     plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
     ax4.scatter(flow[:,0], flow[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel x")
-    ax4.set_ylabel(r'number of accelerated pixel in x') 
+    ax4.set_ylabel(r'motion delta x') 
     bx4 = fig4.add_subplot(212)
     bx4.scatter(flow[:,0], flow[:,2], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel y")
-    bx4.set_ylabel(r'number of accelerated pixel in y') 
+    bx4.set_ylabel(r'motion delta y') 
     bx4.set_xlabel(r'Time [s]')
     plt.legend(loc='best')
 
-    # baremeter
-    fig4 = plt.figure()
-    ax4 = fig4.add_subplot(111)
+    # barometer
+    fig5 = plt.figure()
+    ax5 = fig5.add_subplot(111)
     plt.title(r"Baro measurements", fontsize=13, fontweight=0, color='black')
-    ax4.scatter(baro[:,0], baro[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "baro asl")
-    ax4.set_ylabel(r'asl') 
+    ax5.scatter(baro[:,0], baro[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "baro asl")
+    ax5.set_ylabel(r'asl') 
     plt.legend(loc='best')
 
     # trajectory
-    fig5 = plt.figure()
-    ax_t = fig5.add_subplot(111, projection = '3d')
+    fig6 = plt.figure()
+    ax_t = fig6.add_subplot(111, projection = '3d')
     ax_t.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9)
     ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red')
     ax_t.set_xlim3d(np.amin(anchor_pos[:,0])-0.5, np.amax(anchor_pos[:,0])+0.5)  
@@ -258,16 +259,19 @@ if __name__ == "__main__":
     plt.title(r"Trajectory of the quadcopter", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
     # plot separate x,y,z
-    fig6 = plt.figure()
-    a_x = fig6.add_subplot(311)
+    fig7 = plt.figure()
+    a_x = fig7.add_subplot(311)
     a_x.plot(gt_pose[:,0],gt_pose[:,1],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt x")
     a_x.legend(loc='best')
-    a_y = fig6.add_subplot(312)
+    a_x.set_ylabel(r'X [m]') 
+    a_y = fig7.add_subplot(312)
     a_y.plot(gt_pose[:,0],gt_pose[:,2],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt y")
     a_y.legend(loc='best')
-    a_z = fig6.add_subplot(313)
+    a_y.set_ylabel(r'Y [m]') 
+    a_z = fig7.add_subplot(313)
     a_z.plot(gt_pose[:,0],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt z")
     a_z.legend(loc='best')
+    a_z.set_ylabel(r'Z [m]')
     a_z.set_xlabel(r'Time [s]')
 
     plt.title(r"Ground truth of the quadcopter trajectory", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )

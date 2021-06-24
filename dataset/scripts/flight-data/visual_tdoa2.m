@@ -1,6 +1,13 @@
 % Visualize the sensor measurements (TDOA2)
-clear;clc;
+clear; close all
+clc;
 csv = '/home/wenda/dsl__projects__uwbDataset/dataset/flight-dataset/const1/const1-log1.csv';
+txt = '/home/wenda/dsl__projects__uwbDataset/dataset/scripts/survey/anchor_const1_survey.txt';
+
+% load the anchor positions
+an_pose = readtable(txt);
+anchor_pos = [an_pose.Var2(1:8), an_pose.Var3(1:8), an_pose.Var4(1:8)];
+
 data = readtable(csv);
 
 %% import data and remove the NAN in each sensor topic
@@ -43,10 +50,181 @@ for idx = 1:size(pose,1)
     uwb_p(idx,:) = R_iv * t_uv + gt_p;
 end
 
+% extract each tdoa measurement
 tdoa_70 = find(tdoa(:,2)==7 & tdoa(:,3)==0);
 tdoa_meas_70 = tdoa(tdoa_70, :);
 
+tdoa_01 = find(tdoa(:,2)==0 & tdoa(:,3)==1);
+tdoa_meas_01 = tdoa(tdoa_01, :);
+
+tdoa_12 = find(tdoa(:,2)==1 & tdoa(:,3)==2);
+tdoa_meas_12 = tdoa(tdoa_12, :);
+
+tdoa_23 = find(tdoa(:,2)==2 & tdoa(:,3)==3);
+tdoa_meas_23 = tdoa(tdoa_23, :);
+
+tdoa_34 = find(tdoa(:,2)==3 & tdoa(:,3)==4);
+tdoa_meas_34 = tdoa(tdoa_34, :);
+
+tdoa_45 = find(tdoa(:,2)==4 & tdoa(:,3)==5);
+tdoa_meas_45 = tdoa(tdoa_45, :);
+
+tdoa_56 = find(tdoa(:,2)==5 & tdoa(:,3)==6);
+tdoa_meas_56 = tdoa(tdoa_56, :);
+
+tdoa_67 = find(tdoa(:,2)==6 & tdoa(:,3)==7);
+tdoa_meas_67 = tdoa(tdoa_67, :);
+
+% compute the ground truth for tdoa_ij
+for i = 1 : 8
+    an_i = reshape(anchor_pos(i,:),1,[]);
+    d(:,i) = vecnorm(an_i - uwb_p, 2, 2); 
+end
+
+% measurement model
+d_70 = d(:,1) - d(:,8);
+d_01 = d(:,2) - d(:,1);
+d_12 = d(:,3) - d(:,2);
+d_23 = d(:,4) - d(:,3);
+d_34 = d(:,5) - d(:,4);
+d_45 = d(:,6) - d(:,5);
+d_56 = d(:,7) - d(:,6);
+d_67 = d(:,8) - d(:,7);
+
+% visualization
+% UWB1
+fig1 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+subplot(2,2,1)
 scatter(tdoa_meas_70(:,1), tdoa_meas_70(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_70, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An7, An0)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+subplot(2,2,2)
+scatter(tdoa_meas_01(:,1), tdoa_meas_01(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_01, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An0, An1)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+subplot(2,2,3)
+scatter(tdoa_meas_12(:,1), tdoa_meas_12(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_12, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An1, An2)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+subplot(2,2,4)
+scatter(tdoa_meas_23(:,1), tdoa_meas_23(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_23, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An2, An3)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+% UWB 2
+fig2 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+subplot(2,2,1)
+scatter(tdoa_meas_34(:,1), tdoa_meas_34(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_34, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An3, An4)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+subplot(2,2,2)
+scatter(tdoa_meas_45(:,1), tdoa_meas_45(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_45, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An4, An5)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+subplot(2,2,3)
+scatter(tdoa_meas_56(:,1), tdoa_meas_56(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_56, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An5, An6)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+subplot(2,2,4)
+scatter(tdoa_meas_67(:,1), tdoa_meas_67(:,4), 3, 'filled')
+hold on
+plot(pose(:,1),d_67, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements, (An6, An7)','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+% laser-ranging Tof
+fig3 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+scatter(tof(:,1),tof(:,2), 3, 'filled')
+title('Laser-ranging measurements','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('ToF measurement [m]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+% optical flow
+fig4 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+subplot(2,1,1)
+scatter(flow(:,1),flow(:,2), 3, 'filled')
+title('Optical flow measurements','Interpreter','latex','Fontsize',16)
+ylabel('motion delta x','Interpreter','latex','Fontsize',16)
+subplot(2,1,2)
+scatter(flow(:,1),flow(:,3), 3, 'filled')
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('motion delta x','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+% barometer
+fig5 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+scatter(baro(:,1),baro(:,2), 3, 'filled')
+title('Baro measurements','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+ylabel('asl','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+% trajectory
+fig6 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+plot3(pose(:,2),pose(:,3),pose(:,4),'LineWidth', 2)
+hold on
+scatter3(anchor_pos(:,1),anchor_pos(:,2),anchor_pos(:,3), 50, 'filled')
+title('Trajectory of the quadcopter','Interpreter','latex','Fontsize',16)
+xlabel('X [m]','Interpreter','latex','Fontsize',16)
+ylabel('Y [m]','Interpreter','latex','Fontsize',16)
+zlabel('Z [m]','Interpreter','latex','Fontsize',16)
+axis equal
+set(gca,'TickLabelInterpreter','latex');
+grid on
+
+% plot separate x,y,z
+fig7 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+subplot(3,1,1)
+plot(pose(:,1),pose(:,2),'LineWidth', 2)
+ylabel('X [m]','Interpreter','latex','Fontsize',16)
+subplot(3,1,2)
+plot(pose(:,1),pose(:,3),'LineWidth', 2)
+ylabel('Y [m]','Interpreter','latex','Fontsize',16)
+subplot(3,1,3)
+plot(pose(:,1),pose(:,4),'LineWidth', 2)
+ylabel('Z [m]','Interpreter','latex','Fontsize',16)
+title('Ground truth of the quadcopter trajectory','Interpreter','latex','Fontsize',16)
+xlabel('Time [s]','Interpreter','latex','Fontsize',16)
+set(gca,'TickLabelInterpreter','latex');
+
+
 
 function R = quat_to_rot(q)
     qw = q(4); q1 = q(1); q2 = q(2); q3=q(3);
