@@ -1,8 +1,9 @@
 % Visualize the sensor measurements (TDOA3)
 clear; close all
 clc;
-csv = '/home/wenda/dsl__projects__uwbDataset/dataset/flight-dataset/const1/const1-log1.csv';
-txt = '/home/wenda/dsl__projects__uwbDataset/dataset/scripts/survey/anchor_const1_survey.txt';
+% change the path to the survey results and the data
+csv = '../../flight-dataset/const1/const1-log1.csv';
+txt = '../survey/anchor_const1_survey.txt';
 
 % load the anchor positions
 an_pose = readtable(txt);
@@ -53,7 +54,6 @@ end
 % extract tdoa measurement d_ij
 an_i = 0;     an_j = 1;
 
-
 tdoa_ij = find(tdoa(:,2)==an_i & tdoa(:,3)==an_j);
 tdoa_meas_ij = tdoa(tdoa_ij, :);
 
@@ -68,7 +68,7 @@ d_j = vecnorm(an_pos_j - uwb_p, 2, 2);
 d_ij = d_j - d_i;
 
 % visualization
-% UWB1
+% UWB
 fig1 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
 scatter(tdoa_meas_ij(:,1), tdoa_meas_ij(:,4), 3, 'filled')
 hold on
@@ -77,7 +77,7 @@ title('UWB TDOA measurements','Interpreter','latex','Fontsize',16)
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
 ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
 set(gca,'TickLabelInterpreter','latex');
-
+legend('TDOA measurements', 'ground truth')
 disp(['Visualize TDOA measurements, An: (',num2str(an_i),',',num2str(an_j),')']);
 
 % laser-ranging Tof
@@ -97,13 +97,13 @@ ylabel('motion delta x','Interpreter','latex','Fontsize',16)
 subplot(2,1,2)
 scatter(flow(:,1),flow(:,3), 3, 'filled')
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
-ylabel('motion delta x','Interpreter','latex','Fontsize',16)
+ylabel('motion delta y','Interpreter','latex','Fontsize',16)
 set(gca,'TickLabelInterpreter','latex');
 
 % barometer
 fig5 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
 scatter(baro(:,1),baro(:,2), 3, 'filled')
-title('Baro measurements','Interpreter','latex','Fontsize',16)
+title('Barometer measurements','Interpreter','latex','Fontsize',16)
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
 ylabel('asl','Interpreter','latex','Fontsize',16)
 set(gca,'TickLabelInterpreter','latex');
@@ -117,25 +117,24 @@ title('Trajectory of the quadcopter','Interpreter','latex','Fontsize',16)
 xlabel('X [m]','Interpreter','latex','Fontsize',16)
 ylabel('Y [m]','Interpreter','latex','Fontsize',16)
 zlabel('Z [m]','Interpreter','latex','Fontsize',16)
-axis equal
 set(gca,'TickLabelInterpreter','latex');
 grid on
+legend('trajectory', 'anchor')
 
 % plot separate x,y,z
 fig7 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
 subplot(3,1,1)
 plot(pose(:,1),pose(:,2),'LineWidth', 2)
 ylabel('X [m]','Interpreter','latex','Fontsize',16)
+title('Ground truth of the quadcopter trajectory','Interpreter','latex','Fontsize',16)
 subplot(3,1,2)
 plot(pose(:,1),pose(:,3),'LineWidth', 2)
 ylabel('Y [m]','Interpreter','latex','Fontsize',16)
 subplot(3,1,3)
 plot(pose(:,1),pose(:,4),'LineWidth', 2)
 ylabel('Z [m]','Interpreter','latex','Fontsize',16)
-title('Ground truth of the quadcopter trajectory','Interpreter','latex','Fontsize',16)
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
 set(gca,'TickLabelInterpreter','latex');
-
 
 
 function R = quat_to_rot(q)

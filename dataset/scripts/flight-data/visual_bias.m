@@ -1,8 +1,10 @@
-% Visualize the sensor measurements (TDOA3)
+% Visualize UWB measurement biases
 clear; close all
 clc;
-csv = '/home/wenda/dsl__projects__uwbDataset/dataset/flight-dataset/const1/const1-log1.csv';
-txt = '/home/wenda/dsl__projects__uwbDataset/dataset/scripts/survey/anchor_const1_survey.txt';
+
+% change the path to the survey results and the data
+csv = '../../flight-dataset/const1/const1-log1.csv';
+txt = '../survey/anchor_const1_survey.txt';
 
 % load the anchor positions
 an_pose = readtable(txt);
@@ -51,92 +53,57 @@ for idx = 1:size(pose,1)
 end
 
 % extract tdoa measurement d_ij
-an_i = 0;     an_j = 1;
+an_i = 2;     an_j = 3;
 
-% matlab st
-an_i = an_i + 1;
-an_j = an_j + 1;
 tdoa_ij = find(tdoa(:,2)==an_i & tdoa(:,3)==an_j);
 tdoa_meas_ij = tdoa(tdoa_ij, :);
 
-
 % compute the ground truth for tdoa_ij
-an_pos_i = reshape(anchor_pos(an_i,:),1,[]);
-an_pos_j = reshape(anchor_pos(an_j,:),1,[]);
-d_i = vecnorm(an_pos_i - uwb_p, 2, 2);
-d_j = vecnorm(an_pos_j - uwb_p, 2, 2);
+% matlab starts from 1
+an_pos_i = reshape(anchor_pos(an_i+1,:),1,[]);
+an_pos_j = reshape(anchor_pos(an_j+1,:),1,[]);
+
+
+% To compute the bias, we need to interpolate the Vicon measurements
+x_interp = interp1(pose(:,1), uwb_p(:,1), tdoa_meas_ij(:,1));
+y_interp = interp1(pose(:,1), uwb_p(:,2), tdoa_meas_ij(:,1));
+z_interp = interp1(pose(:,1), uwb_p(:,3), tdoa_meas_ij(:,1));
+
+
+pos_interp = [reshape(x_interp,[],1), reshape(y_interp,[],1), reshape(z_interp,[],1)];
+
+d_i = vecnorm(an_pos_i - pos_interp, 2, 2);
+d_j = vecnorm(an_pos_j - pos_interp, 2, 2);
 
 % measurement model
 d_ij = d_j - d_i;
 
+% bais = tdoa -gt
+bias_ij = tdoa_meas_ij(:,4) - d_ij;
+
 % visualization
-% UWB1
+% UWB
 fig1 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
 scatter(tdoa_meas_ij(:,1), tdoa_meas_ij(:,4), 3, 'filled')
 hold on
-plot(pose(:,1),d_ij, 'Color', [1,0,0], 'LineWidth', 1.5)
-title('UWB TDOA measurements, (An%d, An%d)',an_i, an_j,'Interpreter','latex','Fontsize',16)
+plot(tdoa_meas_ij(:,1), d_ij, 'Color', [1,0,0], 'LineWidth', 1.5)
+title('UWB TDOA measurements','Interpreter','latex','Fontsize',16)
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
 ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
 set(gca,'TickLabelInterpreter','latex');
+legend('TDOA measurements', 'ground truth')
 
-% laser-ranging Tof
-fig3 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
-scatter(tof(:,1),tof(:,2), 3, 'filled')
-title('Laser-ranging measurements','Interpreter','latex','Fontsize',16)
+% UWB bias
+fig2 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
+scatter(tdoa_meas_ij(:,1), bias_ij, 3, 'filled')
+title('TDOA measurement biases','Interpreter','latex','Fontsize',16)
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
-ylabel('ToF measurement [m]','Interpreter','latex','Fontsize',16)
+ylabel('Measurements bias [m]','Interpreter','latex','Fontsize',16)
 set(gca,'TickLabelInterpreter','latex');
 
-% optical flow
-fig4 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
-subplot(2,1,1)
-scatter(flow(:,1),flow(:,2), 3, 'filled')
-title('Optical flow measurements','Interpreter','latex','Fontsize',16)
-ylabel('motion delta x','Interpreter','latex','Fontsize',16)
-subplot(2,1,2)
-scatter(flow(:,1),flow(:,3), 3, 'filled')
-xlabel('Time [s]','Interpreter','latex','Fontsize',16)
-ylabel('motion delta x','Interpreter','latex','Fontsize',16)
-set(gca,'TickLabelInterpreter','latex');
+disp(['Visualize TDOA measurement biases, An: (',num2str(an_i),',',num2str(an_j),')']);
 
-% barometer
-fig5 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
-scatter(baro(:,1),baro(:,2), 3, 'filled')
-title('Baro measurements','Interpreter','latex','Fontsize',16)
-xlabel('Time [s]','Interpreter','latex','Fontsize',16)
-ylabel('asl','Interpreter','latex','Fontsize',16)
-set(gca,'TickLabelInterpreter','latex');
-
-% trajectory
-fig6 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
-plot3(pose(:,2),pose(:,3),pose(:,4),'LineWidth', 2)
-hold on
-scatter3(anchor_pos(:,1),anchor_pos(:,2),anchor_pos(:,3), 50, 'filled')
-title('Trajectory of the quadcopter','Interpreter','latex','Fontsize',16)
-xlabel('X [m]','Interpreter','latex','Fontsize',16)
-ylabel('Y [m]','Interpreter','latex','Fontsize',16)
-zlabel('Z [m]','Interpreter','latex','Fontsize',16)
-axis equal
-set(gca,'TickLabelInterpreter','latex');
-grid on
-
-% plot separate x,y,z
-fig7 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
-subplot(3,1,1)
-plot(pose(:,1),pose(:,2),'LineWidth', 2)
-ylabel('X [m]','Interpreter','latex','Fontsize',16)
-subplot(3,1,2)
-plot(pose(:,1),pose(:,3),'LineWidth', 2)
-ylabel('Y [m]','Interpreter','latex','Fontsize',16)
-subplot(3,1,3)
-plot(pose(:,1),pose(:,4),'LineWidth', 2)
-ylabel('Z [m]','Interpreter','latex','Fontsize',16)
-title('Ground truth of the quadcopter trajectory','Interpreter','latex','Fontsize',16)
-xlabel('Time [s]','Interpreter','latex','Fontsize',16)
-set(gca,'TickLabelInterpreter','latex');
-
-
+legend('TDOA measurement biases')
 
 function R = quat_to_rot(q)
     qw = q(4); q1 = q(1); q2 = q(2); q3=q(3);
@@ -157,13 +124,3 @@ function R = quat_to_rot(q)
          r10, r11, r12;
          r20, r21, r22];
 end
-
-
-
-
-
-
-
-
-  
- 

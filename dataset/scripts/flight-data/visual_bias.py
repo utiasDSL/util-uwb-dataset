@@ -101,7 +101,6 @@ if __name__ == "__main__":
 
     # uwb position from vicon measurement
     # To compute the bias, we need to interpolate the vicon measurements. 
-    # interpolate the vicon measurements to compute error of tdoa uwb measurements
     f_x = interpolate.splrep(gt_pose[:,0], uwb_p[:,0], s = 0.5)  
     f_y = interpolate.splrep(gt_pose[:,0], uwb_p[:,1], s = 0.5)
     f_z = interpolate.splrep(gt_pose[:,0], uwb_p[:,2], s = 0.5) 

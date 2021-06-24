@@ -1,5 +1,5 @@
 '''
-Visualize the obstacles
+Visualize the manual movement trajectories and obstacles
 '''
 import argparse
 import numpy as np
@@ -80,11 +80,11 @@ if __name__ == "__main__":
     vec_plastic = coordConvert(plastic_x, plastic_y, plastic_z[0], plastic_z[1])
     vec_metal = coordConvert(metal_x, metal_y, metal_z[0], metal_z[1])
     # markers
-    woodshelf = np.array([[1850.02,  1021.90,  2032.84],
-                         [2411.24,    413.79,  2032.20],
-                         [1724.89,    793.20,  2035.44],
-                         [2533.86,    646.41,  2031.22]
-                         ]) / 1000.0
+    woodenshelf = np.array([[1850.02,  1021.90,  2032.84],
+                           [2411.24,    413.79,  2032.20],
+                           [1724.89,    793.20,  2035.44],
+                           [2533.86,    646.41,  2031.22]
+                           ]) / 1000.0
 
     plasticbox = np.array([[2688.82, -2495.71,  853.62],
                           [2484.05,  -2977.32,  861.63],
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     ax.scatter(metal[:,0], metal[:,1], metal[:,2], marker='o',color='navy', label = 'metal')
     plt.gca().add_collection3d(Poly3DCollection(vec_metal, alpha=.75,edgecolor='k', facecolor='navy'))
     
-    ax.scatter(woodshelf[:,0], woodshelf[:,1], woodshelf[:,2], marker='o',color='yellow', label = 'woodshelf')
+    ax.scatter(woodenshelf[:,0], woodenshelf[:,1], woodenshelf[:,2], marker='o',color='yellow', label = 'woodshelf')
     plt.gca().add_collection3d(Poly3DCollection(vec_wood, alpha=.75,edgecolor='k', facecolor='yellow'))
 
     ax.scatter(plasticbox[:,0], plasticbox[:,1], plasticbox[:,2], marker='o',color='teal', label = 'plastic box')
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     ax.set_ylabel(r'Y [m]')
     ax.set_zlabel(r'Z [m]')
     plt.legend(loc="upper right")
-    plt.title(r"Trajectory of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    plt.title(r"Trajectory of the quadcopter", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
 
     plt.show()
 
