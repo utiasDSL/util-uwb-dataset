@@ -6,8 +6,8 @@ csv = '../../flight-dataset/const1/const1-log1.csv';
 txt = '../survey/anchor_const1_survey.txt';
 
 % load the anchor positions
-an_pose = readtable(txt);
-anchor_pos = [an_pose.Var2(1:8), an_pose.Var3(1:8), an_pose.Var4(1:8)];
+an_pose = readtable(txt,'ReadRowNames',true);
+anchor_pos = [an_pose.Var1(1:8), an_pose.Var2(1:8), an_pose.Var3(1:8)];
 
 data = readtable(csv);
 

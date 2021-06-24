@@ -94,9 +94,9 @@ if __name__ == "__main__":
     if len(obstacle)!=0:
         ob_x.scatter(obstacle[:,0], obstacle[:,1], obstacle[:,2], marker='o',color='navy')
     
-    ob_x.scatter(tag_p[0],   tag_p[1],  tag_p[2], marker='o',color='green')
-    ob_x.scatter(an1_p[0],   an1_p[1],  an1_p[2], marker='o',color='red')
-    ob_x.scatter(an2_p[0],   an2_p[1],  an2_p[2], marker='o',color='red')
+    tag_dot = ob_x.scatter(tag_p[0],   tag_p[1],  tag_p[2], marker='o',color='green')
+    an1_dot = ob_x.scatter(an1_p[0],   an1_p[1],  an1_p[2], marker='o',color='red')
+    an2_dot = ob_x.scatter(an2_p[0],   an2_p[1],  an2_p[2], marker='o',color='red')
     # plot the line segement
     ob_x.plot([tag_p[0], an1_p[0]], [tag_p[1], an1_p[1]], [tag_p[2], an1_p[2]])
     ob_x.plot([tag_p[0], an2_p[0]], [tag_p[1], an2_p[1]], [tag_p[2], an2_p[2]])
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     ob_x.set_xlabel(r'X [m]')
     ob_x.set_ylabel(r'Y [m]')
     ob_x.set_zlabel(r'Z [m]')
-    plt.legend(['Obstacle','Tag position','Anchor position'])
+    ob_x.legend([tag_dot, an1_dot, an2_dot], ['Tag position', 'Anchor 1 position', 'Anchor 2 position'])
 
     fig = plt.figure(facecolor="white")
     mu=0;  sigma=0

@@ -125,7 +125,7 @@ if __name__ == "__main__":
     print("\n")
     yhist, xhist, patches = plt.hist(snr_an1, bins=48,color='steelblue',alpha=0.75, density=True)
     plt.axvline(x=mu_snr1, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('SNR An1', fontsize = LABEL_SIZE)
+    plt.xlabel('SNR of An1', fontsize = LABEL_SIZE)
     plt.ylabel('PDF', fontsize = LABEL_SIZE)
 
     bx1 = plt.subplot(2,2,2)
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     print("\n")
     yhist, xhist, patches = plt.hist(power_dif_an1, bins=48,color='steelblue',alpha=0.75, density=True)
     plt.axvline(x=mu_power1, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('Power difference An1', fontsize = LABEL_SIZE)
+    plt.xlabel('Power difference of An1', fontsize = LABEL_SIZE)
     plt.ylabel('PDF', fontsize = LABEL_SIZE)
 
     cx1 = plt.subplot(2,2,3)
@@ -143,7 +143,7 @@ if __name__ == "__main__":
     print("\n")
     yhist, xhist, patches = plt.hist(snr_an2, bins=48,color='steelblue',alpha=0.75, density=True)
     plt.axvline(x=mu_snr2, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('SNR An2', fontsize = LABEL_SIZE)
+    plt.xlabel('SNR of An2', fontsize = LABEL_SIZE)
     plt.ylabel('PDF', fontsize = LABEL_SIZE)
 
     dx1 = plt.subplot(2,2,4)
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     print("\n")
     yhist, xhist, patches = plt.hist(power_dif_an2, bins=48,color='steelblue',alpha=0.75, density=True)
     plt.axvline(x=mu_power2, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('Power difference An2', fontsize = LABEL_SIZE)
+    plt.xlabel('Power difference of An2', fontsize = LABEL_SIZE)
     plt.ylabel('PDF', fontsize = LABEL_SIZE)
 
     # visualize power between anchors
