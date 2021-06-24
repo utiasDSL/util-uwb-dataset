@@ -2,7 +2,6 @@
 Survey code. Convert the Total Station survey results into an inertial frame (Vicon frame).
 Using 6 vicon markers with known positions, the survey results are converted through a point cloud alignment. 
 '''
-
 import os, sys
 import argparse
 import numpy as np
@@ -52,8 +51,8 @@ def pointcloud_alignment(src_points, dest_points):
     # compute the Weight matrix
     W = dest_points_rem.dot(src_points_rem.T) / N
     
-    # point cloud alignment: State Estimation lec 11        
-    u, s, vh = np.linalg.svd(W)  # vh is already the transpose of V in SE lec11 slides
+    # point cloud alignment     
+    u, s, vh = np.linalg.svd(W)  
     
     D = np.array([[     1,     0,     0],
                 [     0,     1,     0],
@@ -137,16 +136,16 @@ if __name__ == "__main__":
     vicon_frame = pos[0:NUM_vicon,:]                  # 6 points in Vicon frame
     anchor_marker = pos[NUM_vicon:,:]                 # uwb anchor pose 
 
-    # 0425: positions of the 6 vicon markers
-    vicon_marks = np.array([[6.4833,     9.5857,     5.4701],
-                            [996.7297,   20.6892,    6.5530],
-                            [1493.6611,  30.2870,    8.0861],
-                            [1483.5196,  530.8999,   7.4837],
-                            [502.6914,   516.7251,   5.6232],
-                            [11.2639,    522.5133,   5.0284]
-                            ]) / 1000.0
+    # positions of the 6 vicon markers
+    vicon_m = np.array([[6.4833,     9.5857,     5.4701],
+                        [996.7297,   20.6892,    6.5530],
+                        [1493.6611,  30.2870,    8.0861],
+                        [1483.5196,  530.8999,   7.4837],
+                        [502.6914,   516.7251,   5.6232],
+                        [11.2639,    522.5133,   5.0284]
+                        ]) / 1000.0
 
-    dest_point = vicon_marks
+    dest_point = vicon_m
     src_point = vicon_frame
     # compute the C and r from src_point to dest_point
     (C_est, r_est) = pointcloud_alignment(src_point, dest_point)
@@ -168,7 +167,7 @@ if __name__ == "__main__":
     vicon_marker = np.asarray(vicon_marker)
 
     # testing the survey accuracy (vicon_marker, dest_points)
-    err = vicon_marks - vicon_marker
+    err = vicon_m - vicon_marker
     RMSE = getRMSE(err)
     print("The RMS error of Total Station survey results is {0} [m], ({1} [mm])".format(RMSE, RMSE*1000))
 
