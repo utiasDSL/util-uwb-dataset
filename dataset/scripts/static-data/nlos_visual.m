@@ -23,8 +23,11 @@ end
 an1_p = position(1,:);
 an2_p = position(2,:);
 tag_p = position(3,:);
-obs_p = position(4:7,:);
-
+if size(position,1)>3
+    obs_p = position(4:7,:);
+else
+    obs_p=[];
+end
 data = readtable(csv);
 
 %% import data and remove the NAN in each sensor topic
@@ -138,7 +141,11 @@ scatter3(an2_p(1), an2_p(2), an2_p(3), 50, 'filled')
 hold on
 scatter3(tag_p(1), tag_p(2), tag_p(3), 50, 'filled')
 hold on
-scatter3(obs_p(:,1), obs_p(:,2), obs_p(:,3), 50, 'filled')
+if ~isempty(obs_p)
+    % if obs_p is not empty
+    scatter3(obs_p(:,1), obs_p(:,2), obs_p(:,3), 50, 'filled')
+end
+warning('off')
 legend('An1 position', 'An1 position', 'Tag position', 'Obstacle')
 xlabel('X [m]','Interpreter','latex','Fontsize',16)
 ylabel('Y [m]','Interpreter','latex','Fontsize',16)
