@@ -135,7 +135,7 @@ function [q] = rot_to_quat(C)
         qy = (C(2,3) + C(3,2)) / s;
         qz = 0.25 * s;
     end
-    q = [qw, qx, qy, qz];
+    q = [qx, qy, qz, qw];
 end
 
 function [C, r] = pointcloud_alignment(src_points, dest_points)

@@ -32,10 +32,6 @@ baro = [data.t_baro(~isnan(data.t_baro)),  data.baro(~isnan(data.baro))];
 % ground truth pose: [timestamp, x, y, z, qx, qy, qz, qw]
 pose = [data.t_pose(~isnan(data.t_pose)),   data.pose_x(~isnan(data.pose_x)),   data.pose_y(~isnan(data.pose_y)),   data.pose_z(~isnan(data.pose_z)),...
         data.pose_qx(~isnan(data.pose_qx)), data.pose_qy(~isnan(data.pose_qy)), data.pose_qz(~isnan(data.pose_qz)), data.pose_qw(~isnan(data.pose_qw))];
-% combined imu: []
-imu = [data.t_comb_imu(~isnan(data.t_comb_imu)), data.comb_ax(~isnan(data.comb_ax)),...
-       data.comb_ay(~isnan(data.comb_ay)),       data.comb_az(~isnan(data.comb_az)),...
-       data.comb_gx(~isnan(data.comb_gx)),       data.comb_gy(~isnan(data.comb_gy)),  data.comb_gz(~isnan(data.comb_gz))];
    
 %%
 % translation vector from the quadcopter to UWB tag

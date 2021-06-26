@@ -199,7 +199,7 @@ if __name__ == "__main__":
         (C_survey, t_est) = pointcloud_alignment(src_points, dest_points)   
         # save the quaternion from anchor body frame to inertial frame
         q_survey = Quaternion(matrix=C_survey)
-        anchor_quaterion[counter,:] = np.array([q_survey.w, q_survey.x, q_survey.y,q_survey.z])
+        anchor_quaterion[counter,:] = np.array([q_survey.x, q_survey.y,q_survey.z, q_survey.w])
         # save the anchor position
         anchor_position[counter,:] = Marker_pos[idx+3,:]
         counter += 1

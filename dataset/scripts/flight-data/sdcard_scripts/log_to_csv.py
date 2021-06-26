@@ -278,13 +278,11 @@ if __name__ == "__main__":
     # save the data into csv files 
     header = ['t_tdoa',     'idA',     'idB',     'tdoa_meas', 't_acc',   'acc_x',   'acc_y',   'acc_z',
               't_gyro',     'gyro_x',  'gyro_y',  'gyro_z',    't_tof',   'tof',     't_flow',  'deltaX',  'deltaY',
-              't_baro',     'baro',    't_pose',  'pose_x',    'pose_y',  'pose_z',  'pose_qx', 'pose_qy', 'pose_qz', 'pose_qw',
-              't_comb_imu', 'comb_ax', 'comb_ay', 'comb_az',   'comb_gx', 'comb_gy', 'comb_gz']
+              't_baro',     'baro',    't_pose',  'pose_x',    'pose_y',  'pose_z',  'pose_qx', 'pose_qy', 'pose_qz', 'pose_qw']
 
     row = zip_longest(tdoa[:,0],  tdoa[:,1],  tdoa[:,2],  tdoa[:,3],  accel[:,0],  accel[:,1],  accel[:,2],  accel[:,3],
                       gyro[:,0],  gyro[:,1],  gyro[:,2],  gyro[:,3],  tof[:,0],    tof[:,1],    flow[:,0],   flow[:,1],  flow[:,2],
-                      baro[:,0],  baro[:,1],  pose[:,0],  pose[:,1],  pose[:,2],   pose[:,3],   pose[:,4],   pose[:,5],  pose[:,6],  pose[:,7],
-                      imu[:,0],   imu[:,1],   imu[:,2],   imu[:,3],   imu[:,4],    imu[:,5],    imu[:,6],    
+                      baro[:,0],  baro[:,1],  pose[:,0],  pose[:,1],  pose[:,2],   pose[:,3],   pose[:,4],   pose[:,5],  pose[:,6],  pose[:,7],  
                       fillvalue='')
     csv_file = file_usd +'.csv'
     with open(csv_file,"w") as f:
