@@ -18,7 +18,7 @@ tdoa = [data.t_tdoa(~isnan(data.t_tdoa)),  data.idA(~isnan(data.idA)), ...
         data.idB(~isnan(data.idB)),        data.tdoa_meas(~isnan(data.tdoa_meas))];
 % acceleration: [timestamp, acc_x, acc_y, acc_z]
 acc  = [data.t_acc(~isnan(data.t_acc)),    data.acc_x(~isnan(data.acc_x)),...
-        data.acc_y(~isnan(data.acc_y)),    data.acc_y(~isnan(data.acc_z))];
+        data.acc_y(~isnan(data.acc_y)),    data.acc_z(~isnan(data.acc_z))];
 % gyroscope: [timestamp, gyro_x, gyro_y, gyro_z]
 gyro = [data.t_gyro(~isnan(data.t_gyro)),  data.gyro_x(~isnan(data.gyro_x)),...
         data.gyro_y(~isnan(data.gyro_y)),  data.gyro_z(~isnan(data.gyro_z))];
@@ -38,6 +38,7 @@ pose = [data.t_pose(~isnan(data.t_pose)),   data.pose_x(~isnan(data.pose_x)),   
 t_uv = [-0.01245; 0.00127; 0.0908];
 % translation vector from the quadcopter to laser-ranging sensor 
 t_lv = [0.0; 0.0; -0.0015];
+
 
 % convert the gt position to UWB antenna center
 for idx = 1:size(pose,1)
