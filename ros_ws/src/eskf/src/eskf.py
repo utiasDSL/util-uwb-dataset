@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import roslib
 import rospy
 from cf_msgs.msg import Accel, Gyro, Flow, Tdoa, Tof 
@@ -10,14 +10,38 @@ from scipy import linalg
 import math
 from pyquaternion import Quaternion
 
-anchor_position = np.array( [[-3.041,  -4.037,  0.208],
-                             [-3.232,   3.756,  2.947],
-                             [ 3.677,   3.714,  0.174],
-                             [ 4.104,  -4.274,  3.202],
-                             [-3.042,  -4.41,   3.043],
-                             [ 3.922,  -3.786,  0.197],
-                             [ 4.062,   3.855,  3.141],
-                             [-3.169,   3.348,  0.179]])
+CONST = 1; 
+if CONST == 1:
+    # const #1
+    anchor_position = np.array([ [-2.41747187, -4.020796,    0.18179047],
+                                [-2.82049006,  3.52503733,  2.587424  ],
+                                [ 3.48193225,  3.30503995,  0.15447011],
+                                [ 3.45072467, -3.71811457,  2.66932012],
+                                [-3.27761604, -3.86896865,  2.67389717],
+                                [ 3.26547393, -3.6510796,   0.17524745],
+                                [ 3.83212931,  3.65208485,  2.62492732],
+                                [-2.72277241,  3.21907986,  0.15829415]])
+
+if CONST == 2:
+    anchor_position = np.array([[-3.03389889, -4.03508883,  0.20945086],
+                                [-0.36968246,  3.8258778,   2.59264305],
+                                [ 3.68361254,  3.71360933,  0.17473471],
+                                [ 4.06473605, -0.83435362,  2.61468839],
+                                [-3.51497526, -1.00105345,  2.61189996],
+                                [ 3.92656653, -3.78577938,  0.19692183],
+                                [ 1.15007376, -4.23238585,  2.60606765],
+                                [-3.16221909,  3.34867602,  0.17978704]])
+
+if CONST == 3:
+    anchor_position = np.array([[-3.04007399, -4.02987861,  0.20863744],
+                                [-3.23226042,  3.75605646,  2.94668963],
+                                [ 3.6766828,   3.715609,    0.17403476],
+                                [ 4.10407725, -4.27446929,  3.20206427],
+                                [-3.04151099, -4.41045031,  3.04305804],
+                                [ 3.91777233, -3.78620114,  0.19753353],
+                                [ 4.06150938,  3.85486278,  3.14097298],
+                                [-3.16867006,  3.35218259,  0.17908062]])
+
 
 class ESKF_Node(object):
     def __init__(self):
@@ -196,6 +220,7 @@ class ESKF_Node(object):
                 
                 self.correct_time = tdoa.header.stamp.to_sec()
                 self.tdoa_data.pop(0)
+                print("publishing estimation resutls\n")
                 self.publish_data()
                 return
                 
@@ -290,7 +315,7 @@ class ESKF_Node(object):
         out_msg.pose.pose.orientation.z = self.q.z
         out_msg.pose.pose.orientation.w = self.q.w
         
-        print('Publishing message:x:[%f] y:[%f] z[%f]'%(self.X[0,0], self.X[1,0], self.X[2,0]))
+        print('Publishing message: x:[%f] y:[%f] z:[%f]'%(self.X[0,0], self.X[1,0], self.X[2,0]))
     
         if self.pose_pub:
             self.pose_pub.publish(out_msg)

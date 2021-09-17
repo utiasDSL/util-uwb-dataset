@@ -3,7 +3,7 @@ clear; close all
 clc;
 
 % change the path to the survey results and the data
-csv = '../../flight-dataset/const1/const1-log1.csv';
+csv = '../../flight-dataset/const1/const1-log9.csv';
 txt = '../survey/anchor_const1_survey.txt';
 
 % load the anchor positions
@@ -81,23 +81,24 @@ bias_ij = tdoa_meas_ij(:,4) - d_ij;
 % visualization
 % UWB
 fig1 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
-scatter(tdoa_meas_ij(:,1), tdoa_meas_ij(:,4), 3, 'filled')
+scatter(tdoa_meas_ij(:,1), tdoa_meas_ij(:,4), 12, 'filled')
 hold on
 plot(tdoa_meas_ij(:,1), d_ij, 'Color', [1,0,0], 'LineWidth', 1.5)
 title('UWB TDOA measurements','Interpreter','latex','Fontsize',16)
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
 ylabel('TDOA measurements [m]','Interpreter','latex','Fontsize',16)
-set(gca,'TickLabelInterpreter','latex');
+set(gca,'TickLabelInterpreter','latex','Fontsize',16);
+grid on
 legend('TDOA measurements', 'ground truth')
 
 % UWB bias
 fig2 = figure('Renderer', 'painters', 'Position', [10 10 800 600]);
-scatter(tdoa_meas_ij(:,1), bias_ij, 3, 'filled')
+scatter(tdoa_meas_ij(:,1), bias_ij, 12, 'filled')
 title('TDOA measurement biases','Interpreter','latex','Fontsize',16)
 xlabel('Time [s]','Interpreter','latex','Fontsize',16)
 ylabel('Measurements bias [m]','Interpreter','latex','Fontsize',16)
-set(gca,'TickLabelInterpreter','latex');
-
+set(gca,'TickLabelInterpreter','latex','Fontsize',16);
+grid on
 disp(['Visualize TDOA measurement biases, An: (',num2str(an_i),',',num2str(an_j),')']);
 
 legend('TDOA measurement biases')

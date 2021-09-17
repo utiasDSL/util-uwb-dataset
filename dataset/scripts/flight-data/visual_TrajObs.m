@@ -6,7 +6,7 @@ clear; close all
 clc;
 
 % change the path to the survey results and the data
-csv = '../../flight-dataset/const3/const3-tdoa2-obs-log1.csv';
+csv = '../../flight-dataset/const3/const3-tdoa2-obs-log2.csv';
 txt = '../survey/anchor_const3_survey.txt';
 
 % load the anchor positions
