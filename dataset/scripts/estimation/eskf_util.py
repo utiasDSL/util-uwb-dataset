@@ -74,3 +74,7 @@ def zeta(phi):
         dq_xyz = (phi*(math.sin(0.5*phi_norm)))/phi_norm
         dq = np.array([math.cos(0.5*phi_norm), dq_xyz[0], dq_xyz[1], dq_xyz[2]])
     return dq
+
+def computeG_grad():
+
+    return G

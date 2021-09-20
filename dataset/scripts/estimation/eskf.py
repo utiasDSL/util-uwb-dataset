@@ -17,7 +17,7 @@ from pyquaternion import Quaternion
 from scipy import interpolate            # interpolate vicon
 from sklearn.metrics import mean_squared_error
 
-from eskf_util import isin, cross, zeta, update_state, error_state_update, calculateRPY
+from eskf_util import isin, cross, zeta, computeG_grad
 from plot_util import plot_pos, plot_pos_err
 # select anchor constellations
 CONST = 1; 
@@ -103,6 +103,9 @@ e3 = np.array([0, 0, 1]).reshape(-1,1)
 # UWB measurements: 3*sigma ~ 0.1 [m]
 std_uwb =  0.1;          std_uwb_tdoa = 0.1
 std_flow = 0.1;          std_tof = 0.0001
+
+# translation vector from the quadcopter to UWB tag
+t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
 
 # ----------------------- INITIALIZATION OF EKF -------------------------#
 # Create a compound vector t with a sorted merge of all the sensor time bases
@@ -247,36 +250,40 @@ for k in range(len(t)-1):                 # k = 0 ~ N-1
 
         an_A = anchor_position[int(uwb[uwb_k,0]),:]   # idA
         an_B = anchor_position[int(uwb[uwb_k,1]),:]   # idB
-        dA_x = Xpr[k,1] - an_A[0];   dB_x = Xpr[k,0] - an_B[0]
-        dA_y = Xpr[k,2] - an_A[1];   dB_y = Xpr[k,1] - an_B[1]
-        dA_z = Xpr[k,3] - an_A[2];   dB_z = Xpr[k,2] - an_B[2]
-        # L2 norm between anchor and prior state (shape (3,1)).
-        
+
+
+        dA_x = Xpr[k,0] - an_A[0];   dB_x = Xpr[k,0] - an_B[0]
+        dA_y = Xpr[k,1] - an_A[1];   dB_y = Xpr[k,1] - an_B[1]
+        dA_z = Xpr[k,2] - an_A[2];   dB_z = Xpr[k,2] - an_B[2]
+
+        # L2 norm between anchor and prior state (shape (3,1)).  
+        qk_pr = Quaternion(q_list[k])
+        C_iv = qk_pr.rotation_matrix
+
+        # measurement model
+        # C_iv.dot(t_uv) + Xpr[k,]
+
         d_A = linalg.norm(an_A - np.squeeze(Xpr[k,0:3])) 
         d_B = linalg.norm(an_B - np.squeeze(Xpr[k,0:3]))
         predicted = d_B - d_A
         err_uwb = uwb[uwb_k,2] - predicted
 
+        # compute the gradient of measurement model
         # G is 1 x 9
+        # not considering lever-arm
+
         G = np.append(np.array([dB_x/d_B - dA_x/d_A,  
                                 dB_y/d_B - dA_y/d_A, 
                                 dB_z/d_B - dA_z/d_A]).reshape(1,-1), np.zeros((1,6)))
-        # G = G.reshape(1,-1)
-        # print("G is: "); print(G)
+        
+        # G = computeG_grad(an_A, an_B, t_uv, Xpr[k,:], q_list[k], )
+
         # uwb covariance
         Q = std_uwb_tdoa**2
-        # print("covariance matrix is: ")
-        # print(self.P[0:3,0:3])
-        # print("----------- G.dot(self.P).dot(G.T) is -------------"); print(G.dot(self.P).dot(G.T)) 
         M = np.squeeze(G.dot(Ppr[k]).dot(G.T) + Q)     # scalar 
-        # print("----------- M is {0} -------------".format(M))
         d_m = math.sqrt(err_uwb**2/M)
-        # print("----------- d_m is {0} -------------".format(d_m)) 
         # Kk is 9 x 1
         Kk = (Ppr[k].dot(G.T) / M).reshape(-1,1)           # in scalar case
-        # print("----------- Kk is -------------"); print(Kk) 
-        # print("---------Kk.dot(G.reshape(1,-1)) is --------------"); print(Kk.dot(G.reshape(1,-1)))
-        # print("------------- np.eye(9) - Kk.dot(G.reshape(1,-1)) is "); print(np.eye(9) - Kk.dot(G.reshape(1,-1)))
         # update the posterios covariance matrix for error states
         Ppo[k]= (np.eye(9) - Kk.dot(G.reshape(1,-1))).dot(Ppr[k])
         # enforce symmetry
@@ -286,7 +293,6 @@ for k in range(len(t)-1):                 # k = 0 ~ N-1
         Xpo[k] = Xpr[k] +  np.squeeze(derror[0:6])
         dq_k = Quaternion(zeta(np.squeeze(derror[6:])))
         #update quaternion: q_list
-        qk_pr = Quaternion(q_list[k])
         qk_po = qk_pr * dq_k
         q_list[k] = np.array([qk_po.w, qk_po.x, qk_po.y, qk_po.z])
 
