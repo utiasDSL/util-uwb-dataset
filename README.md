@@ -11,58 +11,84 @@ $catkin_make
 $source devel/setup.bash
 ```
 
-2. Run script to convert sd log to rosbag: 
+## Data parsing scripts for flight dataset
+2. Convert sdcard binary data to rosbag:
 ```
-cd 3_scripts
-python3 log_to_bag.py ../sd-card-data/UWB-eventlog00
+$cd dataset/scripts/flight-data/sdcard_scripts
+$python3 log_to_bag.py (sdcard_data)
+
+e.g.
+$python3 log_to_bag.py dataset/flight-dataset/binary-data/const1/const1-log1
 ```
 
-3. Run the script to visualize the survey results
+3. Visualize the survey results:
 ```
-cd 3_script/survey
-python3 anchor_survey.py ../..2_data/survey-results/anchor_0425.txt
+$cd dataset/scripts/survey
+$python3 anchor_survey.py (anchor_survey_txt_files)
+
+e.g.
+$python3 anchor_survey.py ../../flight-dataset/survey-results/anchor_const1.txt
 ```
 
-## Visualize the static signal testing experiments
-1. Run the script to visualize the one particular experiments
+4. Visualize UWB measurements:
 ```
-cd 3_scripts/data-process/static-data-process
-python3 visual_static_signal.py -i ../../../2_data/rosbag/static-signal-testing/(select the rosbag you wish to visualize)
+$cd dataset/scripts/flight-data
+$python3 visual_tdoa2.py -i (anchor_survey_npz) (tdoa2_rosbag_data)
+$python3 visual_tdoa3.py -i (anchor_survey_npz) (tdoa3_rosbag_data)
+
+e.g.
+$python3 visual_tdoa2.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag 
+$python3 visual_tdoa3.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log7.bag 
+
+For TDOA3, the anchor pair of the visualized UWB measurement is set in the script (visual_tdoa3.py).
 ```
 
-2. Run the script to visualize the LOS line signal testing
+5. Visualize UWB measurement bias:
 ```
-cd 3_scripts/data-process/static-data-process
-python3 visual_los_lineTest.py -i /los_testing
+$cd dataset/scripts/flight-data
+$python3 visual_bias.py -i (anchor_survey_npz) (tdoa_rosbag_data)
+
+e.g.
+$python3 visual_bias.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
+
+The anchor pair of the visualized UWB measurement is set in the script (visual_bias.py)
 ```
 
-3. Run the script to visualize the LOS circle signal testing
+6. Visualize trajectory and obstacle positions during manual data collections
 ```
-cd 3_scripts/data-process/static-data-process
-python3 visual_los_circleTest.py -i /los_testing
+$cd dataset/scripts/flight-data
+$python3 visual_TrajObs.py -i ../survey/anchor_const3.npz (roabag_data)
+
+e.g. 
+$python3 visual_TrajObs.py -i ../survey/anchor_const3.npz ../../rosbag/flight-data/rosbag-const3/const3-tdoa2-obs-log1.bag 
 ```
 
-## Visualize the data collected during flights
-1. Run the script to visualize data with UWB TDOA2 mode
+7. Error-State Kalman Filter Estimation
 ```
-cd 3_scripts/data-process/flying-data-process
-python3 sensor_visual_tdoa2.py -i ../../survey/anchor_0425.npz ../../../2_data/rosbag/flying-data/(select the rosbag you wish to visualize)
+$(source the ros workspace)
+$cd dataset/scripts/estimation
+$python3 esky.py -i (num_of_const) (rosbag_data)
+
+e.g.
+$python3 esky.py -i 1 ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
 ```
 
-2. Run the script to visualize data with UWB TDOA3 mode
+## Data parsing scripts for static dataset
+
+8. Visualize LOS static data
 ```
-cd 3_scripts/data-process/flying-data-process
-python3 sensor_visual_tdoa3.py -i ../../survey/anchor_0425.npz ../../../2_data/rosbag/flying-data/(select the rosbag you wish to visualize)
+$cd dataset/scripts/static-data
+$python3 los_visual.py -i (los_data_folder)
+
+e.g.
+$python3 los_visual.py -i ../../static-dataset/los/distTest/distT1
 ```
 
-4. Run the script to visualize UWB bias
+9. Visualize NLOS static data
 ```
-cd 3_scripts/data-process/flying-data-process
-python3 visual_uwb_bias.py -i ../../survey/anchor_0425.npz ../../../2_data/rosbag/flying-data/(select the rosbag you wish to visualize)
-```
+$cd dataset/scripts/static-data
+$python3 nlos_visual.py -i (nlos_data_folder)
 
-5. Run the script to visualize the position of obstalces
-```
-cd 3_scripts/data-process/flying-data-process
-python3 visual_obs.py -i ../../survey/anchor_0426.npz
+e.g.
+$python3 nlos_visual.py -i ../../static-dataset/nlos/anTag/metal/data1
 ```
