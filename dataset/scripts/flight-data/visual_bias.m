@@ -3,7 +3,7 @@ clear; close all
 clc;
 
 % change the path to the survey results and the data
-csv = '../../flight-dataset/const1/const1-log9.csv';
+csv = '../../flight-dataset/const1/const1-log1.csv';
 txt = '../survey/anchor_const1_survey.txt';
 
 % load the anchor positions

@@ -2,8 +2,14 @@
 some helpling functions for the ekf
 '''
 import numpy as np
+from numpy import linalg
+from numpy.core.fromnumeric import reshape
 from numpy.linalg import inv
 import math
+from pyquaternion import Quaternion
+
+from scipy.linalg import block_diag
+
 def isin(t_np,t_k):
     # check if t_k is in the numpy array t_np. If t_k is in t_np, return the index and bool = Ture.
     # else return 0 and bool = False
@@ -15,6 +21,7 @@ def isin(t_np,t_k):
     return 0, b
 
 def cross(v):    # input: 3x1 vector, output: 3x3 matrix
+    v = np.squeeze(v)
     vx = np.array([
         [ 0,    -v[2], v[1]],
         [ v[2],  0,   -v[0]],
@@ -75,6 +82,69 @@ def zeta(phi):
         dq = np.array([math.cos(0.5*phi_norm), dq_xyz[0], dq_xyz[1], dq_xyz[2]])
     return dq
 
-def computeG_grad():
+def computeG_grad(an_A, an_B, t_uv, Xpr, q_k):
+    qk_pr = Quaternion(q_k)
+    C_iv = qk_pr.rotation_matrix
+    # uwb tag position
+    p_uwb = C_iv.dot(t_uv) + Xpr.reshape(-1,1)
+    d_A = linalg.norm(np.squeeze(p_uwb) - an_A)
+    d_B = linalg.norm(np.squeeze(p_uwb) - an_B)
+    g_p = ((np.squeeze(p_uwb) - an_B)/d_B).reshape(1,-1) - ((np.squeeze(p_uwb) - an_A)/d_A).reshape(1,-1)
+    g_v = np.zeros((1,3))
 
+    # q_k = [q_w, q_x, q_y, q_z] = [q_w, q_v]
+    q_w = q_k[0];  q_v = np.array([ q_k[1], q_k[2], q_k[3] ])
+    
+    # d_RVq = 2[q_w t_uv + q_v x t_uv, q_v^T t_uv I(3) + q_v t_uv^T - t_uv q_v - q_w[t_uv]x]
+    d_vec = q_w*t_uv + cross(q_v).dot(t_uv).reshape(-1,1)   # 3 x 1 vector
+    d_mat = q_v.reshape(1,-1).dot(t_uv) * np.eye(3) + q_v.reshape(-1,1).dot(np.transpose(t_uv)) - t_uv.dot(q_v.reshape(1,-1)) - q_w * cross(t_uv)
+
+    d_RVq = 2*np.concatenate((d_vec, d_mat), axis=1)
+
+    g_q = ((np.squeeze(p_uwb) - an_B)/d_B).reshape(1,-1).dot(d_RVq) - ((np.squeeze(p_uwb) - an_A)/d_A).reshape(1,-1).dot(d_RVq)
+    G_x = np.concatenate((g_p, g_v, g_q), axis=1)
+
+    Q_dtheta = 0.5*np.array([
+        [-q_k[1], -q_k[2], -q_k[3]],
+        [ q_w,    -q_k[3],  q_k[2]],
+        [ q_k[3],  q_w,    -q_k[1]],
+        [-q_k[2],  q_k[1],  q_w]
+    ])
+    G_dx = block_diag(np.eye(6), Q_dtheta)
+    G = G_x.dot(G_dx)
     return G
+
+def getAnPos(CONST):
+    
+    if CONST == 1:
+        # const #1
+        anchor_position = np.array([[-2.41747187, -4.020796,    0.18179047],
+                                    [-2.82049006,  3.52503733,  2.587424  ],
+                                    [ 3.48193225,  3.30503995,  0.15447011],
+                                    [ 3.45072467, -3.71811457,  2.66932012],
+                                    [-3.27761604, -3.86896865,  2.67389717],
+                                    [ 3.26547393, -3.6510796,   0.17524745],
+                                    [ 3.83212931,  3.65208485,  2.62492732],
+                                    [-2.72277241,  3.21907986,  0.15829415]])
+
+    if CONST == 2:
+        anchor_position = np.array([[-3.03389889, -4.03508883,  0.20945086],
+                                    [-0.36968246,  3.8258778,   2.59264305],
+                                    [ 3.68361254,  3.71360933,  0.17473471],
+                                    [ 4.06473605, -0.83435362,  2.61468839],
+                                    [-3.51497526, -1.00105345,  2.61189996],
+                                    [ 3.92656653, -3.78577938,  0.19692183],
+                                    [ 1.15007376, -4.23238585,  2.60606765],
+                                    [-3.16221909,  3.34867602,  0.17978704]])
+
+    if CONST == 3:
+        anchor_position = np.array([[-3.04007399, -4.02987861,  0.20863744],
+                                    [-3.23226042,  3.75605646,  2.94668963],
+                                    [ 3.6766828,   3.715609,    0.17403476],
+                                    [ 4.10407725, -4.27446929,  3.20206427],
+                                    [-3.04151099, -4.41045031,  3.04305804],
+                                    [ 3.91777233, -3.78620114,  0.19753353],
+                                    [ 4.06150938,  3.85486278,  3.14097298],
+                                    [-3.16867006,  3.35218259,  0.17908062]])
+
+    return anchor_position

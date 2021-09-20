@@ -64,7 +64,7 @@ def plot_pos_err(t,pos_error, Ppo=np.zeros((0, 9, 9))):
         ax.plot(t, 3*delta_z, color='orangered',linewidth=1.9,alpha=0.9)
         ax.plot(t, -3*delta_z, color='orangered',linewidth=1.9,alpha=0.9)
     ax.set_xlabel(r'time [s]',fontsize=15)
-    ax.set_ylabel(r'err_y [m]',fontsize=15)
+    ax.set_ylabel(r'err_z [m]',fontsize=15)
 
 
        
