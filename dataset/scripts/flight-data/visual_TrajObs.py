@@ -8,11 +8,15 @@ import rosbag
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib import pyplot as plt
-import matplotlib.style as style
-# select the matplotlib plotting style
-style.use('ggplot')
+import matplotlib
+
+FONTSIZE = 18;   TICK_SIZE = 16
+
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
+
+matplotlib.rc('xtick', labelsize=TICK_SIZE) 
+matplotlib.rc('ytick', labelsize=TICK_SIZE) 
 
 # help functions for obstascle visualization
 def edgecoord(pointx,pointy,pointz):
@@ -108,7 +112,7 @@ if __name__ == "__main__":
 
     gt_pose = np.array(gt_pose)
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection = '3d')
     ax.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = 'Quadcopter Trajectory')
     ax.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red', label = 'Anchor position')
@@ -125,11 +129,11 @@ if __name__ == "__main__":
     ax.set_xlim3d(np.amin(anchor_pos[:,0])-0.5, np.amax(anchor_pos[:,0])+0.5)  
     ax.set_ylim3d(np.amin(anchor_pos[:,1])-0.5, np.amax(anchor_pos[:,1])+0.5)  
     ax.set_zlim3d(np.amin(anchor_pos[:,2])-0.1, np.amax(anchor_pos[:,2])+0.3)  
-    ax.set_xlabel(r'X [m]')
-    ax.set_ylabel(r'Y [m]')
-    ax.set_zlabel(r'Z [m]')
-    plt.legend(loc="upper right")
-    plt.title(r"Trajectory of the quadcopter", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    ax.set_xlabel(r'X [m]',fontsize = FONTSIZE)
+    ax.set_ylabel(r'Y [m]',fontsize = FONTSIZE)
+    ax.set_zlabel(r'Z [m]',fontsize = FONTSIZE)
+    plt.legend(loc='best')
+    plt.title(r"Trajectory", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
 
     plt.show()
 

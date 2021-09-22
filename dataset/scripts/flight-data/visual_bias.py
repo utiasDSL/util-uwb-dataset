@@ -9,12 +9,18 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import pyplot as plt
 import matplotlib.style as style
 from pyquaternion import Quaternion
+import matplotlib
 import rosbag
 from scipy import stats, interpolate
-# select the matplotlib plotting style
-style.use('ggplot')
+
+
+FONTSIZE = 18;   TICK_SIZE = 16
+
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
+
+matplotlib.rc('xtick', labelsize=TICK_SIZE) 
+matplotlib.rc('ytick', labelsize=TICK_SIZE) 
 
 # translation vector from the quadcopter to UWB tag
 t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
@@ -121,22 +127,22 @@ if __name__ == "__main__":
 
     # visualization 
     # UWB TDOA
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111)
     ax.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
     ax.plot(tdoa_meas[:,0], d_ij, color='red',linewidth=1.5, label = "Vicon ground truth")
-    ax.legend(loc='best')
-    ax.set_xlabel(r'Time [s]')
-    ax.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
+    ax.legend(loc='best',fontsize = FONTSIZE)
+    ax.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
+    ax.set_ylabel(r'TDoA measurement [m]',fontsize = FONTSIZE) 
+    plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
 
-    fig1 = plt.figure()
+    fig1 = plt.figure(figsize=(10, 8))
     bx = fig1.add_subplot(111)
     bx.scatter(tdoa_meas[:,0], bias_ij, color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa biases")
-    bx.legend(loc='best')
-    bx.set_xlabel(r'Time [s]')
-    bx.set_ylabel(r'TDoA bias [m]') 
-    plt.title(r"UWB tdoa biases, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
+    bx.legend(loc='best',fontsize = FONTSIZE)
+    bx.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
+    bx.set_ylabel(r'TDoA bias [m]',fontsize = FONTSIZE) 
+    plt.title(r"UWB tdoa biases, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
 
     plt.show()
 

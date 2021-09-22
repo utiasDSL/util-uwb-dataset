@@ -9,13 +9,16 @@ import numpy as np
 from numpy import linalg
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import pyplot as plt
-import matplotlib.style as style
 from pyquaternion import Quaternion
+import matplotlib
 import rosbag
-# select the matplotlib plotting style
-style.use('ggplot')
+
+FONTSIZE = 18;   TICK_SIZE = 16
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
+
+matplotlib.rc('xtick', labelsize=TICK_SIZE) 
+matplotlib.rc('ytick', labelsize=TICK_SIZE) 
 
 # translation vector from the quadcopter to UWB tag
 t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
@@ -118,75 +121,74 @@ if __name__ == "__main__":
 
     # visualization 
     # UWB TDOA
-    fig1 = plt.figure()
+    fig1 = plt.figure(figsize=(10, 8))
     ax1 = fig1.add_subplot(111)
     ax1.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
     ax1.plot(gt_pose[:,0], d_ij, color='red',linewidth=1.5, label = "Vicon ground truth")
-    ax1.legend(loc='best')
-    ax1.set_xlabel(r'Time [s]')
-    ax1.set_ylabel(r'TDoA measurement [m]') 
-    plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=13, fontweight=0, color='black')
-
+    ax1.legend(loc='best',fontsize = FONTSIZE)
+    ax1.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
+    ax1.set_ylabel(r'TDoA measurement [m]',fontsize = FONTSIZE) 
+    plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
+    
     # Z-range ToF
-    fig2 = plt.figure()
+    fig2 = plt.figure(figsize=(10, 8))
     ax2 = fig2.add_subplot(111)
     ax2.scatter(tof[:,0], tof[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "tof measurements")
-    ax2.legend(loc='best')
-    ax2.set_xlabel(r'Time [s]')
-    ax2.set_ylabel(r'ToF measurement [m]') 
-    plt.title(r"Z-range measurements", fontsize=13, fontweight=0, color='black')
-    
+    ax2.legend(loc='best',fontsize = FONTSIZE)
+    ax2.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
+    ax2.set_ylabel(r'ToF measurement [m]',fontsize = FONTSIZE) 
+    plt.title(r"Z-range measurements", fontsize=FONTSIZE, fontweight=0, color='black')
+
     # flow pixel
-    fig3 = plt.figure()
+    fig3 = plt.figure(figsize=(10, 8))
     ax3 = fig3.add_subplot(211)
-    plt.title(r"Optical flow measurements", fontsize=13, fontweight=0, color='black')
+    plt.title(r"Optical flow measurements", fontsize=FONTSIZE, fontweight=0, color='black')
     ax3.scatter(flow[:,0], flow[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel x")
-    ax3.set_ylabel(r'motion delta x') 
+    ax3.set_ylabel(r'motion delta x',fontsize = FONTSIZE) 
     bx3 = fig3.add_subplot(212)
     bx3.scatter(flow[:,0], flow[:,2], color = "steelblue", s = 2.5, alpha = 0.9, label = "flow dpixel y")
-    bx3.set_ylabel(r'motion delta y') 
-    bx3.set_xlabel(r'Time [s]')
-    plt.legend(loc='best')
+    bx3.set_ylabel(r'motion delta y',fontsize = FONTSIZE) 
+    bx3.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
+    plt.legend(loc='best',fontsize = FONTSIZE)
 
     # barometer
-    fig4 = plt.figure()
+    fig4 = plt.figure(figsize=(10, 8))
     ax4 = fig4.add_subplot(111)
-    plt.title(r"Baro measurements", fontsize=13, fontweight=0, color='black')
+    plt.title(r"Baro measurements", fontsize=FONTSIZE, fontweight=0, color='black')
     ax4.scatter(baro[:,0], baro[:,1], color = "steelblue", s = 2.5, alpha = 0.9, label = "baro asl")
-    ax4.set_ylabel(r'asl') 
-    plt.legend(loc='best')
+    ax4.set_ylabel(r'asl',fontsize = FONTSIZE) 
+    ax4.set_xlabel(r'Time [s]', fontsize=FONTSIZE)
+    plt.legend(loc='best',fontsize = FONTSIZE)
 
     # trajectory
-    fig5 = plt.figure()
+    fig5 = plt.figure(figsize=(10, 8))
     ax_t = fig5.add_subplot(111, projection = '3d')
     ax_t.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9)
     ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red')
     ax_t.set_xlim3d(np.amin(anchor_pos[:,0])-0.5, np.amax(anchor_pos[:,0])+0.5)  
     ax_t.set_ylim3d(np.amin(anchor_pos[:,1])-0.5, np.amax(anchor_pos[:,1])+0.5)  
     ax_t.set_zlim3d(np.amin(anchor_pos[:,2])-0.1, np.amax(anchor_pos[:,2])+0.3)  
-    ax_t.set_xlabel(r'X [m]')
-    ax_t.set_ylabel(r'Y [m]')
-    ax_t.set_zlabel(r'Z [m]')
-    plt.legend(['Quadcopter Trajectory','Anchor position'])
-    plt.title(r"Trajectory of the quadcopter", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    ax_t.set_xlabel(r'X [m]',fontsize = FONTSIZE)
+    ax_t.set_ylabel(r'Y [m]',fontsize = FONTSIZE)
+    ax_t.set_zlabel(r'Z [m]',fontsize = FONTSIZE)
+    plt.legend(['Quadcopter Trajectory','Anchor position'],fontsize = FONTSIZE)
+    plt.title(r"Trajectory", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
 
     # plot separate x,y,z
-    # plot separate x,y,z
-    fig6 = plt.figure()
+    fig6 = plt.figure(figsize=(10, 8))
     a_x = fig6.add_subplot(311)
+    plt.title(r"Ground truth of the trajectory", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
     a_x.plot(gt_pose[:,0],gt_pose[:,1],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt x")
-    a_x.legend(loc='best')
-    a_x.set_ylabel(r'X [m]') 
+    a_x.legend(loc='best', fontsize = FONTSIZE)
+    a_x.set_ylabel(r'X [m]', fontsize = FONTSIZE) 
     a_y = fig6.add_subplot(312)
     a_y.plot(gt_pose[:,0],gt_pose[:,2],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt y")
-    a_y.legend(loc='best')
-    a_y.set_ylabel(r'Y [m]') 
+    a_y.legend(loc='best', fontsize = FONTSIZE)
+    a_y.set_ylabel(r'Y [m]', fontsize = FONTSIZE) 
     a_z = fig6.add_subplot(313)
     a_z.plot(gt_pose[:,0],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt z")
-    a_z.legend(loc='best')
-    a_z.set_ylabel(r'Z [m]')
-    a_z.set_xlabel(r'Time [s]')
-
-    plt.title(r"Ground truth of the quadcopter trajectory", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    a_z.legend(loc='best', fontsize = FONTSIZE)
+    a_z.set_ylabel(r'Z [m]', fontsize = FONTSIZE)
+    a_z.set_xlabel(r'Time [s]', fontsize = FONTSIZE)
 
     plt.show()
