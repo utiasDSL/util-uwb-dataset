@@ -12,10 +12,14 @@ from scipy import stats
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib
 from matplotlib import pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 
-XY_FONTSIZE = 12;   LABEL_SIZE = 12
+FONTSIZE = 18;   TICK_SIZE = 16
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
+
+matplotlib.rc('xtick', labelsize=TICK_SIZE) 
+matplotlib.rc('ytick', labelsize=TICK_SIZE) 
 
 def deleteNAN(array):
     nan_array = np.isnan(array)
@@ -82,28 +86,35 @@ if __name__ == "__main__":
     err12 = tdoa12 - gt_d_12
 
     # visualization
-    # set the tick size of the plots
-    matplotlib.rc('xtick', labelsize=XY_FONTSIZE) 
-    matplotlib.rc('ytick', labelsize=XY_FONTSIZE) 
-
     # visualize the anchor-tag positions
-    fig_p = plt.figure()
+    fig_p = plt.figure(figsize=(16, 9))
     px = fig_p.add_subplot(111, projection = '3d')
-    px.scatter(tag_p[0],   tag_p[1],  tag_p[2], marker='o',color='green')
-    px.scatter(an1_p[0],   an1_p[1],  an1_p[2], marker='o',color='red')
-    px.scatter(an2_p[0],   an2_p[1],  an2_p[2], marker='o',color='red')
+    # make the panes transparent
+    px.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    px.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    px.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    # change the color of the grid lines 
+    px.xaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+    px.yaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+    px.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+
+    px.scatter(tag_p[0],   tag_p[1],  tag_p[2], s = 100, marker='o',color='navy', label = 'Tag position')
+    px.scatter(an1_p[0],   an1_p[1],  an1_p[2], s = 100, marker='o',color='red', label = 'Anchor position')
+    px.scatter(an2_p[0],   an2_p[1],  an2_p[2], s = 100, marker='o',color='red', label='_nolegend_')
     # plot the line segement
-    px.plot([tag_p[0], an1_p[0]], [tag_p[1], an1_p[1]], [tag_p[2], an1_p[2]])
-    px.plot([tag_p[0], an2_p[0]], [tag_p[1], an2_p[1]], [tag_p[2], an2_p[2]])
+    px.plot([tag_p[0], an1_p[0]], [tag_p[1], an1_p[1]], [tag_p[2], an1_p[2]],linestyle='--',color='steelblue',label='_nolegend_')
+    px.plot([tag_p[0], an2_p[0]], [tag_p[1], an2_p[1]], [tag_p[2], an2_p[2]],linestyle='--',color='steelblue',label='_nolegend_')
     px.set_xlim3d(-3.5, 3.5)  
     px.set_ylim3d(-3.5, 3.5)  
     px.set_zlim3d(0.0, 3.0)  
-    px.set_xlabel(r'X [m]')
-    px.set_ylabel(r'Y [m]')
-    px.set_zlabel(r'Z [m]')
-    plt.legend(['Tag position','Anchor position'])
+    px.set_xlabel(r'X [m]', fontsize = FONTSIZE)
+    px.set_ylabel(r'Y [m]', fontsize = FONTSIZE)
+    px.set_zlabel(r'Z [m]', fontsize = FONTSIZE)
+    px.set_box_aspect((1, 1, 0.35))               # xy aspect ratio is 1:1, but change z axis
+    plt.legend(loc='best', fontsize=FONTSIZE)
+    px.view_init(24, -58)
 
-    fig = plt.figure(facecolor="white")
+    fig = plt.figure(figsize=(16, 9))
     mu=0;  sigma=0
     ax = plt.subplot(111)
     (mu, sigma) = stats.norm.fit(err12)
@@ -114,102 +125,110 @@ if __name__ == "__main__":
     plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
     plt.legend(['mean','zero'], fontsize=20)
     plt.xlabel('los error [m]', fontsize=20)
-    plt.ylabel('Percent of Total Frequency', fontsize=20)
+    plt.ylabel('probability density', fontsize=20)
     ax.set_xlim([-0.5, 0.5]) 
 
     # visualize power in tag side
-    fig1 = plt.figure(facecolor="white")
+    fig1 = plt.figure(figsize=(16, 9))
     ax1 = plt.subplot(2,2,1)
     (mu_snr1, sigma_snr1) = stats.norm.fit(snr_an1)
     print("SNR of anchor 1 mean: ", mu_snr1, "std: ", sigma_snr1)
     print("\n")
     yhist, xhist, patches = plt.hist(snr_an1, bins=48,color='steelblue',alpha=0.75, density=True)
+    ax1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr1, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('SNR of An1', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('SNR of An1', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
     bx1 = plt.subplot(2,2,2)
     (mu_power1, sigma_power1) = stats.norm.fit(power_dif_an1)
-    print("Power difference of anchor 1 mean: ", mu_power1, "std: ", sigma_power1)
+    print("power difference of anchor 1 mean: ", mu_power1, "std: ", sigma_power1)
     print("\n")
     yhist, xhist, patches = plt.hist(power_dif_an1, bins=48,color='steelblue',alpha=0.75, density=True)
+    bx1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_power1, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('Power difference of An1', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('power difference of An1', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
     cx1 = plt.subplot(2,2,3)
     (mu_snr2, sigma_snr2) = stats.norm.fit(snr_an2)
     print("SNR of anchor 2 mean: ", mu_snr2, "std: ", sigma_snr2)
     print("\n")
     yhist, xhist, patches = plt.hist(snr_an2, bins=48,color='steelblue',alpha=0.75, density=True)
+    cx1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr2, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('SNR of An2', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('SNR of An2', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
     dx1 = plt.subplot(2,2,4)
     (mu_power2, sigma_power2) = stats.norm.fit(power_dif_an2)
-    print("Power difference of anchor 2, mean: ", mu_power2, "std: ", sigma_power2)
+    print("power difference of anchor 2, mean: ", mu_power2, "std: ", sigma_power2)
     print("\n")
     yhist, xhist, patches = plt.hist(power_dif_an2, bins=48,color='steelblue',alpha=0.75, density=True)
+    dx1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_power2, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('Power difference of An2', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('power difference of An2', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
     # visualize power between anchors
-    fig2 = plt.figure()
-    px1 = fig2.add_subplot(3,2,1)
+    fig2 = plt.figure(figsize=(18, 9))
+    px1 = fig2.add_subplot(2,3,1)
     (mu_snr_rc_an1, sigma_snr_rc_an1) = stats.norm.fit(an1_rx_snr)
     print("SNR received by an1, mean: ", mu_snr_rc_an1, "std: ",sigma_snr_rc_an1)
     print("\n")
     yhist, xhist, patches = plt.hist(an1_rx_snr, bins=48,color='steelblue',alpha=0.75, density=True)
+    px1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr_rc_an1, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('SNR received by an1', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('SNR received by an1', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
-    px2 = fig2.add_subplot(3,2,2)
+    px2 = fig2.add_subplot(2,3,2)
     (mu_snr_rc_an2, sigma_snr_rc_an2) = stats.norm.fit(an2_rx_snr)
     print("SNR received by an2, mean: ", mu_snr_rc_an2, "std: ",sigma_snr_rc_an2)
     print("\n")
     yhist, xhist, patches = plt.hist(an2_rx_snr, bins=48,color='steelblue',alpha=0.75, density=True)
+    px2.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr_rc_an2, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('SNR received by an2', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('SNR received by an2', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
-    px3 = fig2.add_subplot(3,2,3)
+    px3 = fig2.add_subplot(2,3,3)
     (mu_powerdif_rc_an1, sigma_powerdif_rc_an1) = stats.norm.fit(an1_rx_powerdif)
-    print("Power difference received by an1, mean: ", mu_powerdif_rc_an1, "std: ", sigma_powerdif_rc_an1)
+    print("power difference received by an1, mean: ", mu_powerdif_rc_an1, "std: ", sigma_powerdif_rc_an1)
     print("\n")
     yhist, xhist, patches = plt.hist(an1_rx_powerdif, bins=48, color='steelblue', alpha=0.75, density=True)
+    px3.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_powerdif_rc_an1, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('Power difference received by an1', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('power difference received by an1', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
-    px4 = fig2.add_subplot(3,2,4)
+    px4 = fig2.add_subplot(2,3,4)
     (mu_powerdif_rc_an2, sigma_powerdif_rc_an2) = stats.norm.fit(an2_rx_powerdif)
-    print("Power difference received by an2, mean: ", mu_powerdif_rc_an2, "std: ", sigma_powerdif_rc_an2)
+    print("power difference received by an2, mean: ", mu_powerdif_rc_an2, "std: ", sigma_powerdif_rc_an2)
     print("\n")
     yhist, xhist, patches = plt.hist(an2_rx_powerdif, bins=48, color='steelblue', alpha=0.75, density=True)
+    px4.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_powerdif_rc_an2, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('Power difference received by an2', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('power difference received by an2', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
-    px5 = fig2.add_subplot(3,2,5)
+    px5 = fig2.add_subplot(2,3,5)
     (mu_tof_rc_an1, sigma_tof_rc_an1) = stats.norm.fit(an1_tof)
     print("Tof received by an1, mean: ", mu_tof_rc_an1, "std: ", sigma_tof_rc_an1)
     print("\n")
     yhist, xhist, patches = plt.hist(an1_tof, bins=20, color='steelblue', alpha=0.75, density=True)
     plt.axvline(x=mu_tof_rc_an1, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('tof received by an1', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('tof received by an1', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
-    px6 = fig2.add_subplot(3,2,6)
+    px6 = fig2.add_subplot(2,3,6)
     (mu_tof_rc_an2, sigma_tof_rc_an2) = stats.norm.fit(an2_tof)
     print("Tof received by an1, mean: ", mu_tof_rc_an2, "std: ", sigma_tof_rc_an2)
     print("\n")
     yhist, xhist, patches = plt.hist(an2_tof, bins=20, color='steelblue', alpha=0.75, density=True)
     plt.axvline(x=mu_tof_rc_an2, alpha=1.0, linestyle ='--', color = 'red')
-    plt.xlabel('tof received by an1', fontsize = LABEL_SIZE)
-    plt.ylabel('PDF', fontsize = LABEL_SIZE)
+    plt.xlabel('tof received by an1', fontsize = FONTSIZE)
+    plt.ylabel('probability density', fontsize = FONTSIZE)
 
     plt.show()
 

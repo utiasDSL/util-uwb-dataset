@@ -13,9 +13,7 @@ import matplotlib
 import rosbag
 from scipy import stats, interpolate
 
-
 FONTSIZE = 18;   TICK_SIZE = 16
-
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
 

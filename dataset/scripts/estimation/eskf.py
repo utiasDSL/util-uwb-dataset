@@ -17,7 +17,7 @@ from pyquaternion import Quaternion
 from scipy import interpolate            
 from sklearn.metrics import mean_squared_error
 
-from eskf_util import isin, cross, zeta, computeG_grad, getAnPos
+from eskf_util import isin, cross, zeta, computeG_grad
 from plot_util import plot_pos, plot_pos_err, plot_traj
 
 
