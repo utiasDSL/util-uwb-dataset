@@ -55,10 +55,10 @@ $python3 visual_TrajObs.py -i ../survey/anchor_const3.npz ../../rosbag/flight-da
 (7) Error-State Kalman Filter Estimation
 $(source the ros workspace)
 $cd dataset/scripts/estimation
-$python3 esky.py -i (num_of_const) (rosbag_data)
+$python3 eskf.py -i (num_of_const) (rosbag_data)
 
 e.g.
-$python3 esky.py -i 1 ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
+$python3 eskf.py -i 1 ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
 
 
 Data parsing scripts for static dataset
