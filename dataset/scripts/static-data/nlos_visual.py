@@ -37,6 +37,7 @@ def plot_obs(ob_x,obstacle):
     
     for i in range(4):
         ob_x.plot([obstacle[i,0], obstacle[i+4,0]], [obstacle[i,1], obstacle[i+4,1]], [obstacle[i,2], obstacle[i+4,2]], linewidth=1, label='_nolegend_', color='k')
+        
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', action='store', nargs=1)
