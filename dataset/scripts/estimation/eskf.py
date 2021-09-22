@@ -27,11 +27,14 @@ if __name__ == "__main__":
     parser.add_argument('-i', action='store', nargs=2)
     args = parser.parse_args()
     
-    # select the anchor constellation
-    CONST = int(args.i[0])
-
+    # access the survey results
+    anchor_npz = args.i[0]
+    anchor_survey = np.load(anchor_npz)
+    # select anchor constellations
+    anchor_position = anchor_survey['an_pos']
     # print out
-    print("selecting anchor constellation " + str(CONST) + "\n")
+    anchor_file = os.path.split(sys.argv[-2])[1]
+    print("selecting anchor constellation " + str(anchor_file) + "\n")
 
     # access rosbag file
     ros_bag = args.i[1]
@@ -41,10 +44,6 @@ if __name__ == "__main__":
     # print out
     bag_name = os.path.splitext(bagFile)[0]
     print("visualizing rosbag: " + str(bagFile) + "\n")
-
-    # select anchor constellations
-    CONST = 1; 
-    anchor_position = getAnPos(CONST)
 
     # -------------------- start extract the rosbag ------------------------ #
     pos_vicon=[];      t_vicon=[]; 
