@@ -18,7 +18,7 @@ from scipy import interpolate
 from sklearn.metrics import mean_squared_error
 
 from eskf_util import isin, cross, zeta, computeG_grad, getAnPos
-from plot_util import plot_pos, plot_pos_err
+from plot_util import plot_pos, plot_pos_err, plot_traj
 
 
 
@@ -82,8 +82,8 @@ if __name__ == "__main__":
     # ---------------------- Parameter ---------------------- #
     USE_IMU  = True;    USE_UWB_tdoa = True; 
 
-    std_xy0 = 0.05;    std_z0 = 0.05;      std_vel0 = 0.05
-    std_rp0 = 0.05;    std_yaw0 = 0.05
+    std_xy0 = 0.1;    std_z0 = 0.1;      std_vel0 = 0.1
+    std_rp0 = 0.1;    std_yaw0 = 0.1
     # Process noise
     w_accxyz = 2.0;      w_gyro_rpy = 0.1    # rad/sec
     w_vel = 0;           w_pos = 0;          w_att = 0;        
@@ -121,6 +121,7 @@ if __name__ == "__main__":
     X0 = np.zeros((6,1))        # Initial estimate for the state vector
     X0[0] = 1.25                  
     X0[1] = 0.0
+    X0[2] = 0.07
     q0 = Quaternion([1,0,0,0])  # initial quaternion
     R = q0.rotation_matrix
     q_list = np.zeros((K,4))    # quaternion list
@@ -218,7 +219,7 @@ if __name__ == "__main__":
             qk_1 = Quaternion(q_list[k-1,:])
             dqk  = Quaternion(zeta(dw))       # convert incremental rotation vector to quaternion
             q_pr = qk_1 * dqk                 # compute quaternion multiplication with package
-            q_list[k] = np.array([q_pr.w, q_pr.x, q_pr.y, q_pr.z])  # save quaternion in q_list
+            q_list[k] = np.array([q_pr.w, q_pr.x, q_pr.y, q_pr.z])    # save quaternion in q_list
             R_list[k]   = q_pr.rotation_matrix                        # save rotation prediction to R_list
 
         # End of Prediction
@@ -253,19 +254,27 @@ if __name__ == "__main__":
             Q = std_uwb_tdoa**2
             M = np.squeeze(G.dot(Ppr[k]).dot(G.T) + Q)     # scalar 
             d_m = math.sqrt(err_uwb**2/M)
-            # Kk is 9 x 1
-            Kk = (Ppr[k].dot(G.T) / M).reshape(-1,1)           # in scalar case
-            # update the posterios covariance matrix for error states
-            Ppo[k]= (np.eye(9) - Kk.dot(G.reshape(1,-1))).dot(Ppr[k])
-            # enforce symmetry
-            Ppo[k] = 0.5 * (Ppo[k] + Ppo[k].T)
-            derror = Kk.dot(err_uwb)             
-            # update nominal states 
-            Xpo[k] = Xpr[k] +  np.squeeze(derror[0:6])
-            dq_k = Quaternion(zeta(np.squeeze(derror[6:])))
-            #update quaternion: q_list
-            qk_po = qk_pr * dq_k
-            q_list[k] = np.array([qk_po.w, qk_po.x, qk_po.y, qk_po.z])
+
+            # -------------------- Statistical Validation -------------------- #
+            if d_m < 3:
+                # Kk is 9 x 1
+                Kk = (Ppr[k].dot(G.T) / M).reshape(-1,1)           # in scalar case
+                # update the posterios covariance matrix for error states
+                Ppo[k]= (np.eye(9) - Kk.dot(G.reshape(1,-1))).dot(Ppr[k])
+                # enforce symmetry
+                Ppo[k] = 0.5 * (Ppo[k] + Ppo[k].T)
+                derror = Kk.dot(err_uwb)             
+                # update nominal states 
+                Xpo[k] = Xpr[k] +  np.squeeze(derror[0:6])
+                dq_k = Quaternion(zeta(np.squeeze(derror[6:])))
+                #update quaternion: q_list
+                qk_po = qk_pr * dq_k
+                q_list[k] = np.array([qk_po.w, qk_po.x, qk_po.y, qk_po.z])
+            else:
+                # keep the previous state
+                Xpo[k] = Xpr[k]
+                Ppo[k] = Ppr[k]
+                # keep the previous quaterion  q_list[k]
 
     print('Finish the state estimation\n')
 
@@ -297,5 +306,5 @@ if __name__ == "__main__":
     # visualization
     plot_pos(t,Xpo,t_vicon,pos_vicon)
     plot_pos_err(t, pos_error, Ppo)
-        
+    plot_traj(pos_vicon, Xpo, anchor_position)
     plt.show()
