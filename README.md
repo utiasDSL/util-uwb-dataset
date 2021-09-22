@@ -14,11 +14,12 @@ $source devel/setup.bash
 ## Data parsing scripts for flight dataset
 2. Convert sdcard binary data to rosbag:
 ```
+$(source the ros workspace)
 $cd dataset/scripts/flight-data/sdcard_scripts
 $python3 log_to_bag.py (sdcard_data)
 
 e.g.
-$python3 log_to_bag.py dataset/flight-dataset/binary-data/const1/const1-log1
+$python3 log_to_bag.py ../../../flight-dataset/binary-data/const1/const1-log1
 ```
 
 3. Visualize the survey results:
