@@ -1,0 +1,11 @@
+theme: jekyll-theme-cayman
+
+title: TBD
+description: TBD
+show_downloads: true
+
+github:
+  zip_url: https://github.com/utiasDSL/dsl__projects__uwbDataset/archive/master.zip
+  tar_url: https://github.com/utiasDSL/dsl__projects__uwbDataset/tarball/master 
+
+logo: /files/readme_images/helix.png

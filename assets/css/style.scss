@@ -1,0 +1,40 @@
+---
+---
+
+@import 'jekyll-theme-cayman';
+.page-header {
+  text-align: right;
+  background-image: url("https://github.com/utiasDSL/dsl__projects__uwbDataset/blob/gh-pages/assets/css/banner.png?raw=true");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+.project-name {
+  color: darkblue;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.project-tagline {
+  color: darkblue;
+  font-weight: bold;
+}
+.btn {
+  color: rgba(0, 0, 139, 0.7);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  &:hover {
+    color: rgba(0, 0, 139, 0.8);
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+}
+.main-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: blue;
+  }
+}
