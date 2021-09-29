@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
     # ------------ select the anchor pair for visualization---------- #
     # possible anchor ID = [0,1,2,3,4,5,6,7] 
-    an_i = 0;     an_j = 1
+    an_i = 7;     an_j = 0
     # --------------------------------------------------------------- #
 
     # get the id for tdoa_ij measurements
@@ -121,15 +121,16 @@ if __name__ == "__main__":
 
     # visualization 
     # UWB TDOA
-    fig1 = plt.figure(figsize=(10, 8))
+    fig1 = plt.figure(figsize=(12, 8))
     ax1 = fig1.add_subplot(111)
-    ax1.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa measurements")
-    ax1.plot(gt_pose[:,0], d_ij, color='red',linewidth=1.5, label = "Vicon ground truth")
+    ax1.plot(gt_pose[:,0], d_ij, color='red',linewidth=1.5, alpha = 0.9, label = "Vicon ground truth")
+    ax1.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 2.5, alpha = 0.6, label = "tdoa measurements")
     ax1.legend(loc='best',fontsize = FONTSIZE)
     ax1.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
     ax1.set_ylabel(r'TDoA measurement [m]',fontsize = FONTSIZE) 
     plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
-    
+    plt.savefig("uwb.pdf")
+
     # Z-range ToF
     fig2 = plt.figure(figsize=(10, 8))
     ax2 = fig2.add_subplot(111)
@@ -163,17 +164,27 @@ if __name__ == "__main__":
     # trajectory
     fig5 = plt.figure(figsize=(10, 8))
     ax_t = fig5.add_subplot(111, projection = '3d')
-    ax_t.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9)
-    ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red')
-    ax_t.set_xlim3d(np.amin(anchor_pos[:,0])-0.5, np.amax(anchor_pos[:,0])+0.5)  
-    ax_t.set_ylim3d(np.amin(anchor_pos[:,1])-0.5, np.amax(anchor_pos[:,1])+0.5)  
-    ax_t.set_zlim3d(np.amin(anchor_pos[:,2])-0.1, np.amax(anchor_pos[:,2])+0.3)  
+    # make the panes transparent
+    ax_t.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax_t.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax_t.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    # change the color of the grid lines 
+    ax_t.xaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+    ax_t.yaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+    ax_t.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+
+    ax_t.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='royalblue',linewidth=2.0, alpha=0.9)
+    ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], color='Teal', s = 100, alpha = 0.5, label = 'anchors')
+    ax_t.set_xlim([-3.5,3.5])
+    ax_t.set_ylim([-3.9,3.9])
+    ax_t.set_zlim([-0.0,3.0])
     ax_t.set_xlabel(r'X [m]',fontsize = FONTSIZE)
     ax_t.set_ylabel(r'Y [m]',fontsize = FONTSIZE)
     ax_t.set_zlabel(r'Z [m]',fontsize = FONTSIZE)
-    plt.legend(['Quadcopter Trajectory','Anchor position'],fontsize = FONTSIZE)
-    plt.title(r"Trajectory", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
-
+    ax_t.legend(loc='best', bbox_to_anchor=(0.5,0.92))
+    plt.legend(['Trajectory','Anchor position'], fontsize=FONTSIZE)
+    ax_t.set_box_aspect((1, 1, 0.5))  # xy aspect ratio is 1:1, but change z axis
+ 
     # plot separate x,y,z
     fig6 = plt.figure(figsize=(10, 8))
     a_x = fig6.add_subplot(311)

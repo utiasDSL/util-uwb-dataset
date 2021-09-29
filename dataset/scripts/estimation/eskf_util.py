@@ -7,7 +7,6 @@ from numpy.core.fromnumeric import reshape
 from numpy.linalg import inv
 import math
 from pyquaternion import Quaternion
-
 from scipy.linalg import block_diag
 
 def isin(t_np,t_k):

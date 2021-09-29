@@ -251,16 +251,26 @@ if __name__ == "__main__":
     # trajectory
     fig6 = plt.figure(figsize=(10, 8))
     ax_t = fig6.add_subplot(111, projection = '3d')
-    ax_t.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9)
-    ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red')
-    ax_t.set_xlim3d(np.amin(anchor_pos[:,0])-0.5, np.amax(anchor_pos[:,0])+0.5)  
-    ax_t.set_ylim3d(np.amin(anchor_pos[:,1])-0.5, np.amax(anchor_pos[:,1])+0.5)  
-    ax_t.set_zlim3d(np.amin(anchor_pos[:,2])-0.1, np.amax(anchor_pos[:,2])+0.3)  
+    # make the panes transparent
+    ax_t.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax_t.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax_t.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    # change the color of the grid lines 
+    ax_t.xaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+    ax_t.yaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+    ax_t.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
+
+    ax_t.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='royalblue',linewidth=2.0, alpha=0.9)
+    ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], color='Teal', s = 100, alpha = 0.5, label = 'anchors')
+    ax_t.set_xlim([-3.5,3.5])
+    ax_t.set_ylim([-3.9,3.9])
+    ax_t.set_zlim([-0.0,3.0])
     ax_t.set_xlabel(r'X [m]',fontsize = FONTSIZE)
     ax_t.set_ylabel(r'Y [m]',fontsize = FONTSIZE)
     ax_t.set_zlabel(r'Z [m]',fontsize = FONTSIZE)
-    plt.legend(['Quadcopter Trajectory','Anchor position'])
-    plt.title(r"Trajectory", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
+    ax_t.legend(loc='best', bbox_to_anchor=(0.5,0.92))
+    plt.legend(['Trajectory','Anchor position'], fontsize=FONTSIZE)
+    ax_t.set_box_aspect((1, 1, 0.5))  # xy aspect ratio is 1:1, but change z axis
 
     # plot separate x,y,z
     fig7 = plt.figure(figsize=(10, 8))
