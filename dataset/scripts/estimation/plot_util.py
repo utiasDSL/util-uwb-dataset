@@ -104,6 +104,4 @@ def plot_traj(pos_vicon, Xpo, anchor_pos):
     ax_t.legend(loc='best', fontsize=FONTSIZE)
     ax_t.view_init(24, -58)
     ax_t.set_box_aspect((1, 1, 0.5))  # xy aspect ratio is 1:1, but change z axis
-    plt.title(r"Trajectory of the experiment", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
     
-
