@@ -124,12 +124,11 @@ if __name__ == "__main__":
     fig1 = plt.figure(figsize=(12, 8))
     ax1 = fig1.add_subplot(111)
     ax1.plot(gt_pose[:,0], d_ij, color='red',linewidth=1.5, alpha = 0.9, label = "Vicon ground truth")
-    ax1.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 2.5, alpha = 0.6, label = "tdoa measurements")
+    ax1.scatter(tdoa_meas[:,0], tdoa_meas[:,3], color = "steelblue", s = 5.0, alpha = 0.6, label = "tdoa measurements")
     ax1.legend(loc='best',fontsize = FONTSIZE)
     ax1.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
     ax1.set_ylabel(r'TDoA measurement [m]',fontsize = FONTSIZE) 
     plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
-    plt.savefig("uwb.pdf")
 
     # Z-range ToF
     fig2 = plt.figure(figsize=(10, 8))
