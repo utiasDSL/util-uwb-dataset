@@ -1,4 +1,4 @@
-# dsl__projects__uwbDataset
+# UTIAS UWB Dataset
 Git repository for the UWB dataset collection and processing.
 
 ---
