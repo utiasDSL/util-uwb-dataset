@@ -1,5 +1,5 @@
-# UTIAS UWB Dataset
-Git repository for the UWB dataset collection and processing.
+![IMAGE ALT TEXT HERE]("https://github.com/utiasDSL/utias_uwb_dataset/blob/gh-pages/assets/css/fig1.png)
+
 
 ---
 ## Procedure
