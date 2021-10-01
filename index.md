@@ -53,7 +53,7 @@ For the static experiments, we collected UWB TDOA measurements under various lin
 
 ---
 ## Flight Dataset
-For the flight experiments, we collected the raw UWB meaurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) on-board a customized quadrotor platform.
+For the flight experiments, we collected the raw UWB meaurements, gyroscope, accelerometer, optical flow, time-of-flight (ToF) laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) on-board a customized quadrotor platform.
 
 ### Flight arena and experimental setup
 <div style="clear: both;">
@@ -61,25 +61,27 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
     <img src="files/readme_images/flight-setup.png" alt="" width="400">
   </div>
   <div>
-    <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Three different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations">Leica total station</a> for reproducibility.
+    <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Three different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations/">Leica total station</a> for reproducibility.
     </p> 
     <p>We refer to the Vicon frame (see the right figure) as the inertial frame. To align the Leica total station frame and the inertial frame, we use the total station to survey six Vicon reflective markers with known positions in inertial frame and computethe transformation matrix through point cloud alignment. The average reprojection root-mean-squared error (RMSE) of the six reflective markers is around 1.12 mm.
     </p>
   </div>
 </div>
 
-### Time synchronization, latency, and calibration
+### Quadrotor platform
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
     <img src="files/readme_images/drone-setup.png" alt="" width="400">
   </div>
   <div>
-    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <p>We built a customized quadrotor based on the <a href="https://store.bitcraze.io/products/crazyflie-bolt/">Crazyflie Bolt</a> flight controller with an inertial measurement unit (IMU) and  attached commercially available extension boards (so-called decks) from Bitcraze for data collection. The LPS UWB tag is mounted vertically on the top to receive UWB TDOA measurements. A flow deck attached at the bottom provides optical flow measurements and a laser-based ToF sensor provides the local altitude information. The accelerometer and gyroscope data is obtained from the  onboard IMU. A micro SD card deck logs the raw sensor data received by the flight control board with high-precision microsecond timestamps. The customized quadrotor communicates with a ground station computer over a 2.4 GHz USB radio dongle <a href="https://www.bitcraze.io/products/crazyradio-pa/">(Crazyradio PA)</a> for high-level interaction. In terms of software, we use the <a href="https://github.com/USC-ACTLab/crazyswarm/">Crazyswarm</a> package (Preiss et al. (2017)) to send high-level commands and the pose of the quadrotor measured by the motion capture system  to the quadrotor. </p>
   </div>
 </div>
+
+### Time synchronization, latency, and calibration
+We operate the motion capture system at a fixed sample frequency of 200Hz and send the measured quadrotor pose to the onboard extended Kalman filter (EKF) with a small variance, 0.001m for position and 0.0005 for quaternion, for state estimation. Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) are recorded as [event streams](https://www.bitcraze.io/2021/03/event-based-data-logging/). The Vicon pose measurements logged onboard are treated as the ground truth data.  Each datapoint is timestamped with the onboard microsecond timer and the resulting time series is written to the micro SD card as a binary file. Python scripts are provided to parse and analyze the binary data. The latency from the ground station software to the onboard firmware is tested to be around 22 ms using the method provided in Preiss et al. (2017). The Crazyflie Bolt flight controller board we used does not have a high-stability crystal. As a result, the onboard clock might drift during long-term flights. However, as the length of each sub-dataset is around 120 seconds, the clock drift doesn’t have a big influence for data collection.
+
+We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
 ### Localization performance
 <div style="clear: both;">
