@@ -1,5 +1,5 @@
 
-<img src="files/readme_images/fig1.png" alt="control info" width="650">
+<img src="files/readme_images/fig1.png" alt="control info" width="1000">
 ---
 ## Procedure
 Step 1. Build ROS messages:
