@@ -1,6 +1,5 @@
-![IMAGE ALT TEXT HERE]("https://github.com/utiasDSL/utias_uwb_dataset/blob/gh-pages/assets/css/fig1.png)
 
-
+<img src="files/readme_images/fig1.png" alt="control info" width="650">
 ---
 ## Procedure
 Step 1. Build ROS messages:
