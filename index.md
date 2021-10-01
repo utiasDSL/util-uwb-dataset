@@ -7,13 +7,19 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 ---
 ## Static Dataset
 
-<img src="files/readme_images/static-los.png" alt="static setup" width="700"> 
-
+<div style="clear: both;">
+  <div style="float: right; margin-left 3em;">
+    <img src="files/readme_images/static-los.png" alt="" width="400">
+  </div>
+  <div>
+    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
+  </div>
+</div>
 
 
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/static-nlos.png" alt="" width="350">
+    <img src="files/readme_images/static-nlos.png" alt="" width="400">
   </div>
   <div>
     <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
