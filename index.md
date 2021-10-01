@@ -7,7 +7,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 ---
 ## Static Dataset
 
-<img src="files/readme_images/static-los.png" alt="static setup" width="1000"> 
+<img src="files/readme_images/static-los.png" alt="static setup" width="700"> 
 
 
 
