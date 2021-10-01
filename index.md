@@ -12,7 +12,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 
 
 <div style="clear: both;">
-  <div style="float: left; margin-right 10000em;">
+  <div style="float: right; margin-left 3em;">
     <img src="files/readme_images/static-nlos.png" alt="" width="200">
   </div>
   <div>
