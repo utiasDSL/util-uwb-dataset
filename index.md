@@ -71,7 +71,20 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 ### Time synchronization, latency, and calibration
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/flight-traj.png" alt="" width="400">
+    <img src="files/readme_images/drone-setup.png" alt="" width="400">
+  </div>
+  <div>
+    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+</div>
+
+### Localization performance
+<div style="clear: both;">
+  <div style="float: right; margin-left 3em;">
+    <img src="files/readme_images/eskf.png" alt="" width="420">
   </div>
   <div>
     <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
@@ -93,17 +106,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 
 
 ### UWB TDOA-based localization
-<div style="clear: both;">
-  <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/eskf.png" alt="" width="400">
-  </div>
-  <div>
-    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-  </div>
-</div>
+
 
 ### UWB bias learning and modeling
 
