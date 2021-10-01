@@ -2,10 +2,11 @@
 
 ---
 ## Summary
-The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
+The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. The [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/) based on DWM1000 UWB modules is used to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
 
 ---
 ## Static Dataset
+For the static experiments, we collected UWB TDOA measurements under various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for groundtruth data.
 
 ### Line-of-sight (LOS) experiments
 <!-- word -- left, fig -- right -->
@@ -14,7 +15,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
     <img src="files/readme_images/static-los.png" alt="" width="400">
   </div>
   <div>
-    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
+    <p>In LOS conditions, we collected data from two tests: (1) the LOS distance test and (2) the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance d1 from 0.5 meters to 6.5 meter with an interval of 0.5 meter.In LOS angle dataset, we change the angle from 180 degree to 15 degree with an interval of 15 degree. </p>
   </div>
 </div>
 
@@ -25,7 +26,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
     <img src="files/readme_images/static-nlos.png" alt="" width="400">
   </div>
   <div>
-    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.
+    <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, includingcardboard, metal, wood, plastic, and foam. Both NLOS conditions between one anchor and the tag and between two anchors will affect TDOA measurements. Therefore, we conducted NLOS experiments under (i) NLOS conditions between anchor 1 and the tag and (ii) NLOS condition between anchor 1 and anchor 2. Considering the different radio reflection and diffraction effects with one obstacle under different orientations, we collect six sub-datasets for each NLOS condition with different orientations of the obstacle. One LOS data is collected for comparison.
     </p>
   </div>
 </div>
@@ -37,7 +38,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
     <img src="files/readme_images/static-data-format.png" alt="" width="400">
   </div>
   <div>
-    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.
+    <p>In each sub-dataset, we provide a csv file containing the collected data and a txt file containing the poses of the tag and two anchors in one folder. For NLOS tests, the positions of the four markers on the obstacles are also included in the txt file. The format of the csv file and brief descriptions of each value are summarized in table on the right. Detailed information can be found in the dataset paper.
     </p>
     <p>&nbsp;</p>   <!-- line break -->
     <p>&nbsp;</p>
@@ -52,6 +53,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 
 ---
 ## Flight Dataset
+For the flight experiments, we collected the raw UWB meaurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) on-board a customized quadrotor platform.
 
 ### Flight arena and experimental setup
 <div style="clear: both;">
@@ -59,9 +61,8 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
     <img src="files/readme_images/flight-setup.png" alt="" width="400">
   </div>
   <div>
-    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Three different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations">Leica total station</a> for reproducibility. We refer to the Vicon frame (see the right figure) as the inertial frame. To align the Leica total station frame and the inertial frame, we use the total station to survey six Vicon reflective markers with known positions in inertial frame and computethe transformation matrix through point cloud alignment. The average reprojection root-mean-squared error (RMSE) of the six reflective markers is around 1.12 mm.
+    </p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
