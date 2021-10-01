@@ -7,7 +7,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 ---
 ## Static Dataset
 
-# Line-of-sight (LOS) experiments
+### Line-of-sight (LOS) experiments
 
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
@@ -18,7 +18,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
   </div>
 </div>
 
-# Non-lLine-of-sight (NLOS) experiments
+### Non-lLine-of-sight (NLOS) experiments
 
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
