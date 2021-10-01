@@ -1,4 +1,4 @@
-<img src="files/readme_images/fig1.png" alt="start-img" width="1000">
+<img src="files/readme_images/start-fig.png" alt="start-img" width="1000">
 
 ---
 ## Summary
