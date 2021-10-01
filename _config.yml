@@ -1,11 +1,11 @@
 theme: jekyll-theme-cayman
 
-title: UTIAS UWB Dataset
-description: Ultra-wideband dataset for indoor localization
+title: UTIAS UWB TDOA Dataset
+description: The UTIAS ultra-wideband time-difference-of-arrival dataset for indoor localization
 show_downloads: true
 
 github:
   zip_url: https://github.com/utiasDSL/utias_uwb_dataset/archive/master.zip
   tar_url: https://github.com/utiasDSL/utias_uwb_dataset/tarball/master 
 
-logo: /files/readme_images/helix.png
+logo: /files/readme_images/fig1.png

@@ -1,5 +1,14 @@
 
-<img src="files/readme_images/fig1.png" alt="control info" width="1000">
+<img src="files/readme_images/fig1.png" alt="start-img" width="1000">
+
+---
+## Summary
+The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
+
+---
+## Static Dataset
+
+<img src="files/readme_images/static_setup.jpg" alt="static setup" width="1000"> 
 ---
 ## Procedure
 Step 1. Build ROS messages:
