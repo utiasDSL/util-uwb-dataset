@@ -77,7 +77,7 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
 </div>
 
 ### Time synchronization, latency, and calibration
-Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) are recorded as [event streams](https://www.bitcraze.io/2021/03/event-based-data-logging/). The Vicon pose measurements logged onboard are treated as the ground truth data.  Each datapoint is timestamped with the onboard microsecond timer and the resulting time series is written to the micro SD card as a binary file. Python scripts are provided to parse and analyze the binary data. The latency from the ground station software to the onboard firmware is tested to be around 22 ms using the method provided in Preiss et al. (2017). As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift.
+Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) are recorded as [event streams](https://www.bitcraze.io/2021/03/event-based-data-logging/). The Vicon pose measurements logged onboard are treated as the ground truth data.  Each datapoint is timestamped with the onboard microsecond timer and the resulting time series is written to the micro SD card as a binary file. Python scripts are provided to parse and analyze the binary data. In terms of the latency from the ground station software to the onboard firmware, we manually flicked the quadrotor and compared the offset between the acceleration and Vicon measurement spikes. The latency is tested to be around 22 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift.
 
 We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
@@ -97,7 +97,7 @@ For each UWB constellation, we provide the raw Leica total station survey result
 <img src="files/images/flight-data-format.png" alt="" width="800">
 
 
-### User Instruction
+### User Instructions
 We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data on top of the scripts for usage.
 ## Procedure
 ---
