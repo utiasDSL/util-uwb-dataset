@@ -32,7 +32,6 @@ For the static experiments, we collected UWB TDOA measurements under various lin
 </div>
  
 ### Static dataset format
-
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
     <img src="files/images/static-data-format.png" alt="" width="400">
@@ -49,7 +48,6 @@ For the static experiments, we collected UWB TDOA measurements under various lin
     <p>&nbsp;</p>
   </div>
 </div>
-
 
 ---
 ## Flight Dataset
@@ -95,23 +93,12 @@ We refer to the offset between the center of a sensor and the vehicle center as 
 </div>
 
 ### Flight dataset format
-The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.
+For each UWB constellation, we provide the raw Leica total station survey results and computed anchor poses in txt files. In each sub-dataset, we provide the timestamped TDOA, accelerometer, gyroscope, optical flow, ToF laser-ranger, and the barometer measurements and the ground truth measurements of the quadrotor’s pose in a csv file. The data format is shown in the following table. We provide both Matlab and Python scripts to parse the data.
 <img src="files/images/flight-data-format.png" alt="" width="800">
 
 
----
-## Data Usage
-
-### UWB TDOA measurement modeling
-
-
-### UWB TDOA-based localization
-
-
-### UWB bias learning and modeling
-
-
-
+### User Instruction
+We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data on top of the scripts for usage.
 ## Procedure
 ---
 Step 1. Build ROS messages:
@@ -130,22 +117,28 @@ NOTE: remember to [source both your ROS environment and workspace.](http://wiki.
 Step 2. Convert SD card binary data to `rosbag`:
 ```
 $ cd dataset/scripts/flight-data/sdcard_scripts
-$ python3 log_to_bag.py [SD_CARD_BINARY_DATA]                               # e.g. python3 log_to_bag.py ../../../flight-dataset/binary-data/const1/const1-log1
+$ python3 log_to_bag.py [SD_CARD_BINARY_DATA]                               
+# e.g. python3 log_to_bag.py ../../../flight-dataset/binary-data/const1/const1-log1
 ```
 
 ---
-Step 3. Visualize the survey results:
+Step 3. Convert the survey results to the inertial frame:
 ```
 $ cd dataset/scripts/survey
-$ python3 anchor_survey.py [SURVEY_RESULT_TXT]                              # e.g. python3 anchor_survey.py ../../flight-dataset/survey-results/anchor_const1.txt
+$ python3 anchor_survey.py [SURVEY_RESULT_TXT]                              
+# e.g. python3 anchor_survey.py ../../flight-dataset/survey-results/anchor_const1.txt
 ```
+We also provide the converted survey results as npz and txt files.
 
 ---
 Step 4. Visualize UWB measurements:
 ```
 $ cd dataset/scripts/flight-data
-$ python3 visual_tdoa2.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_ROSBAG_DATA]        # e.g. python3 visual_tdoa2.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag 
-$ python3 visual_tdoa3.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]        # e.g. python3 visual_tdoa3.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log7.bag 
+$ python3 visual_tdoa2.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_ROSBAG_DATA]        
+# e.g. python3 visual_tdoa2.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag 
+
+$ python3 visual_tdoa3.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]        
+# e.g. python3 visual_tdoa3.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log7.bag 
 ```
 For TDOA3, the anchor pair of the visualized UWB measurement is set in the script `visual_tdoa3.py`.
 
@@ -153,7 +146,8 @@ For TDOA3, the anchor pair of the visualized UWB measurement is set in the scrip
 Step 5. Visualize UWB measurement bias:
 ```
 $ cd dataset/scripts/flight-data
-$ python3 visual_bias.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]          # e.g. python3 visual_bias.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
+$ python3 visual_bias.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]          
+# e.g. python3 visual_bias.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
 ```
 The anchor pair of the visualized UWB measurement is set in the script `visual_bias.py`
 
@@ -161,14 +155,16 @@ The anchor pair of the visualized UWB measurement is set in the script `visual_b
 Step 6. Visualize trajectory and obstacle positions during manual data collections
 ```
 $ cd dataset/scripts/flight-data
-$ python3 visual_TrajObs.py -i ../survey/anchor_const3.npz [ROSBAG_DATA]    # e.g. python3 visual_TrajObs.py -i ../survey/anchor_const3.npz ../../rosbag/flight-data/rosbag-const3/const3-tdoa2-obs-log1.bag 
+$ python3 visual_TrajObs.py -i ../survey/anchor_const3.npz [ROSBAG_DATA]    
+# e.g. python3 visual_TrajObs.py -i ../survey/anchor_const3.npz ../../rosbag/flight-data/rosbag-const3/const3-tdoa2-obs-log1.bag 
 ```
 
 ---
 Step 7. Error-State Kalman Filter Estimation
 ```
 $ cd dataset/scripts/estimation
-$ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      # e.g. python3 eskf.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
+$ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      
+# e.g. python3 eskf.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
 ```
 
 ---
@@ -177,14 +173,16 @@ $ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      # e.
 Step 8. Visualize LOS static data
 ```
 $ cd dataset/scripts/static-data
-$ python3 los_visual.py -i [LOS_DATA_FOLDER]                                # e.g. python3 los_visual.py -i ../../static-dataset/los/distTest/distT1
+$ python3 los_visual.py -i [LOS_DATA_FOLDER]                                
+# e.g. python3 los_visual.py -i ../../static-dataset/los/distTest/distT1
 ```
 
 ---
 Step 9. Visualize NLOS static data
 ```
 $ cd dataset/scripts/static-data
-$ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]                              # e.g. python3 nlos_visual.py -i ../../static-dataset/nlos/anTag/metal/data1
+$ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]                              
+# e.g. python3 nlos_visual.py -i ../../static-dataset/nlos/anTag/metal/data1
 ```
 
 ## Credits
