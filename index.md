@@ -97,9 +97,9 @@ For each UWB constellation, we provide the raw Leica total station survey result
 <img src="files/images/flight-data-format.png" alt="" width="800">
 
 
-### User Instructions
+## User Instructions
 We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data on top of the scripts for usage.
-## Procedure
+### Procedure
 ---
 Step 1. Build ROS messages:
 ```
@@ -113,7 +113,7 @@ $ source devel/setup.bash
 NOTE: remember to [source both your ROS environment and workspace.](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment#Managing_Your_Environment)
 
 ---
-## Data parsing scripts for flight dataset
+### Data parsing scripts for flight dataset
 Step 2. Convert SD card binary data to `rosbag`:
 ```
 $ cd dataset/scripts/flight-data/sdcard_scripts
@@ -168,7 +168,7 @@ $ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]
 ```
 
 ---
-## Data parsing scripts for static dataset
+### Data parsing scripts for static dataset
 
 Step 8. Visualize LOS static data
 ```
@@ -187,7 +187,8 @@ $ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]
 
 ## Credits
 
-This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). 
+This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). If you use the data provided by this website in your own work, please use the following citation:
+- Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. The UTIAS ultra-wideband time-difference-of-arrival dataset for indoor localization. International Journal of Robotics Research, xx(x):xx-xx,October 2021.
 
 -----
 > University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
