@@ -192,7 +192,7 @@ This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abh
 @INPROCEEDINGS{zhao2021uwbData,
       title={The UTIAS ultra-wideband time-difference-of-arrival dataset for indoor localization}, 
       author={Wenda Zhao and Abhishek Goudar and Angela P. Schoellig},
-      booktitle={2021 International Journal of Robotics Research (IJRR)},
+      booktitle={International Journal of Robotics Research (IJRR)},
       year={2021},
       volume={},
       number={},
