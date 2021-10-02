@@ -187,7 +187,7 @@ $ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]
 
 ## Credits
 
-This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), Abhishek Goudar, and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). 
+This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). 
 
 -----
 > University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
