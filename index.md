@@ -89,9 +89,7 @@ We refer to the offset between the center of a sensor and the vehicle center as 
     <img src="files/images/eskf.png" alt="" width="420">
   </div>
   <div>
-    <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <p>In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the right as an example. The flight dataset can be used to assess the UWB TDOA-based localization performance using low-cost DWM1000 UWB modules. We provide an error-state Kalman filter implementation for localization and the performance is demonstrated on the bottom right. Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.</p>
     <p>&nbsp;</p>
   </div>
 </div>
@@ -191,7 +189,7 @@ $ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]                              # e.
 
 ## Credits
 
-This dataset was the work of Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. 
+This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), Abhishek Goudar, and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). 
 
 -----
-> University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)
+> University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
