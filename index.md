@@ -1,4 +1,4 @@
-<img src="files/readme_images/start-fig.png" alt="start-img" width="1000">
+<img src="files/images/start-fig.png" alt="start-img" width="1000">
 
 ---
 ## Summary
@@ -12,7 +12,7 @@ For the static experiments, we collected UWB TDOA measurements under various lin
 <!-- word -- left, fig -- right -->
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/static-los.png" alt="" width="400">
+    <img src="files/images/static-los.png" alt="" width="400">
   </div>
   <div>
     <p>In LOS conditions, we collected data from two tests: (1) the LOS distance test and (2) the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance d1 from 0.5 meters to 6.5 meter with an interval of 0.5 meter.In LOS angle dataset, we change the angle from 180 degree to 15 degree with an interval of 15 degree. </p>
@@ -23,7 +23,7 @@ For the static experiments, we collected UWB TDOA measurements under various lin
 
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/static-nlos.png" alt="" width="400">
+    <img src="files/images/static-nlos.png" alt="" width="400">
   </div>
   <div>
     <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, including cardboard, metal, wood, plastic, and foam. We conducted NLOS experiments under (i) NLOS conditions between anchor 1 and the tag and (ii) NLOS condition between anchor 1 and anchor 2. Considering the different radio reflection and diffraction effects with one obstacle under different orientations, we collect six sub-datasets for each NLOS condition with different orientations of the obstacle. One LOS data is collected for comparison.
@@ -35,7 +35,7 @@ For the static experiments, we collected UWB TDOA measurements under various lin
 
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/static-data-format.png" alt="" width="400">
+    <img src="files/images/static-data-format.png" alt="" width="400">
   </div>
   <div>
     <p>In each sub-dataset, we provide a csv file containing the collected data and a txt file containing the poses of the tag and two anchors in one folder. For NLOS tests, the positions of the four markers on the obstacles are also included in the txt file. The format of the csv file and brief descriptions of each value are summarized in table on the right. Detailed information can be found in the dataset paper.
@@ -58,7 +58,7 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
 ### Flight arena and experimental setup
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/flight-setup.png" alt="" width="400">
+    <img src="files/images/flight-setup.png" alt="" width="400">
   </div>
   <div>
     <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Three different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations/">Leica total station</a> for reproducibility.
@@ -71,7 +71,7 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
 ### Quadrotor platform
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/drone-setup.png" alt="" width="400">
+    <img src="files/images/drone-setup.png" alt="" width="400">
   </div>
   <div>
     <p>We built a customized quadrotor based on the <a href="https://store.bitcraze.io/products/crazyflie-bolt/">Crazyflie Bolt</a> flight controller with an inertial measurement unit (IMU) and  attached commercially available extension boards (so-called decks) from Bitcraze for data collection. The LPS UWB tag is mounted vertically on the top to receive UWB TDOA measurements. A flow deck attached at the bottom provides optical flow measurements and a laser-based ToF sensor provides the local altitude information. The accelerometer and gyroscope data is obtained from the  onboard IMU. A micro SD card deck logs the raw sensor data received by the flight control board with high-precision microsecond timestamps. The customized quadrotor communicates with a ground station computer over a 2.4 GHz USB radio dongle <a href="https://www.bitcraze.io/products/crazyradio-pa/">(Crazyradio PA)</a> for high-level interaction. In terms of software, we use the <a href="https://github.com/USC-ACTLab/crazyswarm/">Crazyswarm</a> package (Preiss et al. (2017)) to send high-level commands and the pose of the quadrotor measured by the motion capture system  to the quadrotor. </p>
@@ -86,7 +86,7 @@ We refer to the offset between the center of a sensor and the vehicle center as 
 ### Localization performance
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/readme_images/eskf.png" alt="" width="420">
+    <img src="files/images/eskf.png" alt="" width="420">
   </div>
   <div>
     <p>The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.</p>
@@ -98,7 +98,7 @@ We refer to the offset between the center of a sensor and the vehicle center as 
 
 ### Flight dataset format
 The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low-level signal information from static experiments and UWB TDOA measurements and additional onboard sensor data from flight experiments on a quadrotor. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology.
-<img src="files/readme_images/flight-data-format.png" alt="" width="800">
+<img src="files/images/flight-data-format.png" alt="" width="800">
 
 
 ---
