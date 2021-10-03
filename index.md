@@ -123,7 +123,7 @@ $ cd scripts/flight-data/sdcard_scripts
 $ python3 log_to_bag.py [SD_CARD_BINARY_DATA]                               
 # e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-log1
 ```
-Note, we provide the converted rosbag data in the folder: "*dataset/flight-dataset/rosbag-data/*".
+NOTE: we provide the converted rosbag data in the folder: "*dataset/flight-dataset/rosbag-data/*".
 
 ---
 Step 3. Convert the survey results to the inertial frame:
@@ -132,7 +132,7 @@ $ cd scripts/survey
 $ python3 anchor_survey.py [SURVEY_RESULT_TXT]                              
 # e.g. python3 anchor_survey.py ../../dataset/flight-dataset/survey-results/raw-data/anchor_const1.txt
 ```
-Note, we provide the converted survey results (npz and txt files) in the folder: "*dataset/flight-dataset/survey-results/*".
+NOTE: we provide the converted survey results (npz and txt files) in the folder: "*dataset/flight-dataset/survey-results/*".
 
 ---
 Step 4. Visualize UWB measurements:
@@ -162,7 +162,7 @@ $ cd scripts/flight-dataset
 $ python3 visual_TrajObs.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]    
 # e.g. python3 visual_TrajObs.py -i ../../dataset/flight-dataset/survey-results/anchor_const3.npz ../../dataset/flight-dataset/rosbag-data/const3/const3-tdoa2-obs-log1.bag 
 ```
-Note, manual data collections at the presence of obstacles were conducted in const. 3.
+NOTE: manual data collections at the presence of obstacles were conducted in const. 3.
 
 ---
 Step 7. Error-State Kalman Filter Estimation
