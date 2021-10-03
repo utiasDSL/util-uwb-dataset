@@ -72,7 +72,7 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
     <img src="files/images/drone-setup.png" alt="" width="400">
   </div>
   <div>
-    <p>We built a customized quadrotor based on the <a href="https://store.bitcraze.io/products/crazyflie-bolt/">Crazyflie Bolt</a> flight controller with an inertial measurement unit (IMU) and  attached commercially available extension boards (so-called decks) from Bitcraze for data collection. The LPS UWB tag is mounted vertically on the top to receive UWB TDOA measurements. A flow deck attached at the bottom provides optical flow measurements and a laser-based ToF sensor provides the local altitude information. The accelerometer and gyroscope data is obtained from the  onboard IMU. A micro SD card deck logs the raw sensor data received by the flight control board with high-precision microsecond timestamps. The customized quadrotor communicates with a ground station computer over a 2.4 GHz USB radio dongle <a href="https://www.bitcraze.io/products/crazyradio-pa/">(Crazyradio PA)</a> for high-level interaction. In terms of software, we use the <a href="https://github.com/USC-ACTLab/crazyswarm/">Crazyswarm</a> package (Preiss et al. (2017)) to send high-level commands and the pose of the quadrotor measured by the motion capture system  to the quadrotor. </p>
+    <p>We built a customized quadrotor based on the <a href="https://store.bitcraze.io/products/crazyflie-bolt/">Crazyflie Bolt</a> flight controller with an inertial measurement unit (IMU) and  attached commercially available extension boards (so-called decks) from Bitcraze for data collection. The LPS UWB tag is mounted vertically on the top to receive UWB TDOA measurements. A flow deck attached at the bottom provides optical flow measurements and a laser-based ToF sensor provides the local altitude information. The accelerometer and gyroscope data is obtained from the  onboard IMU. A micro SD card deck logs the raw sensor data received by the flight control board with high-precision microsecond timestamps. The customized quadrotor communicates with a ground station computer over a 2.4 GHz USB radio dongle <a href="https://www.bitcraze.io/products/crazyradio-pa/">(Crazyradio PA)</a> for high-level interaction. In terms of software, we use the <a href="https://github.com/USC-ACTLab/crazyswarm/">Crazyswarm</a> package to send high-level commands and the pose of the quadrotor measured by the motion capture system  to the quadrotor. </p>
   </div>
 </div>
 
@@ -99,7 +99,10 @@ For each UWB constellation, we provide the raw Leica total station survey result
 
 ## User Instructions
 We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data on top of the scripts for usage.
-### Procedure
+### Access data
+Clone the [Git repository](https://github.com/utiasDSL/utias_uwb_dataset/), download the [latest release](https://github.com/utiasDSL/utias_uwb_dataset/releases) of the dataset, and decompose the zip file into the base folder.
+
+### ROS workspace
 ---
 Step 1. Build ROS messages:
 ```
@@ -116,55 +119,57 @@ NOTE: remember to [source both your ROS environment and workspace.](http://wiki.
 ### Data parsing scripts for flight dataset
 Step 2. Convert SD card binary data to `rosbag`:
 ```
-$ cd dataset/scripts/flight-data/sdcard_scripts
+$ cd scripts/flight-data/sdcard_scripts
 $ python3 log_to_bag.py [SD_CARD_BINARY_DATA]                               
-# e.g. python3 log_to_bag.py ../../../flight-dataset/binary-data/const1/const1-log1
+# e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-log1
 ```
+Note, we provide the converted rosbag data in the folder: "*dataset/flight-dataset/rosbag-data/*".
 
 ---
 Step 3. Convert the survey results to the inertial frame:
 ```
-$ cd dataset/scripts/survey
+$ cd scripts/survey
 $ python3 anchor_survey.py [SURVEY_RESULT_TXT]                              
-# e.g. python3 anchor_survey.py ../../flight-dataset/survey-results/anchor_const1.txt
+# e.g. python3 anchor_survey.py ../../dataset/flight-dataset/survey-results/raw-data/anchor_const1.txt
 ```
-We also provide the converted survey results as npz and txt files.
+Note, we provide the converted survey results (npz and txt files) in the folder: "*dataset/flight-dataset/survey-results/*".
 
 ---
 Step 4. Visualize UWB measurements:
 ```
-$ cd dataset/scripts/flight-data
+$ cd scripts/flight-dataset
 $ python3 visual_tdoa2.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_ROSBAG_DATA]        
-# e.g. python3 visual_tdoa2.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag 
+# e.g. python3 visual_tdoa2.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log1.bag 
 
 $ python3 visual_tdoa3.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]        
-# e.g. python3 visual_tdoa3.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log7.bag 
+# e.g. python3 visual_tdoa3.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log7.bag 
 ```
 For TDOA3, the anchor pair of the visualized UWB measurement is set in the script `visual_tdoa3.py`.
 
 ---
 Step 5. Visualize UWB measurement bias:
 ```
-$ cd dataset/scripts/flight-data
+$ cd scripts/flight-dataset
 $ python3 visual_bias.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]          
-# e.g. python3 visual_bias.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
+# e.g. python3 visual_bias.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log1.bag
 ```
 The anchor pair of the visualized UWB measurement is set in the script `visual_bias.py`
 
 ---
-Step 6. Visualize trajectory and obstacle positions during manual data collections
+Step 6. Visualize the trajectory and obstacle positions of manual data collections
 ```
-$ cd dataset/scripts/flight-data
-$ python3 visual_TrajObs.py -i ../survey/anchor_const3.npz [ROSBAG_DATA]    
-# e.g. python3 visual_TrajObs.py -i ../survey/anchor_const3.npz ../../rosbag/flight-data/rosbag-const3/const3-tdoa2-obs-log1.bag 
+$ cd scripts/flight-dataset
+$ python3 visual_TrajObs.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]    
+# e.g. python3 visual_TrajObs.py -i ../../dataset/flight-dataset/survey-results/anchor_const3.npz ../../dataset/flight-dataset/rosbag-data/const3/const3-tdoa2-obs-log1.bag 
 ```
+Note, manual data collections at the presence of obstacles were conducted in const. 3.
 
 ---
 Step 7. Error-State Kalman Filter Estimation
 ```
-$ cd dataset/scripts/estimation
+$ cd scripts/estimation
 $ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      
-# e.g. python3 eskf.py -i ../survey/anchor_const1.npz ../../rosbag/flight-data/rosbag-const1/const1-log1.bag
+# e.g. python3 eskf.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log1.bag
 ```
 
 ---
@@ -172,17 +177,17 @@ $ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]
 
 Step 8. Visualize LOS static data
 ```
-$ cd dataset/scripts/static-data
+$ cd scripts/static-data
 $ python3 los_visual.py -i [LOS_DATA_FOLDER]                                
-# e.g. python3 los_visual.py -i ../../static-dataset/los/distTest/distT1
+# e.g. python3 los_visual.py -i ../../dataset/static-dataset/los/distTest/distT1
 ```
 
 ---
 Step 9. Visualize NLOS static data
 ```
-$ cd dataset/scripts/static-data
+$ cd scripts/static-data
 $ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]                              
-# e.g. python3 nlos_visual.py -i ../../static-dataset/nlos/anTag/metal/data1
+# e.g. python3 nlos_visual.py -i ../../dataset/static-dataset/nlos/anTag/metal/data1
 ```
 
 ## Credits
