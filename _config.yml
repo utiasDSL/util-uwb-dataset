@@ -5,7 +5,7 @@ description: The UTIAS ultra-wideband time-difference-of-arrival dataset for ind
 show_downloads: true
 
 github:
-  zip_url: https://github.com/utiasDSL/utias_uwb_dataset/archive/master.zip
-  tar_url: https://github.com/utiasDSL/utias_uwb_dataset/tarball/master 
+  script_zip_url: https://github.com/utiasDSL/utias_uwb_dataset/archive/refs/tags/Dataset-v1.0.zip
+  data_zip_url: https://github.com/utiasDSL/utias_uwb_dataset/releases/download/Dataset-v1.0/dataset.zip
 
-logo: /files/readme_images/fig1.png
+
