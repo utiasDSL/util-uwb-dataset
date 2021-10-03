@@ -5,9 +5,12 @@
 clear; close all
 clc;
 
-% change the path to the survey results and the data
-csv = '../../flight-dataset/const3/const3-tdoa2-obs-log2.csv';
-txt = '../survey/anchor_const3_survey.txt';
+% get the full path of the current script
+filepath = fileparts(mfilename('fullpath'));
+
+% combine the path
+csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const3/const3-tdoa2-obs-log1.csv');
+txt = fullfile(filepath, '../../dataset/flight-dataset/survey-results/anchor_const3_survey.txt');
 
 % load the anchor positions
 an_pose = readtable(txt);

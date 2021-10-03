@@ -2,9 +2,12 @@
 clear; close all
 clc;
 
-% change the path to the survey results and the data
-csv = '../../static-dataset/los/angleTest/angleT2/angleT2_data.csv';
-txt = '../../static-dataset/los/angleTest/angleT2/angleT2_pose.txt';
+% get the full path of the current script
+filepath = fileparts(mfilename('fullpath'));
+
+% combine the path
+csv = fullfile(filepath, '../../dataset/static-dataset/los/angleTest/angleT2/angleT2_data.csv');
+txt = fullfile(filepath, '../../dataset/static-dataset/los/angleTest/angleT2/angleT2_pose.txt');
 
 % load the anchor positions
 position = readtable(txt,'ReadRowNames',true);

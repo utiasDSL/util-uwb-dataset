@@ -2,12 +2,14 @@
 clear; close all
 clc;
 
-% change the path to the survey results and the data
-csv = '../../static-dataset/nlos/anTag/metal/data1/metal-anTag-data1_data.csv';
-txt = '../../static-dataset/nlos/anTag/metal/data1/metal-anTag-data1_pose.txt';
+% get the full path of the current script
+filepath = fileparts(mfilename('fullpath'));
+
+% combine the path
+csv = fullfile(filepath, '../../dataset/static-dataset/nlos/anTag/metal/data1/metal-anTag-data1_data.csv');
+txt = fullfile(filepath, '../../dataset/static-dataset/nlos/anTag/metal/data1/metal-anTag-data1_pose.txt');
 
 % load the anchor positions
-
 fid = fopen(txt);
 
 position = [];

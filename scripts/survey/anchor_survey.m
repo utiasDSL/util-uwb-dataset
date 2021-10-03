@@ -4,8 +4,11 @@
 clear; close all
 clc;
 
+% get the full path of the current script
+filepath = fileparts(mfilename('fullpath'));
+
 % change the path to the survey results and the data
-txt = '../../flight-dataset/survey-results/anchor_const1.txt';
+txt = fullfile(filepath, '../../dataset/flight-dataset/survey-results/raw-data/anchor_const1.txt');
 
 survey = readtable(txt, 'ReadRowNames',true);
 pos = [survey.Var1, survey.Var2, survey.Var3];

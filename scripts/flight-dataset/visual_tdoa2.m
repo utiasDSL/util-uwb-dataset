@@ -1,9 +1,13 @@
 % Visualize the sensor measurements (TDOA2)
 clear; close all
 clc;
-% change the path to the survey results and the data
-csv = '../../flight-dataset/const1/const1-log4.csv';
-txt = '../survey/anchor_const1_survey.txt';
+
+% get the full path of the current script
+filepath = fileparts(mfilename('fullpath'));
+
+% combine the path
+csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const1/const1-log1.csv');
+txt = fullfile(filepath, '../../dataset/flight-dataset/survey-results/anchor_const1_survey.txt');
 
 % load the anchor positions
 an_pose = readtable(txt,'ReadRowNames',true);
