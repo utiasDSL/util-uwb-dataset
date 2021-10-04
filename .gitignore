@@ -7,3 +7,7 @@ ros_ws/build
 ros_ws/devel
 *.pyc
 3_scripts/survey/__pycache__/
+
+dataset.zip
+
+dataset/
