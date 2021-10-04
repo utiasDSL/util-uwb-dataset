@@ -100,7 +100,7 @@ For each UWB constellation, we provide the raw Leica total station survey result
 ## User Instructions
 We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data on top of the scripts for usage.
 ### Access data
-Clone the [Git repository](https://github.com/utiasDSL/utias_uwb_dataset/), download the [latest release](https://github.com/utiasDSL/utias_uwb_dataset/releases) of the dataset, and decompose the zip file into the base folder.
+Clone the [Git repository](https://github.com/utiasDSL/utias_uwb_dataset/), download the [latest release](https://github.com/utiasDSL/utias_uwb_dataset/releases) of the dataset, and decompose the zip file into the local Git repository base folder.
 
 ### ROS workspace
 ---
