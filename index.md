@@ -6,7 +6,7 @@ The UTIAS ultra-wideband (UWB) time-difference-of-arrival (TDOA) consists of low
 
 ---
 ## Static Dataset
-For the static experiments, we collected UWB TDOA measurements under various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for groundtruth data.
+For the static experiments, we collected UWB TDOA measurements under various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data.
 
 ### Line-of-sight (LOS) experiments
 <!-- word -- left, fig -- right -->
@@ -15,7 +15,7 @@ For the static experiments, we collected UWB TDOA measurements under various lin
     <img src="files/images/static-los.png" alt="" width="400">
   </div>
   <div>
-    <p>In LOS conditions, we collected data from two tests: (1) the LOS distance test and (2) the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance d1 from 0.5 meters to 6.5 meter with an interval of 0.5 meter.In LOS angle dataset, we change the angle from 180 degree to 15 degree with an interval of 15 degree. </p>
+    <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meter to 6.5 meters with an interval of 0.5 meter. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees with an interval of 15 degrees. </p>
   </div>
 </div>
 
@@ -26,7 +26,7 @@ For the static experiments, we collected UWB TDOA measurements under various lin
     <img src="files/images/static-nlos.png" alt="" width="400">
   </div>
   <div>
-    <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, including cardboard, metal, wood, plastic, and foam. We conducted NLOS experiments under (i) NLOS conditions between anchor 1 and the tag and (ii) NLOS condition between anchor 1 and anchor 2. Considering the different radio reflection and diffraction effects with one obstacle under different orientations, we collect six sub-datasets for each NLOS condition with different orientations of the obstacle. One LOS data is collected for comparison.
+    <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, including cardboard, metal, wood, plastic, and foam. We conducted NLOS experiments under <em>(i)</em> NLOS conditions between anchor 1 and the tag and <em>(ii)</em> NLOS condition between anchor 1 and anchor 2. Considering the different radio reflection and diffraction effects with one obstacle under different orientations, we collect six sub-datasets for each NLOS condition with different orientations of the obstacle. One LOS data is collected for comparison.
     </p>
   </div>
 </div>
@@ -37,7 +37,7 @@ For the static experiments, we collected UWB TDOA measurements under various lin
     <img src="files/images/static-data-format.png" alt="" width="400">
   </div>
   <div>
-    <p>In each sub-dataset, we provide a csv file containing the collected data and a txt file containing the poses of the tag and two anchors in one folder. For NLOS tests, the positions of the four markers on the obstacles are also included in the txt file. The format of the csv file and brief descriptions of each value are summarized in table on the right. Detailed information can be found in the dataset paper.
+    <p>In each sub-dataset, we provide a <em>csv</em> file containing the collected data and a <em>txt</em> file containing the poses of the tag and two anchors in one folder. For NLOS tests, the positions of the four markers on the obstacles are also included in the <em>txt</em> file. The format of the <em>csv</em> file and brief descriptions of each value are summarized in table on the right. Detailed information can be found in the dataset paper.
     </p>
     <p>&nbsp;</p>   <!-- line break -->
     <p>&nbsp;</p>
@@ -77,7 +77,7 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
 </div>
 
 ### Time synchronization, latency, and calibration
-Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) are recorded as [event streams](https://www.bitcraze.io/2021/03/event-based-data-logging/). The Vicon pose measurements logged onboard are treated as the ground truth data.  Each datapoint is timestamped with the onboard microsecond timer and the resulting time series is written to the micro SD card as a binary file. Python scripts are provided to parse and analyze the binary data. In terms of the latency from the ground station software to the onboard firmware, we manually flicked the quadrotor and compared the offset between the acceleration and Vicon measurement spikes. The latency is tested to be around 22 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift.
+Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) are recorded as [event streams](https://www.bitcraze.io/2021/03/event-based-data-logging/). The Vicon pose measurements logged onboard are treated as the ground truth data.  Each datapoint is timestamped with the onboard microsecond timer and the resulting time series are written to the micro SD card as a binary file. Python scripts are provided to parse and analyze the binary data. In terms of the latency from the ground station software to the onboard firmware, we manually flicked the quadrotor and compared the offset between the acceleration and Vicon measurement spikes. The latency is tested to be around 22 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift.
 
 We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
@@ -93,12 +93,12 @@ We refer to the offset between the center of a sensor and the vehicle center as 
 </div>
 
 ### Flight dataset format
-For each UWB constellation, we provide the raw Leica total station survey results and computed anchor poses in txt files. In each sub-dataset, we provide the timestamped TDOA, accelerometer, gyroscope, optical flow, ToF laser-ranger, and the barometer measurements and the ground truth measurements of the quadrotor’s pose in a csv file. The data format is shown in the following table. We provide both Matlab and Python scripts to parse the data.
+For each UWB constellation, we provide the raw Leica total station survey results and computed anchor poses in *txt* files. In each sub-dataset, we provide the timestamped UWB TDOA, accelerometer, gyroscope, optical flow, ToF laser-ranger, and the barometer measurements and the ground truth measurements of the quadrotor’s pose in a *csv* file. The data format is shown in the following table. We also provide rosbag data converted from binary files for ROS related applications. We provide both Matlab and Python scripts to parse the data.
 <img src="files/images/flight-data-format.png" alt="" width="800">
 
 
 ## User Instructions
-We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data on top of the scripts for usage.
+We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data (*txt* and *csv* files) on top of the scripts for usage.
 ### Access data
 Clone the [Git repository](https://github.com/utiasDSL/utias_uwb_dataset/), download the [latest release](https://github.com/utiasDSL/utias_uwb_dataset/releases) of the dataset, and decompose the zip file into the local Git repository base folder.
 
