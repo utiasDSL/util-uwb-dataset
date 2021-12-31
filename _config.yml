@@ -6,6 +6,6 @@ show_downloads: true
 
 github:
   script_zip_url: https://github.com/utiasDSL/utias_uwb_dataset/archive/refs/tags/Dataset-v1.0.zip
-  data_zip_url: https://github.com/utiasDSL/utias_uwb_dataset/releases/download/Dataset-v1.0/dataset.zip
+  data_zip_url: https://github.com/utiasDSL/utias_uwb_dataset/releases/download/Dataset-v1.0/dataset.7z
 
 
