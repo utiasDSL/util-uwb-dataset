@@ -14,8 +14,6 @@ import numpy as np
 import csv
 from itertools import zip_longest
 
-# select the matplotlib plotting style
-style.use('ggplot')
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
 
@@ -47,6 +45,7 @@ def extractTof(data, start_time):
     tof_data = []
     for (t,zrange) in zip(data['timestamp'], data['range.zrange']):
         stamp = (t-start_time) / 1000
+        zrange = zrange*0.001; # mm to m
         tof_data.append([stamp, zrange])
     return np.array(tof_data)
 
@@ -217,28 +216,31 @@ def dataVisual(tdoa, tof, flow, baro, pose):
     # plot separate x,y,z
     fig6 = plt.figure()
     a_x = fig6.add_subplot(311)
+    plt.title(r"Ground truth of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
     a_x.plot(pose[:,0],pose[:,1],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt x")
     a_x.legend(loc='best')
+    a_x.set_ylabel(r'X [m]') 
     a_y = fig6.add_subplot(312)
     a_y.plot(pose[:,0],pose[:,2],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt y")
     a_y.legend(loc='best')
+    a_y.set_ylabel(r'Y [m]') 
     a_z = fig6.add_subplot(313)
     a_z.plot(pose[:,0],pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = "Vicon gt z")
     a_z.legend(loc='best')
+    a_z.set_ylabel(r'Z [m]')
     a_z.set_xlabel(r'Time [s]')
-
-    plt.title(r"Ground truth of the experiment", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
+    
 
     plt.show()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', action='store', nargs=1)
+    parser.add_argument("file_usd")
     args = parser.parse_args()
     
-    file_usd = args.i[0]
-    data_usd = cfusdlog.decode(file_usd)
+    # decode binary log data
+    data_usd = cfusdlog.decode(args.file_usd)
     # find start time
     start_time = None
     for k, (event_name, data) in enumerate(data_usd.items()):
@@ -284,7 +286,7 @@ if __name__ == "__main__":
                       gyro[:,0],  gyro[:,1],  gyro[:,2],  gyro[:,3],  tof[:,0],    tof[:,1],    flow[:,0],   flow[:,1],  flow[:,2],
                       baro[:,0],  baro[:,1],  pose[:,0],  pose[:,1],  pose[:,2],   pose[:,3],   pose[:,4],   pose[:,5],  pose[:,6],  pose[:,7],  
                       fillvalue='')
-    csv_file = file_usd +'.csv'
+    csv_file = args.file_usd +'.csv'
     with open(csv_file,"w") as f:
         csv.writer(f).writerow(header)
         csv.writer(f).writerows(row)

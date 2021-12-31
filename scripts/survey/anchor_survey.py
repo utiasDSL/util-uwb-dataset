@@ -133,17 +133,9 @@ if __name__ == "__main__":
         
     pos = np.array(pos)
     NUM_vicon = 6
-    vicon_frame = pos[0:NUM_vicon,:]                  # 6 points in Vicon frame
-    anchor_marker = pos[NUM_vicon:,:]                 # uwb anchor pose 
-
-    # positions of the 6 vicon markers
-    vicon_m = np.array([[6.4833,     9.5857,     5.4701],
-                        [996.7297,   20.6892,    6.5530],
-                        [1493.6611,  30.2870,    8.0861],
-                        [1483.5196,  530.8999,   7.4837],
-                        [502.6914,   516.7251,   5.6232],
-                        [11.2639,    522.5133,   5.0284]
-                        ]) / 1000.0
+    vicon_m = pos[0:NUM_vicon,:] / 1000.0             # positions of the NUM_vicon markers (vicon frame)
+    vicon_frame = pos[NUM_vicon:2*NUM_vicon,:]                  # positions of the NUM_vicon markers (total station frame)
+    anchor_marker = pos[2*NUM_vicon:,:]                 # uwb anchor pose 
 
     dest_point = vicon_m
     src_point = vicon_frame
