@@ -139,10 +139,10 @@ Step 4. Visualize UWB measurements:
 ```
 $ cd scripts/flight-dataset
 $ python3 visual_tdoa2.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_ROSBAG_DATA]        
-# e.g. python3 visual_tdoa2.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log1.bag 
+# e.g. python3 visual_tdoa2.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag 
 
 $ python3 visual_tdoa3.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]        
-# e.g. python3 visual_tdoa3.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log7.bag 
+# e.g. python3 visual_tdoa3.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa3.bag 
 ```
 For TDOA3, the anchor pair of the visualized UWB measurement is set in the script `visual_tdoa3.py`.
 
@@ -151,7 +151,7 @@ Step 5. Visualize UWB measurement bias:
 ```
 $ cd scripts/flight-dataset
 $ python3 visual_bias.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]          
-# e.g. python3 visual_bias.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log1.bag
+# e.g. python3 visual_bias.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
 ```
 The anchor pair of the visualized UWB measurement is set in the script `visual_bias.py`
 
@@ -160,7 +160,7 @@ Step 6. Visualize the trajectory and obstacle positions of manual data collectio
 ```
 $ cd scripts/flight-dataset
 $ python3 visual_TrajObs.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]    
-# e.g. python3 visual_TrajObs.py -i ../../dataset/flight-dataset/survey-results/anchor_const3.npz ../../dataset/flight-dataset/rosbag-data/const3/const3-tdoa2-obs-log1.bag 
+# e.g. python3 visual_TrajObs.py -i ../../dataset/flight-dataset/survey-results/anchor_const3.npz ../../dataset/flight-dataset/rosbag-data/const3/const3-trial8-tdoa2-manual1.bag 
 ```
 NOTE: manual data collections at the presence of obstacles were conducted in const. 3.
 
@@ -169,7 +169,7 @@ Step 7. Error-State Kalman Filter Estimation
 ```
 $ cd scripts/estimation
 $ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      
-# e.g. python3 eskf.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-log1.bag
+# e.g. python3 eskf.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
 ```
 
 ---
@@ -192,11 +192,11 @@ $ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]
 
 ## Credits
 
-This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). If you use the data provided by this website in your own work, please use the following citation:
+This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), [Xianyuan Qiao](https://www.linkedin.com/in/xinyuan-sam-qiao-8b15ba17a/?originalSubdomain=ca) and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). If you use the data provided by this website in your own work, please use the following citation:
 ```
 @INPROCEEDINGS{zhao2021uwbData,
       title={The UTIAS ultra-wideband time-difference-of-arrival dataset for indoor localization}, 
-      author={Wenda Zhao and Abhishek Goudar and Angela P. Schoellig},
+      author={Wenda Zhao and Abhishek Goudar and Xianyuan Qiao and Angela P. Schoellig},
       booktitle={International Journal of Robotics Research (IJRR)},
       year={2021},
       volume={},
