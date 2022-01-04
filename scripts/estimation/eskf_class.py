@@ -7,8 +7,6 @@ import math
 from pyquaternion import Quaternion
 
 # ------------------ parameters ------------------ #
-std_xy0 = 0.1;       std_z0 = 0.1;      std_vel0 = 0.1
-std_rp0 = 0.1;       std_yaw0 = 0.1
 # Process noise
 w_accxyz = 2.0;      w_gyro_rpy = 0.1    # rad/sec
 w_vel = 0;           w_pos = 0;          w_att = 0;        
@@ -17,20 +15,9 @@ GRAVITY_MAGNITUDE = 9.81
 DEG_TO_RAD  = math.pi/180.0
 e3 = np.array([0, 0, 1]).reshape(-1,1)   
 
-# Initial estimate for the state vector
-X0 = np.zeros((6,1))        
-X0[0] = 1.25;  X0[1] = 0.0;  X0[2] = 0.07
-    
-q0 = Quaternion([1,0,0,0])  # initial quaternion
-
-# Initial posterior covariance
-P0 = np.diag([std_xy0**2,  std_xy0**2,  std_z0**2,\
-              std_vel0**2, std_vel0**2, std_vel0**2,\
-              std_rp0**2,  std_rp0**2,  std_yaw0**2 ])
-
 class ESKF:
     '''initialization'''
-    def __init__(self, K):
+    def __init__(self, X0, q0, P0, K):
         # Standard devirations of UWB meas. (tuning parameter)
         self.std_uwb_tdoa = np.sqrt(0.05)
         # external calibration: translation vector from the quadcopter to UWB tag

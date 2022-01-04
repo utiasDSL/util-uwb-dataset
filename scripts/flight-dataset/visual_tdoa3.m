@@ -6,7 +6,7 @@ clc;
 filepath = fileparts(mfilename('fullpath'));
 
 % combine the path
-csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const1/const1-log7.csv');
+csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa3.csv');
 txt = fullfile(filepath, '../../dataset/flight-dataset/survey-results/anchor_const1_survey.txt');
 
 % load the anchor positions

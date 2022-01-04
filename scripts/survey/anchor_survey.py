@@ -107,7 +107,7 @@ def plot_survey(anchor_pos, vicon):
     plt.title(r"UWB Anchor Survey Results", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
     ax_t.set_xlim([-5.0, 5.0])
     ax_t.set_ylim([-5.0, 5.0])
-    ax_t.set_zlim([0.0, 5.0])
+    ax_t.set_zlim([0.0, 4.0])
     # plot vicon frame
     for idx in range(len(vicon)):
         ax_t.scatter(vicon[idx,0], vicon[idx,1], vicon[idx,2],s=5, marker='o',color='red')
@@ -133,8 +133,8 @@ if __name__ == "__main__":
         
     pos = np.array(pos)
     NUM_vicon = 6
-    vicon_m = pos[0:NUM_vicon,:] / 1000.0             # positions of the NUM_vicon markers (vicon frame)
-    vicon_frame = pos[NUM_vicon:2*NUM_vicon,:]                  # positions of the NUM_vicon markers (total station frame)
+    vicon_m = pos[0:NUM_vicon,:] / 1000.0               # positions of the NUM_vicon markers (vicon frame)
+    vicon_frame = pos[NUM_vicon:2*NUM_vicon,:]          # positions of the NUM_vicon markers (total station frame)
     anchor_marker = pos[2*NUM_vicon:,:]                 # uwb anchor pose 
 
     dest_point = vicon_m
