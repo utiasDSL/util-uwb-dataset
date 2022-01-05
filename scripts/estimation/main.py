@@ -1,5 +1,11 @@
 '''
-main file for eskf estimation
+    main file for eskf estimation
+    
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 #!/usr/bin/env python3
 import argparse

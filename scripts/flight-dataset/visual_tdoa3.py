@@ -1,7 +1,12 @@
 '''
-Visualize the sensor measurements in rosbag
-Visualize the selcted UWB tdoa3 measurements
-The anchor pair is set by parameter {an_i, an_j}
+    Visualize the UWB TDOA3 and other sensor measurements in rosbag.
+    The anchor pair is set by parameter {an_i, an_j}
+
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
 import argparse

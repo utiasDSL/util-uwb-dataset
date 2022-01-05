@@ -1,6 +1,12 @@
 '''
-Survey code. Convert the Total Station survey results into an inertial frame (Vicon frame).
-Using 6 vicon markers with known positions, the survey results are converted through a point cloud alignment. 
+    Survey code. Convert the Total Station survey results into an inertial frame (Vicon frame).
+    Using 6 vicon markers with known positions, the survey results are converted through a point cloud alignment. 
+
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
 import argparse
@@ -21,8 +27,8 @@ def pointcloud_alignment(src_points, dest_points):
         dest_points:  point cloud in current frame
         [3 x N] arrays, rows are x, y, z
         [[p1_x, ..., pN_x]
-            [p1_y, ..., pN_y]
-            [p1_z, ..., pN_z]]
+         [p1_y, ..., pN_y]
+         [p1_z, ..., pN_z]]
     Return:
         C: rotational matrix -  [3 x 3]
         r: translation vector - [3 x 1]

@@ -1,5 +1,12 @@
 '''
-Visualize the manual movement trajectories and obstacles
+    Visualize the manual movement trajectories and obstacles in const3
+    Note: no mattress is used in manual movement experiments (const3)
+
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import argparse
 import numpy as np
