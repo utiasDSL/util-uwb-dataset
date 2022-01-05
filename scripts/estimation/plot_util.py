@@ -1,5 +1,5 @@
 '''
-    plotting functions
+    Plotting functions
 
     Created On : Jan 1, 2022
        Author  : Wenda Zhao, Xinyuan Qiao

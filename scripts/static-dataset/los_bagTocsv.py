@@ -1,5 +1,5 @@
 '''
-    convert the static los signal testing data into CSV files
+    Convert the static los signal testing data into CSV files
     python3 static_los_signal_csv.py -i [los-bag-address] [csv-folder-address]
 
     Created On : Jan 1, 2022

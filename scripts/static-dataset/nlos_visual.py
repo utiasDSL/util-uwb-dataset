@@ -1,6 +1,5 @@
 '''
-    visualize static los signal testing data
-    read the data from csv
+    Visualize static los signal testing data. Read the data from csv
     python3 nlos_visual.py -i [csv data folder]
 
     Created On : Jan 1, 2022

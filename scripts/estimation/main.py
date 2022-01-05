@@ -1,5 +1,5 @@
 '''
-    main file for eskf estimation
+    The main file for eskf estimation
     
     Created On : Jan 1, 2022
        Author  : Wenda Zhao, Xinyuan Qiao
