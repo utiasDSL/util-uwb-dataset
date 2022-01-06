@@ -1,4 +1,11 @@
-% Visualize UWB measurement biases
+%    Visualize the TDOA measurement biases 
+%
+%    Created On : Jan 1, 2022
+%       Author  : Wenda Zhao, Xinyuan Qiao
+%       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+%                 samxinyuan.qiao@mail.utoronto.ca
+%    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
+
 clear; close all
 clc;
 
@@ -6,7 +13,7 @@ clc;
 filepath = fileparts(mfilename('fullpath'));
 
 % combine the path
-csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const1/const1-log1.csv');
+csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv');
 txt = fullfile(filepath, '../../dataset/flight-dataset/survey-results/anchor_const1_survey.txt');
 
 % load the anchor positions
@@ -52,8 +59,11 @@ for idx = 1:size(pose,1)
     uwb_p(idx,:) = R_iv * t_uv + gt_p;
 end
 
-% extract tdoa measurement d_ij
-an_i = 2;     an_j = 3;
+% select the anchor pair for visualization
+% possible anchor pair IDs 
+% TDOA2: 7-0, 0-1, 1-2, 2-3, 3-4, 4-5, 5-6, 6-7
+% TDOA3: i,j \in {0,1,2,3,4,5,6,7} 
+an_i = 0;     an_j = 1;
 
 tdoa_ij = find(tdoa(:,2)==an_i & tdoa(:,3)==an_j);
 tdoa_meas_ij = tdoa(tdoa_ij, :);

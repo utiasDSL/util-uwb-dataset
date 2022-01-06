@@ -1,6 +1,12 @@
 '''
-convert the static nlos signal testing data into CSV files
-provide the position of the obstacles
+    Convert the static nlos signal testing data into CSV files
+    Provide the position of the obstacles
+
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
 import argparse

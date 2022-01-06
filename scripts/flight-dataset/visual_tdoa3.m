@@ -1,4 +1,13 @@
-% Visualize the sensor measurements (TDOA3)
+%    Visualize the UWB TDOA3 and other sensor measurements.
+%    The anchor pair is set by parameter {an_i, an_j}
+%
+%    Created On : Jan 1, 2022
+%       Author  : Wenda Zhao, Xinyuan Qiao
+%       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+%                 samxinyuan.qiao@mail.utoronto.ca
+%    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
+
+
 clear; close all
 clc;
 
@@ -6,7 +15,7 @@ clc;
 filepath = fileparts(mfilename('fullpath'));
 
 % combine the path
-csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const1/const1-log7.csv');
+csv = fullfile(filepath, '../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa3.csv');
 txt = fullfile(filepath, '../../dataset/flight-dataset/survey-results/anchor_const1_survey.txt');
 
 % load the anchor positions

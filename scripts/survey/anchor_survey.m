@@ -1,5 +1,11 @@
-% Survey code. Convert the Total Station survey results into an inertial frame (Vicon frame).
-% Using 6 vicon markers with known positions, the survey results are converted through a point cloud alignment. 
+%    Survey code. Convert the Total Station survey results into an inertial frame (Vicon frame).
+%    Using 6 vicon markers with known positions, the survey results are converted through a point cloud alignment. 
+%
+%    Created On : Jan 1, 2022
+%       Author  : Wenda Zhao, Xinyuan Qiao
+%       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+%                 samxinyuan.qiao@mail.utoronto.ca
+%    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 
 clear; close all
 clc;
@@ -15,16 +21,9 @@ pos = [survey.Var1, survey.Var2, survey.Var3];
 
 NUM_vicon = 6;
 
-vicon_frame = pos(1:NUM_vicon, :);           % 6 points in Vicon frame
-anchor_marker = pos(NUM_vicon + 1 : end,:);  % uwb anchor pose
-
-% positions of the six vicon markers
-vicon_m = [6.4833,     9.5857,     5.4701;
-           996.7297,   20.6892,    6.5530;
-           1493.6611,  30.2870,    8.0861;
-           1483.5196,  530.8999,   7.4837;
-           502.6914,   516.7251,   5.6232;
-           11.2639,    522.5133,   5.0284] / 1000.0;
+vicon_m = pos(1:NUM_vicon, :) / 1000.0;                      % positions of the NUM_vicon markers (vicon frame)
+vicon_frame = pos(NUM_vicon + 1 : 2*NUM_vicon, :);           % positions of the NUM_vicon markers (total station frame)
+anchor_marker = pos(2*NUM_vicon + 1 : end,:);                % uwb anchor pose
 
 dest_point = vicon_m;
 src_point = vicon_frame;
@@ -101,9 +100,9 @@ ylabel('Y [m]','Interpreter','latex','Fontsize',16)
 zlabel('Z [m]','Interpreter','latex','Fontsize',16)
 set(gca,'TickLabelInterpreter','latex');
 grid on
-xlim([-4.5, 4.5])  
-ylim([-4.5, 4.5])  
-zlim([0.0, 3.0]) 
+xlim([-5.0, 5.0])  
+ylim([-5.0, 5.0])  
+zlim([0.0, 4.0]) 
 
 
 function [q] = rot_to_quat(C)

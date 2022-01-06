@@ -1,5 +1,11 @@
 '''
-main file for eskf estimation
+    The main file for eskf estimation
+    
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 #!/usr/bin/env python3
 import argparse
@@ -93,9 +99,20 @@ if __name__ == "__main__":
     time = np.sort(np.concatenate((t_imu, t_uwb)))
     t = np.unique(time)
     K = t.shape[0]
+    # Initial estimate for the state vector
+    X0 = np.zeros((6,1))        
+    X0[0] = 1.25;  X0[1] = 0.0;  X0[2] = 0.07
+        
+    q0 = Quaternion([1,0,0,0])  # initial quaternion
+    std_xy0 = 0.1;       std_z0 = 0.1;      std_vel0 = 0.1
+    std_rp0 = 0.1;       std_yaw0 = 0.1
+    # Initial posterior covariance
+    P0 = np.diag([std_xy0**2,  std_xy0**2,  std_z0**2,\
+                std_vel0**2, std_vel0**2, std_vel0**2,\
+                std_rp0**2,  std_rp0**2,  std_yaw0**2 ])
 
     # create the object of ESKF
-    eskf = ESKF(K)
+    eskf = ESKF(X0, q0, P0, K)
 
     print('timestep: %f' % K)
     print('\nStart state estimation')

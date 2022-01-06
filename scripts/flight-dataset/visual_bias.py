@@ -1,5 +1,11 @@
 '''
-Visualize the TDOA measurement biases in rosbag
+    Visualize the TDOA measurement biases in rosbag
+
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
 import argparse
@@ -93,7 +99,9 @@ if __name__ == "__main__":
         uwb_p[idx,:] = uwb_ac.reshape(1,-1)     # gt of uwb tag
 
     # select the anchor pair for visualization
-    # possible anchor ID = [0,1,2,3,4,5,6,7] 
+    # possible anchor pair IDs 
+    # TDOA2: 7-0, 0-1, 1-2, 2-3, 3-4, 4-5, 5-6, 6-7
+    # TDOA3: i,j \in {0,1,2,3,4,5,6,7} 
     an_i = 0;     an_j = 1
 
     # get the id for tdoa_ij measurements

@@ -1,5 +1,11 @@
 '''
-plotting functions
+    Plotting functions
+
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt

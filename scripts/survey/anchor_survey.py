@@ -1,6 +1,12 @@
 '''
-Survey code. Convert the Total Station survey results into an inertial frame (Vicon frame).
-Using 6 vicon markers with known positions, the survey results are converted through a point cloud alignment. 
+    Survey code. Convert the Total Station survey results into an inertial frame (Vicon frame).
+    Using 6 vicon markers with known positions, the survey results are converted through a point cloud alignment. 
+
+    Created On : Jan 1, 2022
+       Author  : Wenda Zhao, Xinyuan Qiao
+       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+                 samxinyuan.qiao@mail.utoronto.ca
+    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
 import argparse
@@ -21,8 +27,8 @@ def pointcloud_alignment(src_points, dest_points):
         dest_points:  point cloud in current frame
         [3 x N] arrays, rows are x, y, z
         [[p1_x, ..., pN_x]
-            [p1_y, ..., pN_y]
-            [p1_z, ..., pN_z]]
+         [p1_y, ..., pN_y]
+         [p1_z, ..., pN_z]]
     Return:
         C: rotational matrix -  [3 x 3]
         r: translation vector - [3 x 1]
@@ -107,7 +113,7 @@ def plot_survey(anchor_pos, vicon):
     plt.title(r"UWB Anchor Survey Results", fontsize=13, fontweight=0, color='black', style='italic', y=1.02 )
     ax_t.set_xlim([-5.0, 5.0])
     ax_t.set_ylim([-5.0, 5.0])
-    ax_t.set_zlim([0.0, 5.0])
+    ax_t.set_zlim([0.0, 4.0])
     # plot vicon frame
     for idx in range(len(vicon)):
         ax_t.scatter(vicon[idx,0], vicon[idx,1], vicon[idx,2],s=5, marker='o',color='red')
@@ -122,6 +128,10 @@ if __name__ == "__main__":
     parser.add_argument("survey_txt")
     args = parser.parse_args()
 
+    # ----- parameter ----- #
+    SAVE_SURVEY = False
+
+    # read file
     f1 = open(args.survey_txt,"r")
     pos=[]
     for line in f1:
@@ -133,8 +143,8 @@ if __name__ == "__main__":
         
     pos = np.array(pos)
     NUM_vicon = 6
-    vicon_m = pos[0:NUM_vicon,:] / 1000.0             # positions of the NUM_vicon markers (vicon frame)
-    vicon_frame = pos[NUM_vicon:2*NUM_vicon,:]                  # positions of the NUM_vicon markers (total station frame)
+    vicon_m = pos[0:NUM_vicon,:] / 1000.0               # positions of the NUM_vicon markers (vicon frame)
+    vicon_frame = pos[NUM_vicon:2*NUM_vicon,:]          # positions of the NUM_vicon markers (total station frame)
     anchor_marker = pos[2*NUM_vicon:,:]                 # uwb anchor pose 
 
     dest_point = vicon_m
@@ -204,19 +214,20 @@ if __name__ == "__main__":
     print("The anchor orientations are")
     print(np.round(anchor_quaterion,5))
 
-    # save the anchor positions and orientation into numpy array
-    np.savez(txt_name, an_pos = anchor_position, an_quat = anchor_quaterion)
+    if SAVE_SURVEY:
+        # save the anchor positions and orientation into numpy array
+        np.savez(txt_name, an_pos = anchor_position, an_quat = anchor_quaterion)
 
-    # save txt for the anchor poses
-    txt_file = txt_name +'_survey.txt'
-    with open(txt_file,"w") as f:
-        for i in range(len(anchor_position)):
-            f.write('an'+str(i)+'_p,' + str(anchor_position[i,0]) + ',' + 
-                    str(anchor_position[i,1]) + ',' + str(anchor_position[i,2]) + '\n')
+        # save txt for the anchor poses
+        txt_file = txt_name +'_survey.txt'
+        with open(txt_file,"w") as f:
+            for i in range(len(anchor_position)):
+                f.write('an'+str(i)+'_p,' + str(anchor_position[i,0]) + ',' + 
+                        str(anchor_position[i,1]) + ',' + str(anchor_position[i,2]) + '\n')
 
-        for j in range(len(anchor_quaterion)):
-            f.write('an'+str(j)+'_quat,' + str(anchor_quaterion[j,0]) + ',' + str(anchor_quaterion[j,1]) + ',' +
-                    str(anchor_quaterion[j,2]) + ',' + str(anchor_quaterion[j,3]) + '\n')
+            for j in range(len(anchor_quaterion)):
+                f.write('an'+str(j)+'_quat,' + str(anchor_quaterion[j,0]) + ',' + str(anchor_quaterion[j,1]) + ',' +
+                        str(anchor_quaterion[j,2]) + ',' + str(anchor_quaterion[j,3]) + '\n')
 
     # --------------- Visualization ---------------- #
     plot_survey(Marker_pos, vicon_marker)
