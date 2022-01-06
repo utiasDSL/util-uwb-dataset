@@ -116,17 +116,17 @@ if __name__ == "__main__":
     ax.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
 
     ax.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = 'Quadcopter trajectory')
-    ax.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red', label = 'Anchor position')
+    ax.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], s = 100, marker='o',color='red', label = 'Anchor position')
     
     # plot lines among obstacle vertices
     plot_obs(ax, metal)
-    ax.scatter(metal[:,0], metal[:,1], metal[:,2], marker='o',color='navy', label = 'Metal box')
+    ax.scatter(metal[:,0], metal[:,1], metal[:,2],  s = 100, marker='o',color='navy', label = 'Metal box')
 
     plot_obs(ax, woodenshelf)
-    ax.scatter(woodenshelf[:,0], woodenshelf[:,1], woodenshelf[:,2], marker='o',color='teal', label = 'Woodshelf')
+    ax.scatter(woodenshelf[:,0], woodenshelf[:,1], woodenshelf[:,2],  s = 100, marker='o',color='teal', label = 'Woodshelf')
 
     plot_obs(ax, plasticbox)
-    ax.scatter(plasticbox[:,0], plasticbox[:,1], plasticbox[:,2], marker='o',color='orange', label = 'Plastic box')
+    ax.scatter(plasticbox[:,0], plasticbox[:,1], plasticbox[:,2],  s = 100, marker='o',color='orange', label = 'Plastic box')
 
     ax.set_xlim3d(-4.5, 4.5)  
     ax.set_ylim3d(-4.5, 4.5)  
@@ -135,8 +135,9 @@ if __name__ == "__main__":
     ax.set_ylabel(r'Y [m]', fontsize = FONTSIZE)
     ax.set_zlabel(r'Z [m]', fontsize = FONTSIZE)
     ax.set_box_aspect((1, 1, 0.35))               # xy aspect ratio is 1:1, but change z axis
-    plt.legend(loc='best')
-    plt.title(r"Trajectory", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
+    plt.legend(fontsize=FONTSIZE)
+    ax.view_init(20, -60)
+    fig.tight_layout()
 
     plt.show()
 

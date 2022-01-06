@@ -85,7 +85,7 @@ if __name__ == "__main__":
     ob_x.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
 
     ob_x.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = 'Quadcopter trajectory')
-    ob_x.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], marker='o',color='red', label = 'Anchor position')
+    ob_x.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2],  s = 100, marker='o',color='red', label = 'Anchor position')
 
     # select nlos trail [2,3,4,7]
     if NLOS_TRIAL == 'trial2':
@@ -99,7 +99,7 @@ if __name__ == "__main__":
                             [2697.02, 2992.17, 0.0],
                             [2498.03, 2602.52, 0.0]
                     ]) / 1000.0
-        ob_x.scatter(obstacle[:,0], obstacle[:,1], obstacle[:,2], s = 100, marker='o',color='teal', label = 'Obstacle')
+        ob_x.scatter(obstacle[:,0], obstacle[:,1], obstacle[:,2], s = 100, marker='o',color='teal', label = 'Wooden box')
         # plot lines among obstacle vertices
         plot_obs(ob_x,obstacle)
 
@@ -114,7 +114,7 @@ if __name__ == "__main__":
                             [3552.64, 2557.96, 0.0],
                             [3762.65, 3000.68, 0.0]
                     ]) / 1000.0
-        ob_x.scatter(obstacle[:,0], obstacle[:,1], obstacle[:,2], s = 100, marker='o',color='navy', label = 'Obstacle')
+        ob_x.scatter(obstacle[:,0], obstacle[:,1], obstacle[:,2], s = 100, marker='o',color='navy', label = 'Metal box')
         # plot lines among obstacle vertices
         plot_obs(ob_x,obstacle)
 
@@ -160,8 +160,8 @@ if __name__ == "__main__":
                         [3239.95,  -3816.29,  0.0],
                 ])/1000.0
 
-        ob_x.scatter(metal[:,0], metal[:,1], metal[:,2], s = 100, marker='o',color='navy', label = 'metal')
-        ob_x.scatter(wood1[:,0], wood1[:,1], wood1[:,2], s = 100, marker='o',color='teal', label = 'wood')
+        ob_x.scatter(metal[:,0], metal[:,1], metal[:,2], s = 100, marker='o',color='navy', label = 'Metal box')
+        ob_x.scatter(wood1[:,0], wood1[:,1], wood1[:,2], s = 100, marker='o',color='teal', label = 'Wooden box')
         ob_x.scatter(wood2[:,0], wood2[:,1], wood2[:,2], s = 100, marker='o',color='teal')
         ob_x.scatter(wood3[:,0], wood3[:,1], wood3[:,2], s = 100, marker='o',color='teal')
         # plot lines among obstacle vertices
@@ -212,8 +212,8 @@ if __name__ == "__main__":
                         [1220.82, -1422.85, 0.0 ],
                 ])/1000.0
 
-        ob_x.scatter(metal[:,0], metal[:,1], metal[:,2], s = 100, marker='o',color='navy', label = 'metal')
-        ob_x.scatter(wood1[:,0], wood1[:,1], wood1[:,2], s = 100, marker='o',color='teal', label = 'wood')
+        ob_x.scatter(metal[:,0], metal[:,1], metal[:,2], s = 100, marker='o',color='navy', label = 'Metal box')
+        ob_x.scatter(wood1[:,0], wood1[:,1], wood1[:,2], s = 100, marker='o',color='teal', label = 'Wooden box')
         ob_x.scatter(wood2[:,0], wood2[:,1], wood2[:,2], s = 100, marker='o',color='teal')
         ob_x.scatter(wood3[:,0], wood3[:,1], wood3[:,2], s = 100, marker='o',color='teal')
         # plot lines among obstacle vertices
@@ -232,8 +232,13 @@ if __name__ == "__main__":
     ob_x.set_ylabel(r'Y [m]', fontsize = FONTSIZE)
     ob_x.set_zlabel(r'Z [m]', fontsize = FONTSIZE)
     ob_x.set_box_aspect((1, 1, 0.35)) 
-    plt.legend(loc='best')
-    plt.title(r"Trajectory", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02 )
+    ob_x.tick_params(axis='x', which='major', pad=0)
+    ob_x.tick_params(axis='y', which='major', pad=0)
+    ob_x.tick_params(axis='z', which='major', pad=1.5)
+    plt.legend(loc='best',fontsize=FONTSIZE)
+    ob_x.view_init(20, -60)
+    fig_ob.tight_layout()
+    
     plt.show()
 
 
