@@ -1,4 +1,11 @@
-% Visualize the sensor measurements (TDOA2)
+%    Visualize the UWB TDOA2 and other sensor measurements.
+%
+%    Created On : Jan 1, 2022
+%       Author  : Wenda Zhao, Xinyuan Qiao
+%       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+%                 samxinyuan.qiao@mail.utoronto.ca
+%    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
+
 clear; close all
 clc;
 

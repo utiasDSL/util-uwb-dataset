@@ -1,4 +1,11 @@
-% Visualize nlos UWB signal testing
+%    Visualize static los signal testing data. Read the data from csv
+%
+%    Created On : Jan 1, 2022
+%       Author  : Wenda Zhao, Xinyuan Qiao
+%       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+%                 samxinyuan.qiao@mail.utoronto.ca
+%    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
+
 clear; close all
 clc;
 

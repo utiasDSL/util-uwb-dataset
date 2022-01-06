@@ -1,4 +1,13 @@
-% Visualize the sensor measurements (TDOA3)
+%    Visualize the UWB TDOA3 and other sensor measurements.
+%    The anchor pair is set by parameter {an_i, an_j}
+%
+%    Created On : Jan 1, 2022
+%       Author  : Wenda Zhao, Xinyuan Qiao
+%       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
+%                 samxinyuan.qiao@mail.utoronto.ca
+%    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
+
+
 clear; close all
 clc;
 
