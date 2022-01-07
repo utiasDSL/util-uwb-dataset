@@ -94,7 +94,7 @@ The latency from the ground station software to the onboard firmware is tested t
 
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/images/trial-obs.png" alt="" width="420">
+    <img src="files/images/trial-obs.png" alt="" width="360">
   </div>
   <div>
     <p>To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated on the right. For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process.</p>
@@ -103,9 +103,11 @@ The latency from the ground station software to the onboard firmware is tested t
 </div>
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
-    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="420">
+    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="450">
   </div>
   <div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
   </div>
@@ -139,7 +141,7 @@ Step 2. Convert SD card binary data to `rosbag`:
 ```
 $ cd scripts/flight-data/sdcard_scripts
 $ python3 log_to_bag.py [SD_CARD_BINARY_DATA]                               
-# e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-log1
+# e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
 ```
 NOTE: we provide the converted rosbag data in the folder: "*dataset/flight-dataset/rosbag-data/*".
 
@@ -174,20 +176,21 @@ $ python3 visual_bias.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]
 The anchor pair of the visualized UWB measurement is set in the script `visual_bias.py`
 
 ---
-Step 6. Visualize the trajectory and obstacle positions of manual data collections
+Step 6. Visualize the trajectory and static obstacle positions in constellation 3 and 4.
 ```
 $ cd scripts/flight-dataset
-$ python3 visual_TrajObs.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]    
-# e.g. python3 visual_TrajObs.py -i ../../dataset/flight-dataset/survey-results/anchor_const3.npz ../../dataset/flight-dataset/rosbag-data/const3/const3-trial8-tdoa2-manual1.bag 
+$ python3 visual_obs_const3.py [ROSBAG_DATA]   
+$ python3 visual_obs_const4.py [ROSBAG_DATA]
+# e.g. python3 visual_obs_const3.py ../../dataset/flight-dataset/rosbag-data/const3/const3-trial8-tdoa2-manual1.bag 
+# e.g. python3 visual_obs_const4.py ../../dataset/flight-dataset/rosbag-data/const4/const4-trial2-tdoa2-traj1.bag
 ```
-NOTE: manual data collections at the presence of obstacles were conducted in const. 3.
 
 ---
 Step 7. Error-State Kalman Filter Estimation
 ```
 $ cd scripts/estimation
-$ python3 eskf.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      
-# e.g. python3 eskf.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
+$ python3 main.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      
+# e.g. python3 main.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
 ```
 
 ---
