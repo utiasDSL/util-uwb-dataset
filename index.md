@@ -107,7 +107,7 @@ To simulate more realistic and challenging conditions, we collected sensor data 
 <div style="clear: both;">
   <div style="float: left; margin-left 3em;">
     <img src="files/images/const4-trial5-tdoa2-traj3.gif" alt="" width="450">
-    <img src="files/images/const4-trial5-tdoa2-traj3.gif" alt="" width="450">
+    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="450">
     <p>&nbsp;</p>
   </div>
 </div>
