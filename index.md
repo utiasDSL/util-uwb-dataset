@@ -59,7 +59,7 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
     <img src="files/images/flight-setup.png" alt="" width="400">
   </div>
   <div>
-    <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Three different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations/">Leica total station</a> for reproducibility.
+    <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Four different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations/">Leica total station</a> for reproducibility.
     </p> 
     <p>We refer to the Vicon frame (see the right figure) as the inertial frame. To align the Leica total station frame and the inertial frame, we use the total station to survey six Vicon reflective markers with known positions in inertial frame and computethe transformation matrix through point cloud alignment. The average reprojection root-mean-squared error (RMSE) of the six reflective markers is around 1.12 mm.
     </p>
@@ -77,22 +77,40 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
 </div>
 
 ### Time synchronization, latency, and calibration
-Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) are recorded as [event streams](https://www.bitcraze.io/2021/03/event-based-data-logging/). The Vicon pose measurements logged onboard are treated as the ground truth data.  Each datapoint is timestamped with the onboard microsecond timer and the resulting time series are written to the micro SD card as a binary file. Python scripts are provided to parse and analyze the binary data. In terms of the latency from the ground station software to the onboard firmware, we manually flicked the quadrotor and compared the offset between the acceleration and Vicon measurement spikes. The latency is tested to be around 22 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift.
+Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optical flow, ToF laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) are recorded as [event streams](https://www.bitcraze.io/2021/03/event-based-data-logging/). The Vicon pose measurements logged onboard are treated as the ground truth data.  Each datapoint is timestamped with the onboard microsecond timer and the resulting time series are written to the micro SD card as a binary file. Python scripts are provided to parse and analyze the binary data. 
 
-We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
+The latency from the ground station software to the onboard firmware is tested to be around 22 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift. We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
-### Localization performance
+### Flight dataset format
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
     <img src="files/images/eskf.png" alt="" width="420">
   </div>
   <div>
-    <p>In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the right as an example. The flight dataset can be used to assess the UWB TDOA-based localization performance using low-cost DWM1000 UWB modules. We provide an error-state Kalman filter implementation for localization and the performance is demonstrated on the bottom right. Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.</p>
+    <p>In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the right as an example. We provide an error-state Kalman filter implementation for localization and the performance is demonstrated on the bottom right. Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.</p>
     <p>&nbsp;</p>
   </div>
 </div>
 
-### Flight dataset format
+<div style="clear: both;">
+  <div style="float: right; margin-left 3em;">
+    <img src="files/images/trial-obs.png" alt="" width="420">
+  </div>
+  <div>
+    <p>To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated on the right. For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process.</p>
+    <p>&nbsp;</p>
+  </div>
+</div>
+<div style="clear: both;">
+  <div style="float: right; margin-left 3em;">
+    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="420">
+  </div>
+  <div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+</div>
+
 For each UWB constellation, we provide the raw Leica total station survey results and computed anchor poses in *txt* files. In each sub-dataset, we provide the timestamped UWB TDOA, accelerometer, gyroscope, optical flow, ToF laser-ranger, and the barometer measurements and the ground truth measurements of the quadrotor’s pose in a *csv* file. The data format is shown in the following table. We also provide rosbag data converted from binary files for ROS related applications. We provide both Matlab and Python scripts to parse the data.
 <img src="files/images/flight-data-format.png" alt="" width="800">
 
