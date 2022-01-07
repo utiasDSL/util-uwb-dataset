@@ -101,9 +101,16 @@ For each UWB constellation, we provide the raw Leica total station survey result
 
 
 ## User Instructions
-We provide the instructions for running the Python scripts. For the corresponding Matlab scripts, please change the path for the data (*txt* and *csv* files) on top of the scripts for usage.
+We provide the instructions for running the Python scripts. The data parsing scripts are developed and tested on an Ubuntu 20.04 laptop with [ROS noetic](http://wiki.ros.org/noetic) installed. For The corresponding Matlab scripts are developed on Matlab R2021a. Please change the path for the data (*txt* and *csv* files) on top of the Matlab scripts for usage.
+
 ### Access data
-Clone the [Git repository](https://github.com/utiasDSL/utias_uwb_dataset/), download the [latest release](https://github.com/utiasDSL/utias_uwb_dataset/releases) of the dataset, and decompose the zip file into the local Git repository base folder.
+Clone the [Git repository](https://github.com/utiasDSL/utias_uwb_dataset/) and run the *setupscript.bash* file, which will download and decompose the latest dataset release into the local git repository base folder. 
+```
+$ git clone git@github.com:utiasDSL/utias_uwb_dataset.git
+$ cd utias_uwb_dataset
+$ ./setupscript.bash 
+```
+You can also manually download the [latest release](https://github.com/utiasDSL/utias_uwb_dataset/releases) of the dataset, and decompose the dataset into the local Git repository base folder.
 
 ### ROS workspace
 ---
