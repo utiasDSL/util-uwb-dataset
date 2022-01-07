@@ -45,11 +45,11 @@ def plot_obs(ob_x,obstacle):
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', action='store', nargs=1)
+    parser.add_argument("csv_folder")
     args = parser.parse_args()
 
     # access csv file
-    folder = args.i[0]
+    folder = args.csv_folder
     # search for txt files in the folder
     for file in os.listdir(folder):
         if file.endswith(".txt"):
