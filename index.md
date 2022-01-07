@@ -90,9 +90,6 @@ The latency from the ground station software to the onboard firmware is tested t
     <p>In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the right as an example. We provide an error-state Kalman filter implementation for localization and the performance is demonstrated on the bottom right. Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
   </div>
 </div>
 
