@@ -89,6 +89,10 @@ The latency from the ground station software to the onboard firmware is tested t
   <div>
     <p>In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the right as an example. We provide an error-state Kalman filter implementation for localization and the performance is demonstrated on the bottom right. Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.</p>
     <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
   </div>
 </div>
 
@@ -105,10 +109,10 @@ The latency from the ground station software to the onboard firmware is tested t
 To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated on the right. For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process.
 <div style="clear: both;">
   <div style="float: left; margin-left 3em;">
-    <img src="files/images/const4-trial5-tdoa2-traj3.gif" alt="" width="450">
+    <img src="files/images/const4-trial5-tdoa2-traj3.gif" alt="" width="380">
   </div>
   <div style="float: right; margin-left 3em;">
-    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="450">
+    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="380">
   </div>
 </div>
 
