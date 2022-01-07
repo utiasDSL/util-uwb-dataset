@@ -92,15 +92,23 @@ The latency from the ground station software to the onboard firmware is tested t
   </div>
 </div>
 
-  </div>
-</div>
-<div style="clear: both;">
+<!-- <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
     <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="450">
   </div>
   <div>
     <p>To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated on the right. For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process.</p>
     <p>&nbsp;</p>
+  </div>
+</div> -->
+
+To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated on the right. For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process.
+<div style="clear: both;">
+  <div style="float: right; margin-left 3em;">
+    <img src="files/images/const4-trial5-tdoa2-traj3.gif" alt="" width="450">
+  </div>
+  <div style="float: right; margin-left 3em;">
+    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="450">
   </div>
 </div>
 
