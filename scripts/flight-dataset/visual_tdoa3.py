@@ -1,7 +1,8 @@
 '''
     Visualize the UWB TDOA3 and other sensor measurements in rosbag.
     The anchor pair is set by parameter {an_i, an_j}
-
+    Note: no mattress is used in manual movement experiments (const3)
+    
     Created On : Jan 1, 2022
        Author  : Wenda Zhao, Xinyuan Qiao
        Email   : wenda.zhao@robotics.utias.utoronto.ca, 
