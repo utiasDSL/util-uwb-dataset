@@ -190,16 +190,16 @@ $ python3 main.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]
 Step 8. Visualize LOS static data
 ```
 $ cd scripts/static-data
-$ python3 los_visual.py -i [LOS_DATA_FOLDER]                                
-# e.g. python3 los_visual.py -i ../../dataset/static-dataset/los/distTest/distT1
+$ python3 los_visual.py [LOS_DATA_FOLDER]                                
+# e.g. python3 los_visual.py ../../dataset/static-dataset/los/distTest/distT1
 ```
 
 ---
 Step 9. Visualize NLOS static data
 ```
 $ cd scripts/static-data
-$ python3 nlos_visual.py -i [NLOS_DATA_FOLDER]                              
-# e.g. python3 nlos_visual.py -i ../../dataset/static-dataset/nlos/anTag/metal/data1
+$ python3 nlos_visual.py [NLOS_DATA_FOLDER]                              
+# e.g. python3 nlos_visual.py ../../dataset/static-dataset/nlos/anTag/metal/data1
 ```
 
 ## Credits
