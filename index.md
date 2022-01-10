@@ -1,7 +1,7 @@
 <img src="files/images/intro.gif" alt="start-img" width="1000">
 
 ---
-## Summary
+## Overview
 We present an ultra-wideband (UWB) time-difference-of-arrival (TDOA) dataset collected from a quadrotor platform for research purposes. The dataset consists of low-level signal information from static experiments <em>(static dataset)</em> and UWB TDOA measurements and additional onboard sensor data from flight experiments <em>(flight dataset)</em> in a variety of line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. The [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/), based on DWM1000 UWB modules, is used to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
 
 ---
@@ -217,5 +217,7 @@ This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abh
       doi={}
 }
 ```
+<img src="files/images/logos.jpg" alt="start-img" 
+width="1000">
 -----
 > University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
