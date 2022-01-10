@@ -206,11 +206,11 @@ $ python3 nlos_visual.py [NLOS_DATA_FOLDER]
 
 This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), [Xianyuan Qiao](https://www.linkedin.com/in/xinyuan-sam-qiao-8b15ba17a/?originalSubdomain=ca) and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). If you use the data provided by this website in your own work, please use the following citation:
 ```
-@INPROCEEDINGS{zhao2021uwbData,
+@INPROCEEDINGS{zhao2022uwbData,
       title={The UTIAS ultra-wideband time-difference-of-arrival dataset for indoor localization}, 
       author={Wenda Zhao and Abhishek Goudar and Xianyuan Qiao and Angela P. Schoellig},
       booktitle={International Journal of Robotics Research (IJRR)},
-      year={2021},
+      year={2022},
       volume={},
       number={},
       pages={},
