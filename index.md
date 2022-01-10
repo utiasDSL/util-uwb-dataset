@@ -1,4 +1,4 @@
-<img src="files/images/intro.gif" alt="start-img" width="1000">
+<img src="files/images/intro.gif" alt="start-img" width="1100">
 
 ---
 ## Overview
@@ -219,5 +219,5 @@ This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abh
 ```
 <img src="files/images/logos.jpg" alt="start-img" 
 width="1000">
------
+---
 > University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
