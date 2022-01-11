@@ -25,7 +25,7 @@ For the static experiments, we collected UWB TDOA measurements under various LOS
     <img src="files/images/static-nlos.png" alt="" width="400">
   </div>
   <div>
-    <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, including cardboard, metal, wood, plastic, and foam. We conducted NLOS experiments under <em>(i)</em> NLOS conditions between anchor 1 and the tag and <em>(ii)</em> NLOS condition between anchor 1 and anchor 2. One LOS data is collected for comparison.
+    <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, including cardboard, metal, wood, plastic, and foam. We conducted NLOS experiments under <em>(i)</em> NLOS conditions between anchor 1 and the tag and <em>(ii)</em> NLOS conditions between anchor 1 and anchor 2. One LOS data is collected for comparison.
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     </p>
@@ -53,7 +53,7 @@ For the static experiments, we collected UWB TDOA measurements under various LOS
 
 ---
 ## Flight Dataset
-For the flight experiments, we collected the raw UWB meaurements, gyroscope, accelerometer, optical flow, time-of-flight (ToF) laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) on-board a customized quadrotor platform.
+For the flight experiments, we collected the raw UWB TDOA meaurements, gyroscope, accelerometer, optical flow, time-of-flight (ToF) laser-ranging, barometer, and the Vicon pose measurements (sent from the ground station) on-board a customized quadrotor platform.
 
 ### Flight arena and experimental setup
 <div style="clear: both;">
@@ -63,7 +63,7 @@ For the flight experiments, we collected the raw UWB meaurements, gyroscope, acc
   <div>
     <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Four different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations/">Leica total station</a> for reproducibility.
     </p> 
-    <p>We refer to the Vicon frame (see the right figure) as the inertial frame. To align the Leica total station frame and the inertial frame, we use the total station to survey six Vicon reflective markers with known positions in inertial frame and computethe transformation matrix through point cloud alignment. The average reprojection root-mean-squared error (RMSE) of the six reflective markers is around 1.12 mm.
+    <p>We refer to the Vicon frame (see the right figure) as the inertial frame. To align the Leica total station frame and the inertial frame, we use the total station to survey six Vicon reflective markers with known positions in inertial frame and compute the transformation matrix through point cloud alignment. The average reprojection root-mean-squared error (RMSE) of the six reflective markers is around 1.12 mm.
     </p>
   </div>
 </div>
@@ -84,11 +84,11 @@ Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optic
 The latency from the ground station software to the onboard firmware is tested to be around 10 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift. We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
 ### Flight dataset format
-In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the bottom image (left). We provide an error-state Kalman filter implementation for localization and the performance is demonstrated below. Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.
+In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the bottom image (left). We provide an error-state Kalman filter implementation for localization and the performance is demonstrated below (middle). Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.
 <img src="files/images/flight-dataset.png" alt="" width="800">
 
 
-To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right) as an example. For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process.
+To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right). For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process. Two animations are shown below as examples.
 <div style="clear: both;">
   <div style="float: left; margin-left 3em;">
     <img src="files/images/const4-trial5-tdoa2-traj3.gif" alt="" width="410">
