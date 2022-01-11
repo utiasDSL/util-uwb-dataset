@@ -29,7 +29,7 @@ matplotlib.rc('ytick', labelsize=TICK_SIZE)
 # translation vector from the quadcopter to UWB tag
 t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
 # translation vector from the quadcopter to laser-ranging sensor 
-t_lv = np.array([0.0, 0.0, -0.0015]).reshape(-1,1)
+t_lv = np.array([0.0, 0.0, -0.0012]).reshape(-1,1)
 
 if __name__ == "__main__":
     # ---------------- access anchor survey and rosbag ---------------- #

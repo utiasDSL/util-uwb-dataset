@@ -47,7 +47,7 @@ pose = [data.t_pose(~isnan(data.t_pose)),   data.pose_x(~isnan(data.pose_x)),   
 % translation vector from the quadcopter to UWB tag
 t_uv = [-0.01245; 0.00127; 0.0908];
 % translation vector from the quadcopter to laser-ranging sensor 
-t_lv = [0.0; 0.0; -0.0015];
+t_lv = [0.0; 0.0; -0.0012];
 
 
 % convert the gt position to UWB antenna center
