@@ -1,4 +1,4 @@
-<img src="files/images/intro_small.gif" alt="start-img" width="1100">
+<img src="files/images/intro_big.gif" alt="start-img" width="1100">
 
 ---
 ## Overview
