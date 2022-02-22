@@ -195,9 +195,9 @@ if __name__ == "__main__":
         # three markers in the inertial frame
         dest_points = Marker_pos[idx:idx+3,:]
         # 3 markers in the Anchor frame. Order: [left, up, forward]
-        src_points = np.array([[110.0,   0.0,   0.0],
-                               [0.0,   121.0,   0.0],
-                               [0.0,     0.0,  80.0]]) / 1000.0 
+        src_points = np.array([[0.0,   110.0,   0.0],
+                               [121.0,   0.0,   0.0],
+                               [0.0,     0.0,   80.0]]) / 1000.0 
         # compute the rotation from body to inertial frame
         (C_survey, t_est) = pointcloud_alignment(src_points, dest_points)   
         # save the quaternion from anchor body frame to inertial frame

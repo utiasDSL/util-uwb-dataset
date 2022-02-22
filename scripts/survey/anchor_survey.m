@@ -65,9 +65,9 @@ Marker_pos = Marker_pos';                    % transpose
 An_num = 8; 
 idx = 1;
 % 3 markers in the Anchor frame. Order: [left, up, forward]
-src_points = [110.0,   0.0,   0.0;
-              0.0,   121.0,   0.0;
-              0.0,     0.0,  80.0] / 1000.0;
+src_points = [0.0,   110.0,   0.0;
+              121.0,   0.0,   0.0;
+              0.0,     0.0,   80.0] / 1000.0;
           
 anchor_position = [];
 anchor_quaterion = [];
