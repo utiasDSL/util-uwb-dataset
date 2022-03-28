@@ -1,11 +1,11 @@
 # Data Parsing Scripts for the UTIAS UWB Dataset
-Detailed information and instructions are available here: [https://utiasdsl.github.io/utias_uwb_dataset/](https://utiasdsl.github.io/utias_uwb_dataset/.)
+Detailed information and instructions are available here: [https://utiasdsl.github.io/util-uwb-dataset/](https://utiasdsl.github.io/util-uwb-dataset/.)
 
 ## Credits
 This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), [Xinyuan Qiao](https://www.linkedin.com/in/xinyuan-sam-qiao-8b15ba17a/), and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). If you use the data provided by this website in your own work, please use the following citation:
 ```
 @INPROCEEDINGS{zhao2022uwbData,
-      title={The UTIAS ultra-wideband time-difference-of-arrival dataset for indoor localization}, 
+      title={UTIL: An Ultra-wideband Time-difference-of-arrival Indoor Localization Dataset}, 
       author={Wenda Zhao and Abhishek Goudar and Xinyuan Qiao and Angela P. Schoellig},
       booktitle={International Journal of Robotics Research (IJRR)},
       year={2022},
