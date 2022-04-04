@@ -1,4 +1,4 @@
-# Data Parsing Scripts for UTIL Ultra-wideband Dataset
+# Data Parsing Scripts for UTIL: Ultra-wideband Dataset
 Detailed information and instructions are available here: [https://utiasdsl.github.io/util-uwb-dataset/](https://utiasdsl.github.io/util-uwb-dataset/.)
 
 ## Credits
