@@ -105,13 +105,13 @@ We provide the instructions for running the Python scripts. The data parsing scr
 
 ### Access data
 ---
-Clone the [Git repository](https://github.com/utiasDSL/utias_uwb_dataset/) and run the *setupscript.bash* file, which will download and decompose the dataset into the local git repository base folder. 
+Clone the [Git repository](https://github.com/utiasDSL/util-uwb-dataset/) and run the *setupscript.bash* file, which will download and decompose the dataset into the local git repository base folder. 
 ```
-$ git clone git@github.com:utiasDSL/utias_uwb_dataset.git
-$ cd utias_uwb_dataset
+$ git clone git@github.com:utiasDSL/util-uwb-dataset.git
+$ cd util-uwb-dataset/
 $ ./setupscript.bash 
 ```
-You can also manually download the [latest release](https://github.com/utiasDSL/utias_uwb_dataset/releases) of the dataset, and decompose the dataset into the local Git repository base folder.
+You can also manually download the [latest release](https://github.com/utiasDSL/util-uwb-dataset/releases) of the dataset, and decompose the dataset into the local Git repository base folder.
 
 ### ROS workspace
 ---
