@@ -1,5 +1,7 @@
 # Data Parsing Scripts for UTIL: Ultra-wideband Dataset
-Detailed information and instructions are available here: [https://utiasdsl.github.io/util-uwb-dataset/](https://utiasdsl.github.io/util-uwb-dataset/.)
+Detailed information and instructions: [https://utiasdsl.github.io/util-uwb-dataset/](https://utiasdsl.github.io/util-uwb-dataset/.)
+
+The dataset paper:  [https://arxiv.org/pdf/2203.14471.pdf](https://arxiv.org/pdf/2203.14471.pdf)
 
 ## Credits
 This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), [Xinyuan Qiao](https://www.linkedin.com/in/xinyuan-sam-qiao-8b15ba17a/), and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). If you use the data provided by this website in your own work, please use the following citation:
