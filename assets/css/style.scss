@@ -1,6 +1,12 @@
 ---
 ---
 
+@import "{{ site.theme }}";
+
+.inner {
+  max-width: 75%;
+}
+
 @import 'jekyll-theme-cayman';
 .page-header {
   text-align: right;
