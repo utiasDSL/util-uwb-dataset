@@ -7,6 +7,9 @@
 }
 
 @import 'jekyll-theme-cayman';
+.inner {
+  max-width: 100%;
+}
 .page-header {
   text-align: right;
   background-image: url("https://github.com/utiasDSL/util-uwb-dataset/blob/gh-pages/assets/css/banner_blue.png?raw=true");
