@@ -226,4 +226,4 @@ width="1000">
 | Trakectory 1 & 4 | Trakectory 2 & 5 | Trakectory 3 & 6  |
 | :---: | :---:  |  :---: | 
 | <img src="files/images/track1.png" alt="" width="800">  | <img src="files/images/track2.png" alt="" width="800"> |  <img src="files/images/track3.png" alt="" width="800">  |
-| <img src="files/images/track4.png" alt="" width="800">  | <img src="files/images/track5.png" alt="" width="800">   |<img src="files/images/test.png" alt="" width="800"> |
+| <img src="files/images/track4.png" alt="" width="800">  | <img src="files/images/track5.png" alt="" width="800">   |<img src="files/images/track6.png" alt="" width="800"> |
