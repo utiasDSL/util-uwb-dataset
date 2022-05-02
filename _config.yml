@@ -3,7 +3,7 @@ theme: jekyll-theme-cayman
 title: "UTIL: Ultra-wideband Dataset"
 description: An Ultra-wideband Time-difference-of-arrival Indoor Localization Dataset
 show_downloads: true
-classes: wide
+# classes: wide
 
 github:
   paper_url: https://arxiv.org/pdf/2203.14471.pdf
