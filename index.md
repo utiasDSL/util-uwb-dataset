@@ -222,3 +222,8 @@ width="1000">
 
 -----
 > University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
+
+| First | Second  | Third  |
+| :--- | :---:  |  ---: | 
+| <img src="files/images/track1.png" alt="" width="800">  | <img src="files/images/track2.png" alt="" width="800"> |  <img src="files/images/track3.png" alt="" width="800">  |
+| <img src="files/images/track4.png" alt="" width="800">  | <img src="files/images/track5.png" alt="" width="800">   |<img src="files/images/test.png" alt="" width="800"> |
