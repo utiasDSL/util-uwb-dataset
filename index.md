@@ -223,7 +223,10 @@ width="1000">
 -----
 > University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
 
-| Trakectory 1 & 4 | Trakectory 2 & 5 | Trakectory 3 & 6  |
+| Trajectory 1  | Trajectory 2 | Trajectory 3 |
 | :---: | :---:  |  :---: | 
 | <img src="files/images/track1.png" alt="" width="800">  | <img src="files/images/track2.png" alt="" width="800"> |  <img src="files/images/track3.png" alt="" width="800">  |
-| <img src="files/images/track4.png" alt="" width="800">  | <img src="files/images/track5.png" alt="" width="800">   |<img src="files/images/track6.png" alt="" width="800"> |
+
+| Trajectory 4  | Trajectory 5 | Trajectory 6 |
+| :---: | :---:  |  :---: | 
+|<img src="files/images/track4.png" alt="" width="800">  | <img src="files/images/track5.png" alt="" width="800">   |<img src="files/images/track6.png" alt="" width="800"> |
