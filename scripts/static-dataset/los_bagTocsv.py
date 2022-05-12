@@ -2,7 +2,6 @@
     Convert the static los signal testing data into CSV files
     python3 static_los_signal_csv.py -i [los-bag-address] [csv-folder-address]
 
-    Created On : Jan 1, 2022
        Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
        Email   : wenda.zhao@robotics.utias.utoronto.ca, 
                  abhishek.goudar@robotics.utias.utoronto.ca,

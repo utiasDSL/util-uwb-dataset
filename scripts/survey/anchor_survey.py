@@ -67,7 +67,7 @@ def pointcloud_alignment(src_points, dest_points):
     # C is the rotation matrix rotate point cloud to Total station frame (convert src_points to dest_points)
     C = u.dot(D).dot(vh)
     
-    r_a_ba = - (C.T).dot(dest_points_centroid) + src_points_centroid
+    r_a_ba = -(C.T).dot(dest_points_centroid) + src_points_centroid
     
     r_b_ba = -(C).dot(r_a_ba.reshape(-1,1))
     # the return value can be used to construct the Transformation matrix directly

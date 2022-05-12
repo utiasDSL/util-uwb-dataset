@@ -1,7 +1,6 @@
 '''
     Visualize the TDOA measurement biases in rosbag
 
-    Created On : Jan 1, 2022
        Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
        Email   : wenda.zhao@robotics.utias.utoronto.ca, 
                  abhishek.goudar@robotics.utias.utoronto.ca,
@@ -9,16 +8,16 @@
     Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
+sys.path.append("../")
 import argparse
 import numpy as np
 from numpy import linalg
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import pyplot as plt
-import matplotlib.style as style
 from pyquaternion import Quaternion
 import matplotlib
+from matplotlib import pyplot as plt
 import rosbag
-from scipy import stats, interpolate
+
+from utility.praser import sync_pos
 
 FONTSIZE = 18;   TICK_SIZE = 16
 # set window background to white
@@ -27,8 +26,9 @@ plt.rcParams['figure.facecolor'] = 'w'
 matplotlib.rc('xtick', labelsize=TICK_SIZE) 
 matplotlib.rc('ytick', labelsize=TICK_SIZE) 
 
-# translation vector from the quadcopter to UWB tag
+# translation vector from the quadrotor to UWB tag
 t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)  
+
 
 if __name__ == "__main__":
     # ---------------- access anchor survey and rosbag ---------------- #
@@ -41,7 +41,6 @@ if __name__ == "__main__":
     anchor_survey = np.load(anchor_npz)
     anchor_pos = anchor_survey['an_pos']
     anchor_qaut = anchor_survey['an_quat']
-    
     # print out
     anchor_file = os.path.split(sys.argv[-2])[1]
     print("loading anchor survey results: " + str(anchor_file) + "\n")
@@ -49,46 +48,24 @@ if __name__ == "__main__":
     # access rosbag
     ros_bag = args.i[1]
     bag = rosbag.Bag(ros_bag)
-    bag_file = os.path.split(sys.argv[-1])[1]
-
+    bag_name = os.path.split(sys.argv[-1])[1]
     # print out
-    bag_name = os.path.splitext(bag_file)[0]
-    print("visualizing rosbag: " + str(bag_file) + "\n")
-
+    print("visualizing rosbag: " + str(bag_name) + "\n")
 
     # -------------------- extract the rosbag ----------------------------- #
-    acc = [];   gyro = [];  flow = [];  tdoa = [];  tof = [];  baro = [] 
-    gt_pose = [] 
+    tdoa = [];      gt_pose = [] 
 
-    for topic, msg, t in bag.read_messages(['/accel_data', '/gyro_data', '/flow_data', '/tdoa_data', '/tof_data', '/baro_data', '/pose_data']):
-        if topic == '/accel_data':
-            acc.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.x, msg.y, msg.z])
-        if topic == '/gyro_data':
-            gyro.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.x, msg.y, msg.z])
-        if topic == '/flow_data':
-            flow.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.deltaX, msg.deltaY])
+    for topic, msg, t in bag.read_messages(['/tdoa_data', '/pose_data']):
         if topic == '/tdoa_data':
             tdoa.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
                         msg.idA, msg.idB, msg.data])
-        if topic == "/tof_data":
-            tof.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.zrange])
-        if topic == "/baro_data":
-            baro.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.asl])
         if topic == "/pose_data":
             gt_pose.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
                             msg.pose.pose.position.x,    msg.pose.pose.position.y,    msg.pose.pose.position.z, msg.pose.pose.orientation.x, msg.pose.pose.orientation.y,
                             msg.pose.pose.orientation.z, msg.pose.pose.orientation.w ])
             
     # convert to numpy array
-    acc = np.array(acc);     gyro = np.array(gyro)
-    flow = np.array(flow);   tdoa = np.array(tdoa)
-    tof = np.array(tof);     baro = np.array(baro)
-    gt_pose = np.array(gt_pose)
+    tdoa = np.array(tdoa);    gt_pose = np.array(gt_pose)
 
     # external calibration: convert the gt_position to UWB antenna center
     uwb_p = np.zeros((len(gt_pose), 3))
@@ -112,17 +89,8 @@ if __name__ == "__main__":
     an_pos_i = anchor_pos[an_i,:].reshape(1,-1)
     an_pos_j = anchor_pos[an_j,:].reshape(1,-1)
 
-    # uwb position from vicon measurement
-    # To compute the bias, we need to interpolate the vicon measurements. 
-    f_x = interpolate.splrep(gt_pose[:,0], uwb_p[:,0], s = 0.5)  
-    f_y = interpolate.splrep(gt_pose[:,0], uwb_p[:,1], s = 0.5)
-    f_z = interpolate.splrep(gt_pose[:,0], uwb_p[:,2], s = 0.5) 
-
-    # synchronized position
-    x_interp = interpolate.splev(tdoa_meas[:,0], f_x, der = 0).reshape(-1,1)
-    y_interp = interpolate.splev(tdoa_meas[:,0], f_y, der = 0).reshape(-1,1)
-    z_interp = interpolate.splev(tdoa_meas[:,0], f_z, der = 0).reshape(-1,1)
-    pos_syn = np.concatenate((x_interp, y_interp, z_interp), axis = 1)
+    # interpolate vicon measurement and synchronized position values to uwb time
+    pos_syn = sync_pos(gt_pose[:,0], uwb_p, tdoa_meas[:,0])
 
     d_i = np.asarray(linalg.norm(an_pos_i - pos_syn, axis = 1))
     d_j = np.asarray(linalg.norm(an_pos_j - pos_syn, axis = 1))
@@ -140,16 +108,16 @@ if __name__ == "__main__":
     ax.plot(tdoa_meas[:,0], d_ij, color='red',linewidth=1.5, label = "Vicon ground truth")
     ax.legend(loc='best',fontsize = FONTSIZE)
     ax.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
-    ax.set_ylabel(r'TDoA measurement [m]',fontsize = FONTSIZE) 
-    plt.title(r"UWB tdoa measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
+    ax.set_ylabel(r'TDOA measurement [m]',fontsize = FONTSIZE) 
+    plt.title(r"UWB TDOA measurements, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
 
     fig1 = plt.figure(figsize=(10, 8))
     bx = fig1.add_subplot(111)
     bx.scatter(tdoa_meas[:,0], bias_ij, color = "steelblue", s = 2.5, alpha = 0.9, label = "tdoa biases")
     bx.legend(loc='best',fontsize = FONTSIZE)
     bx.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
-    bx.set_ylabel(r'TDoA bias [m]',fontsize = FONTSIZE) 
-    plt.title(r"UWB tdoa biases, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
+    bx.set_ylabel(r'TDOA bias [m]',fontsize = FONTSIZE) 
+    plt.title(r"UWB TDOA biases, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
 
     plt.show()
 

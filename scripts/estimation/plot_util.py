@@ -1,7 +1,6 @@
 '''
     Plotting functions
 
-    Created On : Jan 1, 2022
        Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
        Email   : wenda.zhao@robotics.utias.utoronto.ca, 
                  abhishek.goudar@robotics.utias.utoronto.ca,

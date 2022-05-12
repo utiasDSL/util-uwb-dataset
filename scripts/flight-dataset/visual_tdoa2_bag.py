@@ -2,7 +2,6 @@
     Visualize the UWB TDOA2 and other sensor measurements in rosbag.
     Note: no mattress is used in manual movement experiments (const3)
     
-    Created On : Jan 1, 2022
        Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
        Email   : wenda.zhao@robotics.utias.utoronto.ca, 
                  abhishek.goudar@robotics.utias.utoronto.ca,
@@ -13,7 +12,6 @@ import os, sys
 import argparse
 import numpy as np
 from numpy import linalg
-from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import pyplot as plt
 from pyquaternion import Quaternion
 import matplotlib
@@ -43,7 +41,6 @@ if __name__ == "__main__":
     anchor_survey = np.load(anchor_npz)
     anchor_pos = anchor_survey['an_pos']
     anchor_qaut = anchor_survey['an_quat']
-    
     # print out
     anchor_file = os.path.split(sys.argv[-2])[1]
     print("loading anchor survey results: " + str(anchor_file) + "\n")
@@ -51,11 +48,9 @@ if __name__ == "__main__":
     # access rosbag
     ros_bag = args.i[1]
     bag = rosbag.Bag(ros_bag)
-    bag_file = os.path.split(sys.argv[-1])[1]
-
+    bag_name = os.path.split(sys.argv[-1])[1]
     # print out
-    bag_name = os.path.splitext(bag_file)[0]
-    print("visualizing rosbag: " + str(bag_file) + "\n")
+    print("visualizing rosbag: " + str(bag_name) + "\n")
 
     # -------------------- extract the rosbag ----------------------------- #
     acc = [];   gyro = [];  flow = [];  tdoa = [];  tof = [];  baro = [] 
@@ -107,9 +102,6 @@ if __name__ == "__main__":
 
         uwb_ac = C_iv.dot(t_uv) + gt_pose[idx,1:4].reshape(-1,1)
         uwb_p[idx,:] = uwb_ac.reshape(1,-1)     # gt of uwb tag
-
-    # select the anchor pair for visualization
-    # possible anchor ID = [0,1,2,3,4,5,6,7] 
 
     # get the id for tdoa_ij measurements
     tdoa_70 = np.where((tdoa[:,1]==[7])&(tdoa[:,2]==[0]))

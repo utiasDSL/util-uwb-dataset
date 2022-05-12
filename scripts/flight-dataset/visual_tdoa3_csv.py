@@ -1,9 +1,6 @@
 '''
-    Visualize the UWB TDOA3 and other sensor measurements in rosbag.
-    The anchor pair is set by parameter {an_i, an_j}
-    Note: no mattress is used in manual movement experiments (const3)
-    
-    Created On : Jan 1, 2022
+    Visualize the UWB TDOA2 and other sensor measurements in csv
+
        Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
        Email   : wenda.zhao@robotics.utias.utoronto.ca, 
                  abhishek.goudar@robotics.utias.utoronto.ca,
@@ -11,16 +8,19 @@
     Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
+sys.path.append("../")
 import argparse
 import numpy as np
+import pandas as pd
 from numpy import linalg
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import pyplot as plt
 from pyquaternion import Quaternion
 import matplotlib
-import rosbag
+from matplotlib import pyplot as plt
 
-FONTSIZE = 18;   TICK_SIZE = 16
+from utility.praser import extract_baro, extract_gt, extract_tdoa, extract_tof, extract_flow
+
+FONTSIZE = 18;     TICK_SIZE = 16
+
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
 
@@ -33,7 +33,7 @@ t_uv = np.array([-0.01245, 0.00127, 0.0908]).reshape(-1,1)
 t_lv = np.array([0.0, 0.0, -0.0012]).reshape(-1,1)
 
 if __name__ == "__main__":
-    # ---------------- access anchor survey and rosbag ---------------- #
+    # ------------- access anchor survey and csv file ------------- #
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', action='store', nargs=2)
     args = parser.parse_args()
@@ -43,60 +43,23 @@ if __name__ == "__main__":
     anchor_survey = np.load(anchor_npz)
     anchor_pos = anchor_survey['an_pos']
     anchor_qaut = anchor_survey['an_quat']
-    
     # print out
     anchor_file = os.path.split(sys.argv[-2])[1]
     print("loading anchor survey results: " + str(anchor_file) + "\n")
 
-    # access rosbag
-    ros_bag = args.i[1]
-    bag = rosbag.Bag(ros_bag)
-    bag_file = os.path.split(sys.argv[-1])[1]
-
+    # access csv
+    csv_file = args.i[1]
+    df = pd.read_csv(csv_file)
+    csv_name = os.path.split(sys.argv[-1])[1]
     # print out
-    bag_name = os.path.splitext(bag_file)[0]
-    print("visualizing rosbag: " + str(bag_file) + "\n")
-    # -------------------- extract the rosbag ----------------------------- #
-    acc = [];   gyro = [];  flow = [];  tdoa = [];  tof = [];  baro = [] 
-    imu = []  # combined IMU data
-    gt_pose = [] 
+    print("visualizing csv: " + str(csv_name) + "\n")
 
-    for topic, msg, t in bag.read_messages(['/accel_data', '/gyro_data', '/flow_data', '/tdoa_data', '/tof_data', '/baro_data', '/pose_data', "/imu_data"]):
-        if topic == '/accel_data':
-            acc.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.x, msg.y, msg.z])
-        if topic == '/gyro_data':
-            gyro.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.x, msg.y, msg.z])
-        if topic == '/flow_data':
-            flow.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.deltaX, msg.deltaY])
-        if topic == '/tdoa_data':
-            tdoa.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.idA, msg.idB, msg.data])
-        if topic == "/tof_data":
-            tof.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.zrange])
-        if topic == "/baro_data":
-            baro.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.asl])
-        if topic == "/pose_data":
-            gt_pose.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                            msg.pose.pose.position.x,    msg.pose.pose.position.y,    msg.pose.pose.position.z, msg.pose.pose.orientation.x, msg.pose.pose.orientation.y,
-                            msg.pose.pose.orientation.z, msg.pose.pose.orientation.w ])
-        if topic == "/imu_data":
-            imu.append([msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9,
-                        msg.linear_acceleration.x, msg.linear_acceleration.y, msg.linear_acceleration.z,
-                        msg.angular_velocity.x,    msg.angular_velocity.y,    msg.angular_velocity.z])
-            
-            
-    # convert to numpy array
-    acc = np.array(acc);     gyro = np.array(gyro)
-    flow = np.array(flow);   tdoa = np.array(tdoa)
-    tof = np.array(tof);     baro = np.array(baro)
-    imu = np.array(imu)
-
-    gt_pose = np.array(gt_pose)
+    # --------------- extract csv file --------------- #
+    gt_pose = extract_gt(df)
+    tdoa    = extract_tdoa(df)
+    tof     = extract_tof(df)
+    flow    = extract_flow(df)
+    baro    = extract_baro(df)
 
     # external calibration: convert the gt_position to UWB antenna center
     uwb_p = np.zeros((len(gt_pose), 3))
@@ -111,7 +74,6 @@ if __name__ == "__main__":
     # possible anchor ID = [0,1,2,3,4,5,6,7] 
     an_i = 7;     an_j = 0
     # --------------------------------------------------------------- #
-
     # get the id for tdoa_ij measurements
     tdoa_id = np.where((tdoa[:,1]==[an_i])&(tdoa[:,2]==[an_j]))
     tdoa_meas = np.squeeze(tdoa[tdoa_id, :])

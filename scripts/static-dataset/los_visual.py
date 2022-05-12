@@ -2,7 +2,6 @@
     Visualize static los signal testing data. Read the data from csv
     python3 los_visual.py -i [csv data folder]
     
-    Created On : Jan 1, 2022
        Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
        Email   : wenda.zhao@robotics.utias.utoronto.ca, 
                  abhishek.goudar@robotics.utias.utoronto.ca,
@@ -10,15 +9,17 @@
     Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
+sys.path.append("../")
 import argparse
 import numpy as np
 from numpy import linalg
 import pandas as pd
 from scipy import stats
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib
 from matplotlib import pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
+
+from utility.praser import deleteNAN
 
 FONTSIZE = 18;   TICK_SIZE = 16
 # set window background to white
@@ -27,11 +28,6 @@ plt.rcParams['figure.facecolor'] = 'w'
 matplotlib.rc('xtick', labelsize=TICK_SIZE) 
 matplotlib.rc('ytick', labelsize=TICK_SIZE) 
 
-def deleteNAN(array):
-    nan_array = np.isnan(array)
-    not_nan = ~ nan_array
-    new_array = array[not_nan]
-    return new_array
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
