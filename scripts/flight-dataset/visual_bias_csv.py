@@ -107,5 +107,4 @@ if __name__ == "__main__":
     bx.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
     bx.set_ylabel(r'TDOA bias [m]',fontsize = FONTSIZE) 
     plt.title(r"UWB TDOA biases, (An{0}, An{1})".format(an_i, an_j), fontsize=FONTSIZE, fontweight=0, color='black')
-
     plt.show()

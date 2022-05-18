@@ -14,8 +14,8 @@ clc;
 filepath = fileparts(mfilename('fullpath'));
 
 % combine the path
-csv = fullfile(filepath, '../../dataset/static-dataset/nlos/anTag/metal/data1/metal-anTag-data1_data.csv');
-txt = fullfile(filepath, '../../dataset/static-dataset/nlos/anTag/metal/data1/metal-anTag-data1_pose.txt');
+csv = fullfile(filepath, '../../dataset/static-dataset/nlos/anTag/metal/data1/metal-anTag-data1-data.csv');
+txt = fullfile(filepath, '../../dataset/static-dataset/nlos/anTag/metal/data1/metal-anTag-data1-pose.txt');
 
 % load the anchor positions
 fid = fopen(txt);

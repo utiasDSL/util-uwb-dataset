@@ -1,13 +1,3 @@
-'''
-    Visualize static obstacles and experimental trajectories in const4
-
-    Created On : Jan 1, 2022
-       Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
-       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
-                 abhishek.goudar@robotics.utias.utoronto.ca,
-                 samxinyuan.qiao@mail.utoronto.ca
-    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
-'''
 import os, sys
 import argparse
 import rosbag
@@ -15,7 +5,13 @@ import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
 
-FONTSIZE = 18;   TICK_SIZE = 16
+# LaTeX font
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.sans-serif": ["Helvetica"]})
+
+FONTSIZE = 21;   TICK_SIZE = 21
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
 matplotlib.rc('xtick', labelsize=TICK_SIZE) 
@@ -35,9 +31,6 @@ def plot_obs(ob_x,obstacle):
    
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("ros_bag")
-    args = parser.parse_args()
 
     # access the survey results
     cwd = os.path.dirname(__file__)
@@ -46,9 +39,11 @@ if __name__ == "__main__":
     anchor_pos = anchor_survey['an_pos']
     
     # access rosbag
-    ros_bag = args.ros_bag
+
+    ros_bag = '/home/wenda/dsl__projects__uwbDataset/dataset/flight-dataset/rosbag-data/const4/const4-trial2-tdoa2-traj1.bag'
+
     bag = rosbag.Bag(ros_bag)
-    bag_file = os.path.split(sys.argv[-1])[1]
+    bag_file = os.path.split(ros_bag)[1]
 
     # print out
     bag_name = os.path.splitext(bag_file)[0]
@@ -74,7 +69,7 @@ if __name__ == "__main__":
 
     # visualization
     # visualize the anchor, tag and obstacle
-    fig_ob = plt.figure(figsize=(16, 9))
+    fig_ob = plt.figure(figsize=(12, 9))
     ob_x = fig_ob.add_subplot(111, projection = '3d')
     # make the panes transparent
     ob_x.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
@@ -85,8 +80,8 @@ if __name__ == "__main__":
     ob_x.yaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
     ob_x.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
 
-    ob_x.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = 'Quadrotor trajectory')
-    ob_x.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2],  s = 100, marker='o',color='red', label = 'Anchor position')
+    ob_x.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=3.0, alpha=0.9, label = 'Quadrotor trajectory')
+    ob_x.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2],  s = 130, marker='o',color='red', label = 'Anchor position')
 
     # select nlos trail [2,3,4,7]
     if NLOS_TRIAL == 'trial2':
@@ -229,19 +224,16 @@ if __name__ == "__main__":
     ob_x.set_xlim3d(-4.5, 4.5)  
     ob_x.set_ylim3d(-4.5, 4.5)  
     ob_x.set_zlim3d(0.0, 3.5)  
-    ob_x.set_xlabel(r'X [m]', fontsize = FONTSIZE)
-    ob_x.set_ylabel(r'Y [m]', fontsize = FONTSIZE)
-    ob_x.set_zlabel(r'Z [m]', fontsize = FONTSIZE)
-    ob_x.set_box_aspect((1, 1, 0.35)) 
-    ob_x.tick_params(axis='x', which='major', pad=0)
-    ob_x.tick_params(axis='y', which='major', pad=0)
-    ob_x.tick_params(axis='z', which='major', pad=1.5)
-    plt.legend(loc='best',fontsize=FONTSIZE)
-    ob_x.view_init(20, -60)
+    ob_x.set_xlabel(r'X [m]', fontsize = FONTSIZE, labelpad=15)
+    ob_x.set_ylabel(r'Y [m]', fontsize = FONTSIZE, labelpad=15)
+    ob_x.set_zlabel(r'Z [m]', fontsize = FONTSIZE, labelpad=15)
+    ob_x.set_box_aspect((1, 1, 0.5)) 
+    ticks = np.arange(0.0, 5.0, 1.0)
+    ob_x.set_zticks(ticks)
+
+    # plt.legend(bbox_to_anchor=(0.53,0.8), loc='center', ncol=3,  fontsize=FONTSIZE)
+    ob_x.view_init(20, -64)
     fig_ob.tight_layout()
-    
+    plt.savefig('const4-traj1.pdf')
     plt.show()
-
-
-
 

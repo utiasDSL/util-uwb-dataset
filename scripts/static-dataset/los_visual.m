@@ -14,8 +14,8 @@ clc;
 filepath = fileparts(mfilename('fullpath'));
 
 % combine the path
-csv = fullfile(filepath, '../../dataset/static-dataset/los/angleTest/angleT2/angleT2_data.csv');
-txt = fullfile(filepath, '../../dataset/static-dataset/los/angleTest/angleT2/angleT2_pose.txt');
+csv = fullfile(filepath, '../../dataset/static-dataset/los/angleTest/angleT2/angleT2-data.csv');
+txt = fullfile(filepath, '../../dataset/static-dataset/los/angleTest/angleT2/angleT2-pose.txt');
 
 % load the anchor positions
 position = readtable(txt,'ReadRowNames',true);

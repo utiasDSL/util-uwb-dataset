@@ -116,7 +116,7 @@ if __name__ == "__main__":
     ax.yaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
     ax.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
 
-    ax.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = 'Quadcopter trajectory')
+    ax.plot(gt_pose[:,1],gt_pose[:,2],gt_pose[:,3],color='steelblue',linewidth=1.9, alpha=0.9, label = 'Quadrotor trajectory')
     ax.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2], s = 100, marker='o',color='red', label = 'Anchor position')
     
     # plot lines among obstacle vertices

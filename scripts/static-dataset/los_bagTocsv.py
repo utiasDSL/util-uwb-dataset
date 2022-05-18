@@ -124,13 +124,13 @@ if __name__ == "__main__":
                       an1_rx_snr, an1_rx_powerdif, an1_tof, an2_rx_snr, an2_rx_powerdif, an2_tof,
                       fillvalue='')
     
-    csv_file = folder + '/' + data_name +'_data.csv'
+    csv_file = folder + '/' + data_name +'-data.csv'
     with open(csv_file,"w") as f:
         csv.writer(f).writerow(header)
         csv.writer(f).writerows(row)
 
     # save the pose of the 2 anchors and the tag into txt files
-    txt_file = folder + '/' + data_name +'_pose.txt'
+    txt_file = folder + '/' + data_name +'-pose.txt'
     with open(txt_file,"w") as f:
         f.write('an1_p,' + str(an1_p[0]) + ',' + str(an1_p[1]) + ',' + str(an1_p[2])+'\n')
         f.write('an2_p,' + str(an2_p[0]) + ',' + str(an2_p[1]) + ',' + str(an2_p[2])+'\n' )
