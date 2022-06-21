@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 
 from utility.praser import extract_gt, extract_tdoa
 
-FONTSIZE = 24;     TICK_SIZE = 24
+FONTSIZE = 34;     TICK_SIZE = 34
 
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     anchor_pos = anchor_survey['an_pos']
     
     # access csv
-    csv_file = '/home/wenda/dsl__projects__uwbDataset/dataset/flight-dataset/csv-data/const4/const4-trial6-tdoa2-traj1.csv'
+    csv_file = '/home/wenda/dsl__projects__uwbDataset/dataset/flight-dataset/csv-data/const4/const4-trial5-tdoa2-traj1.csv'
     df = pd.read_csv(csv_file)
     csv_name = os.path.split(csv_file)[1]
     # print out
@@ -99,16 +99,18 @@ if __name__ == "__main__":
     
     # visualization 
     # UWB TDOA
-    fig1 = plt.figure(figsize=(12, 6))
+    # fig1 = plt.figure(figsize=(12, 6))
+    fig1 = plt.figure(figsize=(15, 12))
     ax1 = fig1.add_subplot(111)
-    ax1.plot(gt_pose[:,0], d_23, color='red',linewidth=2.5, alpha = 1.0, label = "Ground truth")
-    ax1.scatter(tdoa_meas_23[:,0], tdoa_meas_23[:,3], color = "steelblue", s = 15, alpha = 1.0, label = "TDOA measurements")
+    ax1.plot(gt_pose[:,0], d_23, color='red',linewidth=3.5, alpha = 1.0, label = "Ground truth")
+    ax1.scatter(tdoa_meas_23[:,0], tdoa_meas_23[:,3], color = "steelblue", s = 55, alpha = 0.8, label = "TDOA measurements")
     # ax1.legend(loc='best')
     ax1.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
     ax1.set_ylabel(r'TDOA meas. [m]',fontsize = FONTSIZE) 
     # plt.title(r"UWB TDOA measurements, (An7, An0)", fontsize=FONTSIZE, fontweight=0, color='black')
+    plt.legend(bbox_to_anchor=(0.6,1.2), loc='center', ncol=2,  fontsize=FONTSIZE)
     ax1.set_xlim([0.0,127.0])
     fig1.tight_layout()
-    # plt.savefig('uwb_meas_trial6.pdf')
+    plt.savefig('uwb_meas_trial5.pdf')
     plt.show()
 
