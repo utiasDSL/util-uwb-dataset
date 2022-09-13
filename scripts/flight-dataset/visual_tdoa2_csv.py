@@ -13,13 +13,18 @@ import argparse
 import numpy as np
 import pandas as pd
 from numpy import linalg
+import math
 from pyquaternion import Quaternion
 import matplotlib
 from matplotlib import pyplot as plt
 
-from utility.praser import extract_baro, extract_gt, extract_tdoa, extract_tof, extract_flow
+from utility.praser import extract_baro, extract_gt, extract_tdoa, extract_tof, extract_flow, extract_acc, extract_gyro
 
 FONTSIZE = 18;     TICK_SIZE = 16
+
+# constant: convert the IMU data from the UTIL dataset to m/s^2 and rad/s
+GRAVITY_MAGNITUDE = 9.81
+DEG_TO_RAD  = math.pi/180.0
 
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
@@ -60,6 +65,8 @@ if __name__ == "__main__":
     tof     = extract_tof(df)
     flow    = extract_flow(df)
     baro    = extract_baro(df)
+    acc     = extract_acc(df)
+    gyr     = extract_gyro(df)
 
     # external calibration: convert the gt_position to UWB antenna center
     uwb_p = np.zeros((len(gt_pose), 3))
@@ -254,5 +261,39 @@ if __name__ == "__main__":
     a_z.legend(loc='best')
     a_z.set_ylabel(r'Z [m]',fontsize = FONTSIZE)
     a_z.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
+
+
+    # plot acc and gyro
+    fig8 = plt.figure(figsize=(10, 8))
+    ac_x = fig8.add_subplot(311)
+    plt.title(r"IMU", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02)
+    ac_x.plot(acc[:,0], acc[:,1] * GRAVITY_MAGNITUDE, color='steelblue',linewidth=1.9, alpha=0.9, label = "acc_x")
+    ac_x.legend(loc='best')
+    ac_x.set_ylabel(r'acc_x',fontsize = FONTSIZE) 
+    ac_y = fig8.add_subplot(312)
+    ac_y.plot(acc[:,0], acc[:,2] * GRAVITY_MAGNITUDE, color='steelblue',linewidth=1.9, alpha=0.9, label = "acc_y")
+    ac_y.legend(loc='best')
+    ac_y.set_ylabel(r'acc_y',fontsize = FONTSIZE) 
+    ac_z = fig8.add_subplot(313)
+    ac_z.plot(acc[:,0], acc[:,3] * GRAVITY_MAGNITUDE, color='steelblue',linewidth=1.9, alpha=0.9, label = "acc_z")
+    ac_z.legend(loc='best')
+    ac_z.set_ylabel(r'acc_z',fontsize = FONTSIZE)
+    ac_z.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
+    #
+    fig9 = plt.figure(figsize=(10, 8))
+    gy_x = fig9.add_subplot(311)
+    plt.title(r"gyro", fontsize=FONTSIZE, fontweight=0, color='black', style='italic', y=1.02)
+    gy_x.plot(gyr[:,0], gyr[:,1] * DEG_TO_RAD, color='steelblue',linewidth=1.9, alpha=0.9, label = "gyro_x")
+    gy_x.legend(loc='best')
+    gy_x.set_ylabel(r'gyro_x ',fontsize = FONTSIZE) 
+    gy_y = fig9.add_subplot(312)
+    gy_y.plot(gyr[:,0], gyr[:,2] * DEG_TO_RAD, color='steelblue',linewidth=1.9, alpha=0.9, label = "gyro_y")
+    gy_y.legend(loc='best')
+    gy_y.set_ylabel(r'gyro_y',fontsize = FONTSIZE) 
+    gy_z = fig9.add_subplot(313)
+    gy_z.plot(gyr[:,0], gyr[:,3] * DEG_TO_RAD, color='steelblue',linewidth=1.9, alpha=0.9, label = "gyro_z")
+    gy_z.legend(loc='best')
+    gy_z.set_ylabel(r'gyro_z',fontsize = FONTSIZE)
+    gy_z.set_xlabel(r'Time [s]',fontsize = FONTSIZE)
 
     plt.show()
