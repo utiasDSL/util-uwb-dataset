@@ -2,11 +2,11 @@
 
 ---
 ## Overview
-We present an ultra-wideband (UWB) time-difference-of-arrival (TDOA) dataset collected from a quadrotor platform for research purposes. The dataset consists of low-level signal information from static experiments <em>(static dataset)</em> and UWB TDOA measurements and additional onboard sensor data from flight experiments <em>(flight dataset)</em> in a variety of line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. The [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/), based on DWM1000 UWB modules, is used to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
+Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has recently emerged as a promising, low-cost, and scalable indoor localization solution, which is especially suited for multi-robot applications. To benchmark the emerging UWB TDOA positioning technology in cluttered indoor environments, we present a comprehensive dataset consists of UWB TDOA identification experiments and flight experiments based on Decawave's DWM1000 UWB modules. In the identification experiments, we collected low-level signal information, including signal-to-noise ratio (SNR) and power difference values, in various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. For the flight experiments, we conducted a cumulative ~ 150 minutes of real-world flights with an average speed of 0.45 m/s using four different anchor constellations. Raw sensor data including UWB TDOA, inertial measurement unit (IMU), optical flow, time-of-flight (ToF) laser, and millimeter-accurate ground truth data were collected during the flights. We use the [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/) to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
 
 ---
-## Static Dataset
-For the static experiments, we collected UWB TDOA measurements under various LOS and NLOS conditions. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data.
+## Identification Dataset
+For the identification experiments, we collected UWB TDOA measurements under various LOS and NLOS conditions. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data.
 
 ### Line-of-sight (LOS) experiments
 <!-- word -- left, fig -- right -->
@@ -32,7 +32,7 @@ For the static experiments, we collected UWB TDOA measurements under various LOS
   </div>
 </div>
  
-### Static dataset format
+### Identification dataset format
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
     <img src="files/images/static-data-format.png" alt="" width="400">
@@ -172,7 +172,7 @@ Step 6. Visualize the trajectory and static obstacle positions in constellation 
 $ cd scripts/flight-dataset
 $ python3 visual_obs_const3.py [ROSBAG_DATA]   
 $ python3 visual_obs_const4.py [ROSBAG_DATA]
-# e.g. python3 visual_obs_const3.py ../../dataset/flight-dataset/rosbag-data/const3/const3-trial8-tdoa2-manual1.bag 
+# e.g. python3 visual_obs_const3.py ../../dataset/flight-dataset/rosbag-data/const3/const3-trial7-tdoa2-manual1.bag 
 # e.g. python3 visual_obs_const4.py ../../dataset/flight-dataset/rosbag-data/const4/const4-trial2-tdoa2-traj1.bag
 ```
 
@@ -185,21 +185,21 @@ $ python3 main.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]
 ```
 
 ---
-### Data parsing scripts for static dataset
+### Data parsing scripts for identification dataset
 
-Step 8. Visualize LOS static data
+Step 8. Visualize LOS identification data
 ```
-$ cd scripts/static-data
+$ cd scripts/identification-data
 $ python3 los_visual.py [LOS_DATA_FOLDER]                                
-# e.g. python3 los_visual.py ../../dataset/static-dataset/los/distTest/distT1
+# e.g. python3 los_visual.py ../../dataset/identification-dataset/los/distTest/distT1
 ```
 
 ---
-Step 9. Visualize NLOS static data
+Step 9. Visualize NLOS identification data
 ```
-$ cd scripts/static-data
+$ cd scripts/identification-data
 $ python3 nlos_visual.py [NLOS_DATA_FOLDER]                              
-# e.g. python3 nlos_visual.py ../../dataset/static-dataset/nlos/anTag/metal/data1
+# e.g. python3 nlos_visual.py ../../dataset/identification-dataset/nlos/anTag/metal/data1
 ```
 
 ## Credits
