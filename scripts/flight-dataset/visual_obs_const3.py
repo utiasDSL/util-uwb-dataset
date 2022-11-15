@@ -60,8 +60,8 @@ if __name__ == "__main__":
     # extract the name of the trial in const4
     CONST = bag_name.split('-')[0]
     NLOS_TRIAL = bag_name.split('-')[1]
-    if CONST != "const3" or NLOS_TRIAL != "trial8":
-        print("\n Please visualize trial8 in const3. \n")
+    if CONST != "const3" or NLOS_TRIAL != "trial7":
+        print("\n Please visualize trial7 in const3. \n")
         sys.exit()
 
     # -------------- visualize obstacles -------------------- #

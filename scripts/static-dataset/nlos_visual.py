@@ -24,9 +24,9 @@ from utility.praser import deleteNAN
 FONTSIZE = 18;   TICK_SIZE = 16
 # set window background to white
 plt.rcParams['figure.facecolor'] = 'w'
+# set the labelsize of xtick and ytick
 matplotlib.rc('xtick', labelsize=TICK_SIZE) 
 matplotlib.rc('ytick', labelsize=TICK_SIZE) 
-
 
 def plot_obs(ob_x,obstacle):
     for i in range(4):
@@ -86,7 +86,6 @@ if __name__ == "__main__":
     snr_an2 = deleteNAN(np.array(df['snr_an2']))
     power_dif_an2 = deleteNAN(np.array(df['power_dif_an2']))
 
-
     an1_rx_snr = deleteNAN(np.array(df['an1_rx_snr']) )
     an1_rx_powerdif = deleteNAN(np.array(df['an1_rx_powerdif']))
     an1_tof = deleteNAN(np.array(df['an1_tof']))
@@ -140,8 +139,7 @@ if __name__ == "__main__":
     mu=0;  sigma=0
     ax = plt.subplot(111)
     (mu, sigma) = stats.norm.fit(err12)
-    print("mean0: ", mu, "std0: ", sigma)
-    print("\n")
+    print("mean0: %.4f,", mu, "std0: %.4f", sigma)
     yhist, xhist, patches = plt.hist(err12, bins=180,color='steelblue',alpha=0.75, density=True)
     plt.axvline(x=mu, alpha=1.0, linestyle ='--', color = 'red')
     plt.axvline(x=0.0, alpha=1.0, linestyle ='--', color = 'black')
@@ -154,8 +152,7 @@ if __name__ == "__main__":
     fig1 = plt.figure(figsize=(16, 9))
     ax1 = plt.subplot(2,2,1)
     (mu_snr1, sigma_snr1) = stats.norm.fit(snr_an1)
-    print("SNR of anchor 1 mean: ", mu_snr1, "std: ", sigma_snr1)
-    print("\n")
+    print("SNR of anchor 1 mean: %.4f,", mu_snr1, "std: %.4f", sigma_snr1)
     yhist, xhist, patches = plt.hist(snr_an1, bins=48,color='steelblue',alpha=0.75, density=True)
     ax1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr1, alpha=1.0, linestyle ='--', color = 'red')
@@ -164,8 +161,7 @@ if __name__ == "__main__":
 
     bx1 = plt.subplot(2,2,2)
     (mu_power1, sigma_power1) = stats.norm.fit(power_dif_an1)
-    print("Power difference of anchor 1 mean: ", mu_power1, "std: ", sigma_power1)
-    print("\n")
+    print("Power difference of anchor 1 mean: %.4f,", mu_power1, "std: %.4f", sigma_power1)
     yhist, xhist, patches = plt.hist(power_dif_an1, bins=48,color='steelblue',alpha=0.75, density=True)
     bx1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_power1, alpha=1.0, linestyle ='--', color = 'red')
@@ -174,8 +170,7 @@ if __name__ == "__main__":
 
     cx1 = plt.subplot(2,2,3)
     (mu_snr2, sigma_snr2) = stats.norm.fit(snr_an2)
-    print("SNR of anchor 2 mean: ", mu_snr2, "std: ", sigma_snr2)
-    print("\n")
+    print("SNR of anchor 2 mean: %.4f,", mu_snr2, "std: %.4f", sigma_snr2)
     yhist, xhist, patches = plt.hist(snr_an2, bins=48,color='steelblue',alpha=0.75, density=True)
     cx1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr2, alpha=1.0, linestyle ='--', color = 'red')
@@ -184,8 +179,7 @@ if __name__ == "__main__":
 
     dx1 = plt.subplot(2,2,4)
     (mu_power2, sigma_power2) = stats.norm.fit(power_dif_an2)
-    print("Power difference of anchor 2, mean: ", mu_power2, "std: ", sigma_power2)
-    print("\n")
+    print("Power difference of anchor 2, mean: %.4f,", mu_power2, "std: %.4f", sigma_power2)
     yhist, xhist, patches = plt.hist(power_dif_an2, bins=48,color='steelblue',alpha=0.75, density=True)
     dx1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_power2, alpha=1.0, linestyle ='--', color = 'red')
@@ -196,8 +190,7 @@ if __name__ == "__main__":
     fig2 = plt.figure(figsize=(16, 9))
     px1 = fig2.add_subplot(2,3,1)
     (mu_snr_rc_an1, sigma_snr_rc_an1) = stats.norm.fit(an1_rx_snr)
-    print("SNR received by an1, mean: ", mu_snr_rc_an1, "std: ",sigma_snr_rc_an1)
-    print("\n")
+    print("SNR received by an1, mean: %.4f,", mu_snr_rc_an1, "std: %.4f",sigma_snr_rc_an1)
     yhist, xhist, patches = plt.hist(an1_rx_snr, bins=48,color='steelblue',alpha=0.75, density=True)
     px1.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr_rc_an1, alpha=1.0, linestyle ='--', color = 'red')
@@ -206,8 +199,7 @@ if __name__ == "__main__":
 
     px2 = fig2.add_subplot(2,3,2)
     (mu_snr_rc_an2, sigma_snr_rc_an2) = stats.norm.fit(an2_rx_snr)
-    print("SNR received by an2, mean: ", mu_snr_rc_an2, "std: ",sigma_snr_rc_an2)
-    print("\n")
+    print("SNR received by an2, mean: %.4f,", mu_snr_rc_an2, "std: %.4f",sigma_snr_rc_an2)
     yhist, xhist, patches = plt.hist(an2_rx_snr, bins=48,color='steelblue',alpha=0.75, density=True)
     px2.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_snr_rc_an2, alpha=1.0, linestyle ='--', color = 'red')
@@ -216,8 +208,7 @@ if __name__ == "__main__":
 
     px3 = fig2.add_subplot(2,3,3)
     (mu_powerdif_rc_an1, sigma_powerdif_rc_an1) = stats.norm.fit(an1_rx_powerdif)
-    print("Power difference received by an1, mean: ", mu_powerdif_rc_an1, "std: ", sigma_powerdif_rc_an1)
-    print("\n")
+    print("Power difference received by an1, mean: %.4f,", mu_powerdif_rc_an1, "std: %.4f", sigma_powerdif_rc_an1)
     yhist, xhist, patches = plt.hist(an1_rx_powerdif, bins=48, color='steelblue', alpha=0.75, density=True)
     px3.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_powerdif_rc_an1, alpha=1.0, linestyle ='--', color = 'red')
@@ -226,8 +217,7 @@ if __name__ == "__main__":
 
     px4 = fig2.add_subplot(2,3,4)
     (mu_powerdif_rc_an2, sigma_powerdif_rc_an2) = stats.norm.fit(an2_rx_powerdif)
-    print("Power difference received by an2, mean: ", mu_powerdif_rc_an2, "std: ", sigma_powerdif_rc_an2)
-    print("\n")
+    print("Power difference received by an2, mean: %.4f,", mu_powerdif_rc_an2, "std: %.4f", sigma_powerdif_rc_an2)
     yhist, xhist, patches = plt.hist(an2_rx_powerdif, bins=48, color='steelblue', alpha=0.75, density=True)
     px4.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.axvline(x=mu_powerdif_rc_an2, alpha=1.0, linestyle ='--', color = 'red')
@@ -236,8 +226,7 @@ if __name__ == "__main__":
 
     px5 = fig2.add_subplot(2,3,5)
     (mu_tof_rc_an1, sigma_tof_rc_an1) = stats.norm.fit(an1_tof)
-    print("Tof received by an1, mean: ", mu_tof_rc_an1, "std: ", sigma_tof_rc_an1)
-    print("\n")
+    print("Tof received by an1, mean: %.4f,", mu_tof_rc_an1, "std: %.4f", sigma_tof_rc_an1)
     yhist, xhist, patches = plt.hist(an1_tof, bins=20, color='steelblue', alpha=0.75, density=True)
     plt.axvline(x=mu_tof_rc_an1, alpha=1.0, linestyle ='--', color = 'red')
     plt.xlabel('tof received by an1', fontsize = FONTSIZE)
@@ -246,8 +235,7 @@ if __name__ == "__main__":
     px6 = fig2.add_subplot(2,3,6)
 
     (mu_tof_rc_an2, sigma_tof_rc_an2) = stats.norm.fit(an2_tof)
-    print("Tof received by an1, mean: ", mu_tof_rc_an2, "std: ", sigma_tof_rc_an2)
-    print("\n")
+    print("Tof received by an1, mean: %.4f,", mu_tof_rc_an2, "std: %.4f", sigma_tof_rc_an2)
     yhist, xhist, patches = plt.hist(an2_tof, bins=20, color='steelblue', alpha=0.75, density=True)
     plt.axvline(x=mu_tof_rc_an2, alpha=1.0, linestyle ='--', color = 'red')
     plt.xlabel('tof received by an1', fontsize = FONTSIZE)
