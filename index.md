@@ -152,10 +152,17 @@ $ cd scripts/flight-dataset
 $ python3 visual_tdoa2_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_ROSBAG_DATA]        
 # e.g. python3 visual_tdoa2_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag 
 
+$ python3 visual_tdoa2_csv.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_CSV_DATA]   
+# e.g. python3 visual_tdoa2_csv.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv
+
 $ python3 visual_tdoa3_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]        
 # e.g. python3 visual_tdoa3_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa3.bag 
+
+$ python3 visual_tdoa3_csv.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_CSV_DATA]   
+# e.g. python3 visual_tdoa3_csv.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa3.csv
+
 ```
-For TDOA3, the anchor pair of the visualized UWB measurement is set in the script `visual_tdoa3_bag.py`.
+For TDOA3, the anchor pair of the visualized UWB measurement is set in the script `visual_tdoa3_bag.py` and `visual_tdoa3_csv.py`.
 
 ---
 Step 5. Visualize UWB measurement bias:
@@ -163,8 +170,12 @@ Step 5. Visualize UWB measurement bias:
 $ cd scripts/flight-dataset
 $ python3 visual_bias_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]          
 # e.g. python3 visual_bias_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
+
+$ python3 visual_bias_csv.py -i [ANCHOR_SURVEY_NPZ] [TDOA_CSV_DATA]          
+# e.g. python3 visual_bias_csv.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv
+
 ```
-The anchor pair of the visualized UWB measurement is set in the script `visual_bias_bag.py`
+The anchor pair of the visualized UWB measurement is set in the script `visual_bias_bag.py` and `visual_bias_csv.py`
 
 ---
 Step 6. Visualize the trajectory and static obstacle positions in constellation 3 and 4.
