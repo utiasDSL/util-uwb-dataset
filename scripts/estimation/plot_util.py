@@ -91,8 +91,8 @@ def plot_traj(pos_vicon, Xpo, anchor_pos):
     ax_t.yaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
     ax_t.zaxis._axinfo["grid"]['color'] =  (0.5,0.5,0.5,0.5)
 
-    ax_t.plot(pos_vicon[:,0],pos_vicon[:,1],pos_vicon[:,2],color='orangered',linewidth=2.0, alpha=0.9, label='ground truth')
-    ax_t.plot(Xpo[:,0], Xpo[:,1], Xpo[:,2],color='royalblue', linewidth=2.0, alpha=1.0, label = 'estimation')
+    ax_t.plot(pos_vicon[:,0],pos_vicon[:,1],pos_vicon[:,2],color='b',linewidth=2.0, alpha=0.7, label='ground truth')
+    ax_t.plot(Xpo[:,0], Xpo[:,1], Xpo[:,2],color='g', linewidth=3.0, alpha=0.5, label = 'estimation')
     ax_t.scatter(anchor_pos[:,0], anchor_pos[:,1], anchor_pos[:,2],color='Teal', s = 100, alpha = 0.5, label = 'anchors')
     ax_t.set_xlim([-3.5,3.5])
     ax_t.set_ylim([-3.9,3.9])
