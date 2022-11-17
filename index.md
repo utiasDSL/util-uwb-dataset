@@ -85,7 +85,7 @@ The latency from the ground station software to the onboard firmware is tested t
 
 ### Flight dataset format
 In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). The six flight trajectories are summarized in Figure 10a-f. In constellation #4, we created three cluttered environments with static obstacles (see Figure 10g-i) and two cluttered environments with one dynamic metal obstacle.
-<img src="files/images/flight-exp-traj.png" alt="" width="800">
+<img src="files/images/flight-traj.png" alt="" width="800">
 
 We provide a simple extended Kalman filter (EKF) implementation for users to evaluate the UWB TDOA-based localization performance. The EKF estimation performance and error plots with one of the LOS flight experiments (*const1-trial3-tdoa2*) are shown below. 
 <img src="files/images/eskf.png" alt="" width="800">
