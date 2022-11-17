@@ -96,6 +96,9 @@ To simulate more realistic and challenging conditions, we collected sensor data 
   </div>
 </div>
 
+<video src="files/videos/histogram.mp4" controls="playsinline autoplay muted loop" style="max-width: 800px;">
+</video>
+
 For each UWB constellation, we provide the raw Leica total station survey results and computed anchor poses in *txt* files. In each sub-dataset, we provide the timestamped UWB TDOA, accelerometer, gyroscope, optical flow, ToF laser-ranger, and the barometer measurements and the ground truth measurements of the quadrotor’s pose in a *csv* file. The data format is shown in the following table. We also provide rosbag data converted from binary files for ROS related applications. We provide both Matlab and Python scripts to parse the data.
 <img src="files/images/flight-data-format.png" alt="" width="800">
 
