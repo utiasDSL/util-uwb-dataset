@@ -87,6 +87,10 @@ The latency from the ground station software to the onboard firmware is tested t
 In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). The six flight trajectories are summarized in Figure 10a-f. In constellation #4, we created three cluttered environments with static obstacles (see Figure 10g-i) and two cluttered environments with one dynamic metal obstacle.
 <img src="files/images/flight-exp-traj.png" alt="" width="800">
 
+We provide a simple extended Kalman filter (EKF) implementation for users to evaluate the UWB TDOA-based localization performance. The EKF estimation performance and error plots with one of the LOS flight experiments (*const1-trial3-tdoa2*) are shown below. 
+<img src="files/images/eskf.png" alt="" width="800">
+
+
 To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right). 
 
 We summarize the UWB TDOA measurements d23 in different LOS/NLOS scenarios as follows. The quadrotor was commanded to execute the same and repeated circle trajectory. We can observe in Figure 13b-d that static obstacles induce consistent influence to the UWB measurements. Also, UWB measurements can be completely blocked due to severe NLOS conditions.
