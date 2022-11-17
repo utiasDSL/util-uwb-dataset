@@ -1,12 +1,6 @@
 '''
     Visualize the UWB TDOA2 and other sensor measurements in rosbag.
     Note: no mattress is used in manual movement experiments (const3)
-    
-       Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
-       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
-                 abhishek.goudar@robotics.utias.utoronto.ca,
-                 samxinyuan.qiao@mail.utoronto.ca
-    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 import os, sys
 import argparse

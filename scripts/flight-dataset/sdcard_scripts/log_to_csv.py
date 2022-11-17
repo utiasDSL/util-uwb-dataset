@@ -2,13 +2,6 @@
 '''
     convert the binary file to csv and visualize the raw data 
     help function cfusdlog.py
-    
-    Created On : Jan 1, 2022
-       Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
-       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
-                 abhishek.goudar@robotics.utias.utoronto.ca,
-                 samxinyuan.qiao@mail.utoronto.ca
-    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 from log_to_bag import writeCombIMU
 from numpy.lib.function_base import extract

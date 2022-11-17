@@ -1,11 +1,5 @@
 '''
     Plotting functions
-
-       Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
-       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
-                 abhishek.goudar@robotics.utias.utoronto.ca,
-                 samxinyuan.qiao@mail.utoronto.ca
-    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
@@ -61,29 +55,29 @@ def plot_pos_err(t,pos_error, Ppo=np.zeros((0, 9, 9))):
     fig = plt.figure(facecolor="white",figsize=(10, 8))
     ax = fig.add_subplot(311)
     plt.title(r"Estimation Error", fontsize=FONTSIZE, fontweight=0, color='black')
-    ax.plot(t, pos_error[:,0], color='royalblue',linewidth=2.0, alpha=1.0)
+    ax.plot(t, pos_error[:,0], color='steelblue',linewidth=2.0, alpha=1.0)
     # plot variance
-    plt.fill_between(t,-3*delta_x[:,0], 3*delta_x[:,0],facecolor="pink",alpha=0.3)
+    plt.fill_between(t,-3*delta_x[:,0], 3*delta_x[:,0],facecolor="teal",alpha=0.3)
     ax.set_ylabel(r'error x [m]',fontsize=FONTSIZE)
     plt.xlim(0, max(t))
-    plt.ylim(-0.25,0.25)
+    plt.ylim(-0.35,0.35)
 
     ax = fig.add_subplot(312)
-    ax.plot(t, pos_error[:,1], color='royalblue',linewidth=2.0, alpha=1.0)
+    ax.plot(t, pos_error[:,1], color='steelblue',linewidth=2.0, alpha=1.0)
     # plot variance
-    plt.fill_between(t,-3*delta_y[:,0], 3*delta_y[:,0],facecolor="pink",alpha=0.3)
+    plt.fill_between(t,-3*delta_y[:,0], 3*delta_y[:,0],facecolor="teal",alpha=0.3)
     ax.set_ylabel(r'error y [m]',fontsize=FONTSIZE)
     plt.xlim(0, max(t))
-    plt.ylim(-0.25,0.25)
+    plt.ylim(-0.35,0.35)
 
     ax = fig.add_subplot(313)
-    ax.plot(t, pos_error[:,2], color='royalblue',linewidth=2.0, alpha=1.0)
+    ax.plot(t, pos_error[:,2], color='steelblue',linewidth=2.0, alpha=1.0)
     # plot variance
-    plt.fill_between(t,-3*delta_z[:,0], 3*delta_z[:,0],facecolor="pink",alpha=0.3)
+    plt.fill_between(t,-3*delta_z[:,0], 3*delta_z[:,0],facecolor="teal",alpha=0.3)
     ax.set_xlabel(r'time [s]',fontsize=FONTSIZE)
     ax.set_ylabel(r'error z [m]',fontsize=FONTSIZE)
     plt.xlim(0, max(t))
-    plt.ylim(-0.25,0.25)
+    plt.ylim(-0.45,0.45)
 
 def plot_traj(pos_vicon, Xpo, anchor_pos):
     fig_traj = plt.figure(facecolor = "white",figsize=(10, 8))

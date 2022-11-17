@@ -1,32 +1,28 @@
 '''
     The main file for eskf estimation
-    
-       Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
-       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
-                 abhishek.goudar@robotics.utias.utoronto.ca,
-                 samxinyuan.qiao@mail.utoronto.ca
-    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
 '''
 #!/usr/bin/env python3
 import argparse
 import os, sys
-import rosbag
-from cf_msgs.msg import Accel, Gyro, Flow, Tdoa, Tof 
-from geometry_msgs.msg import PoseWithCovarianceStamped
-from sensor_msgs.msg import Imu
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy import linalg
 import math
+import numpy as np
+import pandas as pd
 from pyquaternion import Quaternion
 from scipy import interpolate            
 from sklearn.metrics import mean_squared_error
 
 from eskf_class import ESKF
+import matplotlib.pyplot as plt
+cwd = os.path.dirname(__file__)
+sys.path.append(os.path.join(cwd, './../'))
+from utility.praser import extract_gt, extract_tdoa, extract_acc, extract_gyro, interp_meas, extract_tdoa_meas
 from plot_util import plot_pos, plot_pos_err, plot_traj
 
-'''help function for timestamp'''
+
 def isin(t_np,t_k):
+    '''
+        help function for timestamp
+    '''
     # check if t_k is in the numpy array t_np. 
     # If t_k is in t_np, return the index and bool = Ture.
     # else return 0 and bool = False
@@ -36,6 +32,20 @@ def isin(t_np,t_k):
         return res[0][0], b
     b = False
     return 0, b
+
+def downsamp(data):
+    '''
+        down-sample uwb data
+    '''
+    data_ds = data[0::2,:]              # downsample by half
+    
+    data_ds = data_ds[0::2,:]           # downsample by half
+
+    data_ds = data_ds[0::2,:]           # downsample by half
+    
+    # data_ds = data_ds[0::2,:]           # downsample by half
+
+    return data_ds
 
 
 if __name__ == "__main__":
@@ -53,46 +63,57 @@ if __name__ == "__main__":
     anchor_file = os.path.split(sys.argv[-2])[1]
     print("\nselecting anchor constellation " + str(anchor_file) + "\n")
 
-    # access rosbag file
-    ros_bag = args.i[1]
-    bag = rosbag.Bag(ros_bag)
-    bagFile = os.path.split(sys.argv[-1])[1]
-    # print out
-    bag_name = os.path.splitext(bagFile)[0]
-    print("visualizing rosbag: " + str(bagFile) + "\n")
+    # access csv
+    csv_file = args.i[1]
+    df = pd.read_csv(csv_file)
+    csv_name = os.path.split(sys.argv[-1])[1] 
+    print("ESKF estimation with: " + str(csv_name) + "\n")
 
-    # -------------------- start extract the rosbag ------------------------ #
-    pos_vicon=[];      t_vicon=[]; 
-    uwb=[];            t_uwb=[]; 
-    imu=[];            t_imu=[]; 
-    for topic, msg, t in bag.read_messages(['/pose_data', '/tdoa_data', '/imu_data']):
-        if topic == '/pose_data':
-            pos_vicon.append([msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z])
-            t_vicon.append(msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9)
-        if topic == '/tdoa_data':
-            uwb.append([msg.idA, msg.idB, msg.data])
-            t_uwb.append(msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9)
-        if topic == '/imu_data':
-            imu.append([msg.linear_acceleration.x, msg.linear_acceleration.y,  msg.linear_acceleration.z,\
-                        msg.angular_velocity.x,    msg.angular_velocity.y,     msg.angular_velocity.z     ])
-            t_imu.append(msg.header.stamp.secs + msg.header.stamp.nsecs * 1e-9)
+    # --------------- extract csv file --------------- #
+    gt_pose = extract_gt(df)
+    tdoa    = extract_tdoa(df)
+    acc     = extract_acc(df)
+    gyr     = extract_gyro(df)
+    #
+    t_vicon = gt_pose[:,0];    pos_vicon = gt_pose[:,1:4]
+    # t_tdoa = tdoa[:,0];        uwb_tdoa  = tdoa[:,1:] 
 
+    t_imu = acc[:,0]
+    gyr_x_syn = interp_meas(gyr[:,0], gyr[:,1], t_imu).reshape(-1,1)
+    gyr_y_syn = interp_meas(gyr[:,0], gyr[:,2], t_imu).reshape(-1,1)
+    gyr_z_syn = interp_meas(gyr[:,0], gyr[:,3], t_imu).reshape(-1,1)
 
-    min_t = min(t_uwb + t_imu + t_vicon)
+    imu = np.concatenate((acc[:,1:], gyr_x_syn, gyr_y_syn, gyr_z_syn), axis = 1)
+
+    min_t = min(tdoa[0,0], t_imu[0], t_vicon[0])
     # get the vicon information from min_t
     t_vicon = np.array(t_vicon);              
     idx = np.argwhere(t_vicon > min_t);     
     t_vicon = t_vicon[idx]; 
     pos_vicon = np.squeeze(np.array(pos_vicon)[idx,:])
 
-    # sensor
-    t_imu = np.array(t_imu);       imu = np.array(imu);  
-    t_uwb = np.array(t_uwb);       uwb = np.array(uwb);     
-
-    # reset ROS time base
+    # reset time base
     t_vicon = (t_vicon - min_t).reshape(-1,1)
     t_imu = (t_imu - min_t).reshape(-1,1)
-    t_uwb = (t_uwb - min_t).reshape(-1,1)
+    tdoa[:,0] = tdoa[:,0] - min_t
+
+    # ------ downsample the raw data
+    t_imu = downsamp(t_imu)
+    imu   = downsamp(imu)
+    # extract tdoa meas.
+    tdoa_70, tdoa_01, tdoa_12, tdoa_23, tdoa_34, tdoa_45, tdoa_56, tdoa_67 = extract_tdoa_meas(tdoa[:,0], tdoa[:,1:4]) 
+    # downsample uwb tdoa data
+    tdoa_70_ds = downsamp(tdoa_70);    tdoa_01_ds = downsamp(tdoa_01)
+    tdoa_12_ds = downsamp(tdoa_12);    tdoa_23_ds = downsamp(tdoa_23)
+    tdoa_34_ds = downsamp(tdoa_34);    tdoa_45_ds = downsamp(tdoa_45)
+    tdoa_56_ds = downsamp(tdoa_56);    tdoa_67_ds = downsamp(tdoa_67)
+    # convert back to tdoa
+    tdoa_c = np.concatenate((tdoa_70_ds, tdoa_01_ds, tdoa_12_ds, tdoa_23_ds,\
+                             tdoa_34_ds, tdoa_45_ds, tdoa_56_ds, tdoa_67_ds), axis = 0)
+
+    sort_id=np.argsort(tdoa_c[:,0])
+    t_uwb = tdoa_c[sort_id, 0].reshape(-1,1)
+    uwb   = tdoa_c[sort_id, 1:4]
 
     # ----------------------- INITIALIZATION OF EKF -------------------------#
     # Create a compound vector t with a sorted merge of all the sensor time bases

@@ -1,12 +1,6 @@
 '''
     Visualize static los signal testing data. Read the data from csv
-    python3 los_visual.py -i [csv data folder]
-    
-       Author  : Wenda Zhao, Abhishek Goudar, Xinyuan Qiao
-       Email   : wenda.zhao@robotics.utias.utoronto.ca, 
-                 abhishek.goudar@robotics.utias.utoronto.ca,
-                 samxinyuan.qiao@mail.utoronto.ca
-    Affliation : Dynamic Systems Lab, Vector Institute, UofT Robotics Institute
+    python3 los_visual.py -i [csv data folder] 
 '''
 import os, sys
 sys.path.append("../")

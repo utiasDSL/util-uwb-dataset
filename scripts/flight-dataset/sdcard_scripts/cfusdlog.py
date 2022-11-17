@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-Helper to decode binary logged sensor data from crazyflie2 with uSD-Card-Deck
-"""
+'''
+    Helper to decode binary logged sensor data from crazyflie2 with uSD-Card-Deck
+'''
 import argparse
 from zlib import crc32
 import struct

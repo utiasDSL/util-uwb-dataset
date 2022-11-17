@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-plotting a generic USD log
-"""
+'''
+    plotting a generic USD log
+'''
 import cfusdlog
 import matplotlib.pyplot as plt
 import argparse
