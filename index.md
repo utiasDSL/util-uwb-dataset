@@ -128,13 +128,18 @@ NOTE: remember to [source both your ROS environment and workspace.](http://wiki.
 
 ---
 ### Data parsing scripts for flight dataset
-Step 2. Convert SD card binary data to `rosbag`:
+Step 2. Convert SD card binary data to (1) `csv`, (2) `rosbag` files:
 ```
 $ cd scripts/flight-data/sdcard_scripts
-$ python3 log_to_bag.py [SD_CARD_BINARY_DATA]                               
-# e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
+$ python3 log_to_csv.py [SD_CARD_BINARY_DATA]     
+# e.g. python3 log_to_csv.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
 ```
-NOTE: we provide the converted rosbag data in the folder: "*dataset/flight-dataset/rosbag-data/*".
+```
+$ python3 log_to_bag.py [SD_CARD_BINARY_DATA]  
+# e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
+
+```
+NOTE: we provide the converted csv and rosbag data in the folder: "*dataset/flight-dataset/".
 
 ---
 Step 3. Convert the survey results to the inertial frame:
@@ -149,17 +154,20 @@ NOTE: we provide the converted survey results (npz and txt files) in the folder:
 Step 4. Visualize UWB measurements:
 ```
 $ cd scripts/flight-dataset
-$ python3 visual_tdoa2_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_ROSBAG_DATA]        
-# e.g. python3 visual_tdoa2_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag 
-
+# visualize csv data
 $ python3 visual_tdoa2_csv.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_CSV_DATA]   
 # e.g. python3 visual_tdoa2_csv.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv
 
-$ python3 visual_tdoa3_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]        
-# e.g. python3 visual_tdoa3_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa3.bag 
-
 $ python3 visual_tdoa3_csv.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_CSV_DATA]   
 # e.g. python3 visual_tdoa3_csv.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa3.csv
+```
+```
+# visualize rosbag data
+$ python3 visual_tdoa2_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA2_ROSBAG_DATA]        
+# e.g. python3 visual_tdoa2_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag 
+
+$ python3 visual_tdoa3_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]        
+# e.g. python3 visual_tdoa3_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa3.bag 
 
 ```
 For TDOA3, the anchor pair of the visualized UWB measurement is set in the script `visual_tdoa3_bag.py` and `visual_tdoa3_csv.py`.
@@ -168,11 +176,14 @@ For TDOA3, the anchor pair of the visualized UWB measurement is set in the scrip
 Step 5. Visualize UWB measurement bias:
 ```
 $ cd scripts/flight-dataset
-$ python3 visual_bias_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]          
-# e.g. python3 visual_bias_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
-
+# visualize csv data
 $ python3 visual_bias_csv.py -i [ANCHOR_SURVEY_NPZ] [TDOA_CSV_DATA]          
 # e.g. python3 visual_bias_csv.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv
+```
+```
+# visualize rosbag data
+$ python3 visual_bias_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]          
+# e.g. python3 visual_bias_bag.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
 
 ```
 The anchor pair of the visualized UWB measurement is set in the script `visual_bias_bag.py` and `visual_bias_csv.py`
@@ -191,8 +202,8 @@ $ python3 visual_obs_const4.py [ROSBAG_DATA]
 Step 7. Error-State Kalman Filter Estimation
 ```
 $ cd scripts/estimation
-$ python3 main.py -i [ANCHOR_SURVEY_NPZ] [ROSBAG_DATA]                      
-# e.g. python3 main.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/rosbag-data/const1/const1-trial1-tdoa2.bag
+$ python3 main.py -i [ANCHOR_SURVEY_NPZ] [CSV_DATA]                      
+# e.g. python3 main.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv
 ```
 
 ---
