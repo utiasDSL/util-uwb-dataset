@@ -1,4 +1,4 @@
-<img src="files/images/intro_big.gif" alt="start-img" width="1100">
+<img src="files/videos/intro_big.gif" alt="start-img" width="1100">
 
 ---
 ## Overview
@@ -84,20 +84,28 @@ Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optic
 The latency from the ground station software to the onboard firmware is tested to be around 10 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift. We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
 ### Flight dataset format
-In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). One centralized TDOA measurement and the Vicon ground truth are shown on the bottom image (left). We provide an error-state Kalman filter implementation for localization and the performance is demonstrated below (middle). Users are encouraged to design new algorithms to cope with the UWB measurement errors and noise for accurate indoor localizaiton.
-<img src="files/images/flight-dataset.png" alt="" width="800">
+In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). The six flight trajectories are summarized in Figure 10a-f. In constellation #4, we created three cluttered environments with static obstacles (see Figure 10g-i) and two cluttered environments with one dynamic metal obstacle.
+<img src="files/images/flight-exp-traj.png" alt="" width="800">
+
+To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right). 
+
+We summarize the UWB TDOA measurements d23 in different LOS/NLOS scenarios as follows. The quadrotor was commanded to execute the same and repeated circle trajectory. We can observe in Figure 13b-d that static obstacles induce consistent influence to the UWB measurements. Also, UWB measurements can be completely blocked due to severe NLOS conditions.
+<img src="files/images/flight-meas-comp.png" alt="" width="800">
 
 
-To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right). For the experiments with dynamic obstacles, we provide corresponding animations to visualize the experiment process. Two animations are shown below as examples.
+It can be observed that in dynamic NLOS scenarios (see Figure 13e and f), the induced measurement errors do not remain consistent. The experiment process with dynamic obstacles are shown with the following animations as examples.
 <div style="clear: both;">
   <div style="float: left; margin-left 3em;">
-    <img src="files/images/const4-trial5-tdoa2-traj3.gif" alt="" width="410">
-    <img src="files/images/const4-trial6-tdoa2-traj1.gif" alt="" width="410">
+    <img src="files/videos/const4-trial5-tdoa2-traj3.gif" alt="" width="410">
+    <img src="files/videos/const4-trial6-tdoa2-traj1.gif" alt="" width="410">
   </div>
 </div>
 
-<video src="files/videos/histogram.mp4" controls="playsinline autoplay muted loop" style="max-width: 800px;">
+We also summarize the UWB TDOA measurement error histograms in one of the experiments (*const4-trial6-tdoa2-traj1*) in the animation below. The measurement error histograms are visualized within a fixed window of timestamps along the entire trajectory. Due to the static and dynamic obstacles in the environment, the error histogram varies along the trajectory and demonstrates multimodal distributions, leading to a harsh scenario for indoor localization. We encourage the users to design novel algorithms to improve the localization performance in these challenging conditions.
+
+<video src="files/videos/histogram.mp4" playsinline autoplay muted loop style="max-width: 800px;">
 </video>
+
 
 For each UWB constellation, we provide the raw Leica total station survey results and computed anchor poses in *txt* files. In each sub-dataset, we provide the timestamped UWB TDOA, accelerometer, gyroscope, optical flow, ToF laser-ranger, and the barometer measurements and the ground truth measurements of the quadrotor’s pose in a *csv* file. The data format is shown in the following table. We also provide rosbag data converted from binary files for ROS related applications. We provide both Matlab and Python scripts to parse the data.
 <img src="files/images/flight-data-format.png" alt="" width="800">
