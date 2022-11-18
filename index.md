@@ -107,7 +107,7 @@ It can be observed that in dynamic NLOS scenarios (see Figure 13e and f), the in
 
 We also summarize the UWB TDOA measurement error histograms in one of the experiments (*const4-trial6-tdoa2-traj1*) in the animation below. The measurement error histograms are visualized within a fixed window of timestamps along the entire trajectory. Due to the static and dynamic obstacles in the environment, the error histogram varies along the trajectory and demonstrates multimodal distributions, leading to a harsh scenario for indoor localization. We encourage the users to design novel algorithms to improve the localization performance in these challenging conditions.
 
-<video src="files/videos/histogram.mp4" playsinline autoplay muted loop style="max-width: 800px;">
+<video src="files/videos/histogram.mp4" playsinline autoplay muted loop style="max-width: 100%;">
 </video>
 
 
