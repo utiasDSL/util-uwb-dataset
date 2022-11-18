@@ -6,26 +6,29 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
 
 ---
 ## Identification Dataset
-For the identification experiments, we collected UWB TDOA measurements under various LOS and NLOS conditions. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data.
+To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following plot.
+<img src="files/images/identify_setup.png" alt="" width="100%">
 
 ### Line-of-sight (LOS) experiments
 <!-- word -- left, fig -- right -->
 <div style="clear: both;">
-  <div style="float: right; margin-left 3em;">
-    <img src="files/images/static-los.png" alt="" width="400">
+  <div style="float: right; margin-left 5em;">
+     &nbsp; &nbsp;&nbsp;&nbsp;
+    <img src="files/images/los-boxplot.png" alt="" width="400">
   </div>
   <div>
-    <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meter to 6.5 meters with an interval of 0.5 meter. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees with an interval of 15 degrees. </p>
+    <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meter to 6.5 meters with an interval of 0.5 meter. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees with an interval of 15 degrees. We visualize the LOS measurement error at each testing through boxplots shown on the right. </p>
   </div>
 </div>
 
 ### Non-line-of-sight (NLOS) experiments
 <div style="clear: both;">
-  <div style="float: right; margin-left 3em;">
-    <img src="files/images/static-nlos.png" alt="" width="400">
+  <div style="float: right; margin-left 5em;">
+    &nbsp; &nbsp;&nbsp;&nbsp;
+    <img src="files/images/nlos-iden-setup.png" alt="" width="400">
   </div>
   <div>
-    <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, including cardboard, metal, wood, plastic, and foam. We conducted NLOS experiments under <em>(i)</em> NLOS conditions between anchor 1 and the tag and <em>(ii)</em> NLOS conditions between anchor 1 and anchor 2. One LOS data is collected for comparison.
+    <p>During the NLOS tests, we fixed the positions of the tag and two anchors and placed different obstacles to block the line-of-sight of TDOA measurements. To reflect the comprehensive performance of UWB NLOS measurements, we selected six obstacles of different type of materials commonly used in indoor settings, including cardboard, metal, wood, plastic, and foam. We conducted NLOS experiments under <em>(i)</em> NLOS conditions between anchor 1 and the tag and <em>(ii)</em> NLOS conditions between anchor 1 and anchor 2. One LOS data is collected for comparison. We present one NLOS identification experiment and summarize the measurement error histogram induced by metal occlusions (on the right) as an example.
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     </p>
@@ -100,8 +103,8 @@ We summarize the UWB TDOA measurements d23 in different LOS/NLOS scenarios as fo
 It can be observed that in dynamic NLOS scenarios (see Figure 13e and f), the induced measurement errors do not remain consistent. The experiment process with dynamic obstacles are shown with the following animations as examples.
 <div style="clear: both;">
   <div style="float: left; margin-left 3em;">
-    <img src="files/videos/const4-trial5-tdoa2-traj3.gif" alt="" width="410">
-    <img src="files/videos/const4-trial6-tdoa2-traj1.gif" alt="" width="410">
+    <img src="files/videos/const4-trial5-tdoa2-traj3.gif" alt="" width="48%">
+    <img src="files/videos/const4-trial6-tdoa2-traj1.gif" alt="" width="48%">
   </div>
 </div>
 
