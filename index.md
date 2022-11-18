@@ -6,7 +6,7 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
 
 ---
 ## Identification Dataset
-To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following plot.
+To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.
 <img src="files/images/identify_setup.png" alt="" width="100%">
 
 ### Line-of-sight (LOS) experiments
@@ -18,6 +18,8 @@ To identify the UWB TDOA measurement performance in different scenarios, we desi
   </div>
   <div>
     <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meter to 6.5 meters with an interval of 0.5 meter. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees with an interval of 15 degrees. We visualize the LOS measurement error at each testing through boxplots shown on the right. </p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
   </div>
 </div>
 
@@ -87,7 +89,7 @@ Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optic
 The latency from the ground station software to the onboard firmware is tested to be around 10 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift. We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
 ### Flight dataset format
-In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). The six flight trajectories are summarized in Figure 10a-f. In constellation #4, we created three cluttered environments with static obstacles (see Figure 10g-i) and two cluttered environments with one dynamic metal obstacle.
+In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). The six flight trajectories are summarized in the following figure a-f. In constellation #4, we created three cluttered environments with static obstacles (see figure g-i) and two cluttered environments with one dynamic metal obstacle.
 <img src="files/images/flight-traj.png" alt="" width="800">
 
 We provide a simple extended Kalman filter (EKF) implementation for users to evaluate the UWB TDOA-based localization performance. The EKF estimation performance and error plots with one of the LOS flight experiments (*const1-trial3-tdoa2*) are shown below. 
@@ -100,7 +102,7 @@ We summarize the UWB TDOA measurements d23 in different LOS/NLOS scenarios as fo
 <img src="files/images/flight-meas-comp.png" alt="" width="800">
 
 
-It can be observed that in dynamic NLOS scenarios (see Figure 13e and f), the induced measurement errors do not remain consistent. The experiment process with dynamic obstacles are shown with the following animations as examples.
+It can be observed that in dynamic NLOS scenarios (see the figure e and f above), the induced measurement errors do not remain consistent. The experiment process with dynamic obstacles are shown with the following animations as examples.
 <div style="clear: both;">
   <div style="float: left; margin-left 3em;">
     <img src="files/videos/const4-trial5-tdoa2-traj3.gif" alt="" width="48%">
