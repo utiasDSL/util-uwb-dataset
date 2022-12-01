@@ -12,7 +12,7 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
 <div style="clear: both;">
   <div style="float: right; margin-left 5em;">
      &nbsp; &nbsp;&nbsp;&nbsp;
-    <img src="files/images/identify_setup.jpg" alt="" width="400">
+    <img src="files/images/identify_setup.jpg" alt="" width="350">
   </div>
   <div>
     <p>To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.</p>
