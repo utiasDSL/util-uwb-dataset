@@ -16,7 +16,10 @@ echo -e "\e[0K"
 echo | pip3 install pyquaternion
 echo -en "\e[1A"
 echo -e "\e[0K"
-echo | pip3 install numpy scipy matplotlib==3.4.2 
+echo | pip3 install numpy scipy matplotlib==3.4.2 pyyaml pandas
+echo -en "\e[1A"
+echo -e "\e[0K"
+echo | pip3 install -U scikit-learn
 echo -en "\e[1A"
 echo -e "\e[0K"
 echo -e "${BLUE}Grab a cup of coffee and relax${NC}\n"
