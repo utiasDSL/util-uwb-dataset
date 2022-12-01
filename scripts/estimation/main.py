@@ -154,9 +154,9 @@ if __name__ == "__main__":
 
     ## compute the error    
     # interpolate Vicon measurements
-    f_x = interpolate.splrep(t_vicon, pos_vicon[:,0], s = 0)
-    f_y = interpolate.splrep(t_vicon, pos_vicon[:,1], s = 0)
-    f_z = interpolate.splrep(t_vicon, pos_vicon[:,2], s = 0)
+    f_x = interpolate.splrep(t_vicon, pos_vicon[:,0], s = 0.5)
+    f_y = interpolate.splrep(t_vicon, pos_vicon[:,1], s = 0.5)
+    f_z = interpolate.splrep(t_vicon, pos_vicon[:,2], s = 0.5)
     x_interp = interpolate.splev(t, f_x, der = 0)
     y_interp = interpolate.splev(t, f_y, der = 0)
     z_interp = interpolate.splev(t, f_z, der = 0)
