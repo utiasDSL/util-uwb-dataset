@@ -163,30 +163,8 @@ NOTE: remember to [source both your ROS environment and workspace.](http://wiki.
 
 ---
 ### Data parsing scripts for flight dataset
-Step 2. Convert SD card binary data to (1) `csv`, (2) `rosbag` files:
-```
-$ cd scripts/flight-data/sdcard_scripts
-$ python3 log_to_csv.py [SD_CARD_BINARY_DATA]     
-# e.g. python3 log_to_csv.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
-```
-```
-$ python3 log_to_bag.py [SD_CARD_BINARY_DATA]  
-# e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
 
-```
-NOTE: we provide the converted csv and rosbag data in the folder: "*dataset/flight-dataset/".
-
----
-Step 3. Convert the survey results to the inertial frame:
-```
-$ cd scripts/survey
-$ python3 anchor_survey.py [SURVEY_RESULT_TXT]                              
-# e.g. python3 anchor_survey.py ../../dataset/flight-dataset/survey-results/raw-data/anchor_const1.txt
-```
-NOTE: we provide the converted survey results (npz and txt files) in the folder: "*dataset/flight-dataset/survey-results/*".
-
----
-Step 4. Visualize UWB measurements:
+Step 2. Visualize UWB measurements:
 ```
 $ cd scripts/flight-dataset
 # visualize csv data
@@ -208,7 +186,7 @@ $ python3 visual_tdoa3_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA3_ROSBAG_DATA]
 For TDOA3, the anchor pair of the visualized UWB measurement is set in the script `visual_tdoa3_bag.py` and `visual_tdoa3_csv.py`.
 
 ---
-Step 5. Visualize UWB measurement bias:
+Step 3. Visualize UWB measurement bias:
 ```
 $ cd scripts/flight-dataset
 # visualize csv data
@@ -224,7 +202,7 @@ $ python3 visual_bias_bag.py -i [ANCHOR_SURVEY_NPZ] [TDOA_ROSBAG_DATA]
 The anchor pair of the visualized UWB measurement is set in the script `visual_bias_bag.py` and `visual_bias_csv.py`
 
 ---
-Step 6. Visualize the trajectory and static obstacle positions in constellation 3 and 4.
+Step 4. Visualize the trajectory and static obstacle positions in constellation 3 and 4.
 ```
 $ cd scripts/flight-dataset
 $ python3 visual_obs_const3.py [ROSBAG_DATA]   
@@ -234,17 +212,40 @@ $ python3 visual_obs_const4.py [ROSBAG_DATA]
 ```
 
 ---
-Step 7. Error-State Kalman Filter Estimation
+Step 5. Error-State Kalman Filter Estimation
 ```
 $ cd scripts/estimation
 $ python3 main.py -i [ANCHOR_SURVEY_NPZ] [CSV_DATA]                      
 # e.g. python3 main.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv
 ```
 
+### Processing raw data for flight dataset
+We provided the converted csv and rosbag data in the "*dataset/flight-dataset/" folder. Also, the converted survey results (npz and txt files) in inertial frame are provided in the folder: "*dataset/flight-dataset/survey-results/*". User can also use the following commands to process the raw data manually.  
+
+Convert SD card binary data to (1) `csv`, (2) `rosbag` files:
+```
+$ cd scripts/flight-dataset/sdcard_scripts
+$ python3 log_to_csv.py [SD_CARD_BINARY_DATA]     
+# e.g. python3 log_to_csv.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
+```
+```
+$ python3 log_to_bag.py [SD_CARD_BINARY_DATA]  
+# e.g. python3 log_to_bag.py ../../../dataset/flight-dataset/binary-data/const1/const1-trial1-tdoa2
+
+```
+
+---
+Convert the survey results to the inertial frame:
+```
+$ cd scripts/survey
+$ python3 anchor_survey.py [SURVEY_RESULT_TXT]                              
+# e.g. python3 anchor_survey.py ../../dataset/flight-dataset/survey-results/raw-data/anchor_const1.txt
+```
+
 ---
 ### Data parsing scripts for identification dataset
 
-Step 8. Visualize LOS identification data
+Step 6. Visualize LOS identification data
 ```
 $ cd scripts/identification-data
 $ python3 los_visual.py [LOS_DATA_FOLDER]                                
@@ -252,7 +253,7 @@ $ python3 los_visual.py [LOS_DATA_FOLDER]
 ```
 
 ---
-Step 9. Visualize NLOS identification data
+Step 7. Visualize NLOS identification data
 ```
 $ cd scripts/identification-data
 $ python3 nlos_visual.py [NLOS_DATA_FOLDER]                              
