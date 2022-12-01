@@ -220,7 +220,7 @@ $ python3 main.py -i [ANCHOR_SURVEY_NPZ] [CSV_DATA]
 ```
 
 ### Processing raw data for flight dataset
-We provided the converted csv and rosbag data in the "*dataset/flight-dataset/" folder. Also, the converted survey results (npz and txt files) in inertial frame are provided in the folder: "*dataset/flight-dataset/survey-results/*". User can also use the following commands to process the raw data manually.  
+We provided the converted csv and rosbag data in the "*dataset/flight-dataset/" folder. Also, the converted survey results (npz and txt files) in inertial frame are provided in the folder: "*dataset/flight-dataset/survey-results/*". Users can also use the following commands to process the raw data manually.  
 
 Convert SD card binary data to (1) `csv`, (2) `rosbag` files:
 ```
