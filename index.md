@@ -2,12 +2,26 @@
 
 ---
 ## Overview
-Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has recently emerged as a promising, low-cost, and scalable indoor localization solution, which is especially suited for multi-robot applications. To benchmark the emerging UWB TDOA positioning technology in cluttered indoor environments, we present a comprehensive dataset consists of UWB TDOA identification experiments and flight experiments based on Decawave's DWM1000 UWB modules. In the identification experiments, we collected low-level signal information, including signal-to-noise ratio (SNR) and power difference values, in various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. For the flight experiments, we conducted a cumulative ~ 150 minutes of real-world flights with an average speed of 0.45 m/s using four different anchor constellations. Raw sensor data including UWB TDOA, inertial measurement unit (IMU), optical flow, time-of-flight (ToF) laser, and millimeter-accurate ground truth data were collected during the flights. We use the [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/) to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
+Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has recently emerged as a promising, low-cost, and scalable indoor localization solution, which is especially suited for multi-robot applications. To benchmark the emerging UWB TDOA positioning technology in cluttered indoor environments, we present a comprehensive dataset consists of UWB TDOA identification experiments and flight experiments based on Decawave's DWM1000 UWB modules. In the identification experiments, we collected low-level signal information, including signal-to-noise ratio (SNR) and power difference values, in various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. For the flight experiments, we conducted a cumulative ~150 minutes of real-world flights with an average speed of 0.45 m/s using four different anchor constellations. Raw sensor data including UWB TDOA, inertial measurement unit (IMU), optical flow, time-of-flight (ToF) laser, and millimeter-accurate ground truth data were collected during the flights. We use the [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/) to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
 
 ---
 ## Identification Dataset
-To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.
-<img src="files/images/identify_setup.png" alt="" width="90%">
+<!-- To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.
+<img src="files/images/identify_setup.jpg" alt="" width="90%"> -->
+
+<div style="clear: both;">
+  <div style="float: right; margin-left 5em;">
+     &nbsp; &nbsp;&nbsp;&nbsp;
+    <img src="files/images/identify_setup.jpg" alt="" width="400">
+  </div>
+  <div>
+    <p>To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+</div>
+
 
 ### Line-of-sight (LOS) experiments
 <!-- word -- left, fig -- right -->
@@ -17,7 +31,7 @@ To identify the UWB TDOA measurement performance in different scenarios, we desi
     <img src="files/images/los-boxplot.png" alt="" width="400">
   </div>
   <div>
-    <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meter to 6.5 meters with an interval of 0.5 meter. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees with an interval of 15 degrees. We visualize the LOS measurement error at each testing through boxplots shown on the right. </p>
+    <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meter to 6.5 meters in intervals of 0.5 meters. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees in intervals of 15 degrees. We visualize the LOS measurement error at each testing through boxplots shown on the right. We indicated the distance test and angle tests as dT# and aT#, where # is the test number.</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
   </div>
@@ -66,7 +80,7 @@ For the flight experiments, we collected the raw UWB TDOA meaurements, gyroscope
     <img src="files/images/flight-setup.png" alt="" width="400">
   </div>
   <div>
-    <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed Apriltags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Four different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations/">Leica total station</a> for reproducibility.
+    <p>The UWB TDOA flight dataset is produced in a  7.0 m × 8.0 m × 3.5 m indoor flight arena equipped with a motion capture system of 10 <a href="https://www.vicon.com/hardware/cameras/vantage/">Vicon Vantage+ cameras</a>. Printed AprilTags are attached to the soft mattresses to provide visual features for optical flow. For each sub-dataset, eight UWB anchors were pre-installed in the flight arena referred to as a constellation. Four different UWB constellations are used for data collection. The position and orientation of each anchor were surveyed using a mm-level accurate <a href="https://leica-geosystems.com/products/total-stations/">Leica total station</a> for reproducibility.
     </p> 
     <p>We refer to the Vicon frame (see the right figure) as the inertial frame. To align the Leica total station frame and the inertial frame, we use the total station to survey six Vicon reflective markers with known positions in inertial frame and compute the transformation matrix through point cloud alignment. The average reprojection root-mean-squared error (RMSE) of the six reflective markers is around 1.12 mm.
     </p>
@@ -98,7 +112,7 @@ We provide a simple extended Kalman filter (EKF) implementation for users to eva
 
 To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right). 
 
-We summarize the UWB TDOA measurements d23 in different LOS/NLOS scenarios as follows. The quadrotor was commanded to execute the same and repeated circle trajectory. We can observe in Figure 13b-d that static obstacles induce consistent influence to the UWB measurements. Also, UWB measurements can be completely blocked due to severe NLOS conditions.
+We summarize the UWB TDOA measurements d_23 in different LOS/NLOS scenarios as follows. The quadrotor was commanded to execute the same and repeated circle trajectory. We can observe in the following figure b-d that static obstacles induce consistent influence to the UWB measurements. Also, UWB measurements can be completely blocked due to severe NLOS conditions.
 <img src="files/images/flight-meas-comp.png" alt="" width="800">
 
 
@@ -110,7 +124,8 @@ It can be observed that in dynamic NLOS scenarios (see the figure e and f above)
   </div>
 </div>
 
-We also summarize the UWB TDOA measurement error histograms in one of the experiments (*const4-trial6-tdoa2-traj1*) in the animation below. The measurement error histograms are visualized within a fixed window of timestamps along the entire trajectory. Due to the static and dynamic obstacles in the environment, the error histogram varies along the trajectory and demonstrates multimodal distributions, leading to a harsh scenario for indoor localization. We encourage the users to design novel algorithms to improve the localization performance in these challenging conditions.
+We also summarize the UWB TDOA measurement error histograms in one of the experiments (*const4-trial6-tdoa2-traj1*) in the animation below. The measurement error histograms are visualized within a fixed window of timestamps along the entire trajectory. We indicate the measurement error for
+TDOA measurement d_ij as err_ij for short. Due to the static and dynamic obstacles in the environment, the error histogram varies along the trajectory and demonstrates multimodal distributions, leading to a harsh scenario for indoor localization. We encourage the users to design novel algorithms to improve the localization performance in these challenging conditions.
 
 <video src="files/videos/histogram.mp4" playsinline autoplay muted loop style="max-width: 100%;">
 </video>
