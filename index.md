@@ -15,7 +15,7 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
     <img src="files/images/identify_setup.jpg" alt="" width="350">
   </div>
   <div>
-    <p>To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.</p>
+    <p>To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one <a href="https://www.bitcraze.io/products/old-products/crazyflie-2-0/">Crazyflie nano-quadrotor</a> equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
@@ -31,7 +31,7 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
     <img src="files/images/los-boxplot.png" alt="" width="400">
   </div>
   <div>
-    <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meter to 6.5 meters in intervals of 0.5 meters. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees in intervals of 15 degrees. We visualize the LOS measurement error at each testing through boxplots shown on the right. We indicated the distance test and angle tests as dT# and aT#, where # is the test number.</p>
+    <p>In LOS conditions, we collected data from two tests: <em>(i)</em> the LOS distance test and <em>(ii)</em> the LOS angle test. The positions of the tag and anchor 2 are fixed throughout the LOS data collection process. In LOS distance test, we change the distance <em>d1</em> from 0.5 meters to 6.5 meters in intervals of 0.5 meters. In LOS angle dataset, we change the angle from 180 degrees to 15 degrees in intervals of 15 degrees. We visualize the LOS measurement error at each testing through boxplots shown on the right. We indicated the distance test and angle tests as dT# and aT#, where # is the test number.</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
   </div>
@@ -106,17 +106,17 @@ The latency from the ground station software to the onboard firmware is tested t
 In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). The six flight trajectories are summarized in the following figure a-f. In constellation #4, we created three cluttered environments with static obstacles (see figure g-i) and two cluttered environments with one dynamic metal obstacle.
 <img src="files/images/flight-traj.png" alt="" width="800">
 
-We provide a simple extended Kalman filter (EKF) implementation for users to evaluate the UWB TDOA-based localization performance. The EKF estimation performance and error plots with one of the LOS flight experiments (*const1-trial3-tdoa2*) are shown below. 
+We provide a simple extended Kalman filter (EKF) implementation for users to evaluate the UWB TDOA-based localization performance. The EKF estimation performance and error plots with one of the LOS flight experiments (sub-dataset: *const1-trial3-tdoa2*) are shown below. 
 <img src="files/images/ESKF.png" alt="" width="800">
 
 
 To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right). 
 
-We summarize the UWB TDOA measurements d_23 in different LOS/NLOS scenarios as follows. The quadrotor was commanded to execute the same and repeated circle trajectory. We can observe in the following figure b-d that static obstacles induce consistent influence to the UWB measurements. Also, UWB measurements can be completely blocked due to severe NLOS conditions.
+We summarize the UWB TDOA measurements *d<sub>23</sub>* in different LOS/NLOS scenarios as follows. The quadrotor was commanded to execute the same and repeated circle trajectory. We can observe in the following figure b-d that static obstacles induce consistent influence to the UWB measurements. Also, UWB measurements can be completely blocked due to severe NLOS conditions.
 <img src="files/images/flight-meas-comp.png" alt="" width="800">
 
 
-It can be observed that in dynamic NLOS scenarios (see the figure e and f above), the induced measurement errors do not remain consistent. The experiment process with dynamic obstacles are shown with the following animations as examples.
+It can be observed that in dynamic NLOS scenarios (see the figure e and f above), the induced measurement errors do not remain consistent. We demonstrate two experiment process with dynamic obstacles (sub-dataset: *const4-trial5-tdoa2-traj3* and *const4-trial6-tdoa2-traj1*) in the following animations as examples.
 <div style="clear: both;">
   <div style="float: left; margin-left 3em;">
     <img src="files/videos/const4-trial5-tdoa2-traj3.gif" alt="" width="48%">
@@ -124,8 +124,8 @@ It can be observed that in dynamic NLOS scenarios (see the figure e and f above)
   </div>
 </div>
 
-We also summarize the UWB TDOA measurement error histograms in one of the experiments (*const4-trial6-tdoa2-traj1*) in the animation below. The measurement error histograms are visualized within a fixed window of timestamps along the entire trajectory. We indicate the measurement error for
-TDOA measurement d_ij as err_ij for short. Due to the static and dynamic obstacles in the environment, the error histogram varies along the trajectory and demonstrates multimodal distributions, leading to a harsh scenario for indoor localization. We encourage the users to design novel algorithms to improve the localization performance in these challenging conditions.
+We also summarize the UWB TDOA measurement error histograms in sub-dataset *const4-trial6-tdoa2-traj1* in the animation below. The measurement error histograms are visualized within a fixed window of timestamps along the entire trajectory. We indicate the measurement error for
+TDOA measurement *d<sub>ij</sub>* as *err<sub>ij</sub>* for short. Due to the static and dynamic obstacles in the environment, the error histogram varies along the trajectory and demonstrates multimodal distributions, leading to a harsh scenario for indoor localization. We encourage the users to design novel algorithms to improve the localization performance in these challenging conditions.
 
 <video src="files/videos/histogram.mp4" playsinline autoplay muted loop style="max-width: 100%;">
 </video>
