@@ -107,7 +107,7 @@ In the flight dataset, we provide the UWB measurements under centralized TDOA mo
 <img src="files/images/flight-traj.png" alt="" width="800">
 
 We provide a simple extended Kalman filter (EKF) implementation for users to evaluate the UWB TDOA-based localization performance. The EKF estimation performance and error plots with one of the LOS flight experiments (*const1-trial3-tdoa2*) are shown below. 
-<img src="files/images/eskf.png" alt="" width="800">
+<img src="files/images/ESKF.png" alt="" width="800">
 
 
 To simulate more realistic and challenging conditions, we collected sensor data in a variety of cluttered environments with static and dynamic obstacles in constellation 4. One challenging NLOS condition induced by three wooden obstacle and one metal obstacle is demonstrated above (right). 
