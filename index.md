@@ -103,7 +103,7 @@ Onboard the quadrotor, the raw UWB measurements, gyroscope, accelerometer, optic
 The latency from the ground station software to the onboard firmware is tested to be around 10 ms. As the length of each sub-dataset is around 120 seconds, we ignore the onboard clock drift. We refer to the offset between the center of a sensor and the vehicle center as sensor extrinsic parameters. The IMU is assumed to be aligned with the vehicle center. We provide the manually measured translation vectors from the center of the vehicle to onboard sensors (UWB tag and flow deck) in the dataset paper and the data parsing scripts.
 
 ### Flight dataset format
-In the flight dataset, we provide the UWB measurements under centralized TDOA mode (TDOA2) and decentralized TDOA mode (TDOA3). The six flight trajectories are summarized in the following figure a-f. In constellation #4, we created three cluttered environments with static obstacles (see figure g-i) and two cluttered environments with one dynamic metal obstacle.
+In the flight dataset, we provide the UWB measurements under centralized TDOA mode and decentralized TDOA mode, which are referred to as TDOA 2 and TDOA 3, respectively. The six flight trajectories are summarized in the following figure a-f. In constellation #4, we created three cluttered environments with static obstacles (see figure g-i) and two cluttered environments with one dynamic metal obstacle.
 <img src="files/images/flight-traj.png" alt="" width="800">
 
 We provide a simple extended Kalman filter (EKF) implementation for users to evaluate the UWB TDOA-based localization performance. The EKF estimation performance and error plots with one of the LOS flight experiments (sub-dataset: *const1-trial3-tdoa2*) are shown below. 
