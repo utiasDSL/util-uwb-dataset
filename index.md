@@ -247,7 +247,7 @@ $ python3 anchor_survey.py [SURVEY_RESULT_TXT]
 
 Step 6. Visualize LOS identification data
 ```
-$ cd scripts/identification-data
+$ cd scripts/identification-dataset
 $ python3 los_visual.py [LOS_DATA_FOLDER]                                
 # e.g. python3 los_visual.py ../../dataset/identification-dataset/los/distTest/distT1
 ```
@@ -255,7 +255,7 @@ $ python3 los_visual.py [LOS_DATA_FOLDER]
 ---
 Step 7. Visualize NLOS identification data
 ```
-$ cd scripts/identification-data
+$ cd scripts/identification-dataset
 $ python3 nlos_visual.py [NLOS_DATA_FOLDER]                              
 # e.g. python3 nlos_visual.py ../../dataset/identification-dataset/nlos/anTag/metal/data1
 ```
