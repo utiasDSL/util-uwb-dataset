@@ -24,7 +24,8 @@ echo -en "\e[1A"
 echo -e "\e[0K"
 echo -e "${BLUE}Grab a cup of coffee and relax${NC}\n"
 echo | curl -L https://github.com/utiasDSL/util-uwb-dataset/releases/download/dataset-v1.0/dataset.7z > dataset.7z
-echo | 7z x ./dataset.7z
+echo | mkdir dataset
+echo | 7z x ./dataset.7z -o./dataset/
 echo | rm dataset.7z
 echo -e "${GREEN}Setup complete${NC}\n"
 
