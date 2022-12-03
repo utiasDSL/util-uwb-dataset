@@ -152,9 +152,7 @@ You can also manually download the [latest release](https://github.com/utiasDSL/
 ---
 Step 1. Build ROS messages:
 ```
-$ cd ros_ws/src
-$ catkin_init_workspace
-$ cd ..
+$ cd ros_ws
 $ catkin_make
 $ source devel/setup.bash
 ```
