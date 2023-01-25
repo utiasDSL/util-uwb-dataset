@@ -7,7 +7,7 @@ show_downloads: true
 
 github:
   paper_url: https://arxiv.org/pdf/2203.14471.pdf
-  script_zip_url: https://github.com/utiasDSL/util-uwb-dataset/archive/refs/tags/Dataset-v1.0.zip
-  data_zip_url: https://github.com/utiasDSL/util-uwb-dataset/releases/download/Dataset-v1.0/dataset.7z
+  script_zip_url: https://github.com/utiasDSL/util-uwb-dataset/archive/refs/tags/dataset-v1.0.zip
+  data_zip_url: https://github.com/utiasDSL/util-uwb-dataset/releases/download/dataset-v1.0/dataset.7z
 
 
