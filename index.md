@@ -15,16 +15,8 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
   </div>
   <div>
     <p> <ul>
-    <li>Spline Fusion-based Ultra-wideband-Inertial State Estimation (SFUISE), <a href="https://arxiv.org/pdf/2301.09033.pdf"> paper on arXiv</a>,  <a href="https://github.com/KIT-ISAS/SFUISE"> open source code</a>. BibTex Citation<pre><code>
-@article{arXiv23_Li,
- author = {Kailai Li and Ziyu Cao and Uwe D. Hanebeck},
- title = {Continuous-Time Ultra-Wideband-Inertial Fusion},
- journal = {arXiv preprint arXiv:2301.09033},
- month = {January},
- url = {https://arxiv.org/abs/2301.09033},
- year = {2023}
-}
-</code></pre></li>
+    <li>Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." arXiv preprint arXiv:2301.09033,(2023). <a href="https://arxiv.org/pdf/2301.09033.pdf"> Paper Link</a>, <a href="https://github.com/KIT-ISAS/SFUISE"> Open Source Code</a>.
+    </li>
     </ul> </p>
     <p>&nbsp;</p>
   </div>
@@ -38,19 +30,13 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
   </div>
   <div>
     <p> <ul>
-<li>Optimal Sensor Placement for Ultra-wideband Localization Systems, <a href="https://ieeexplore.ieee.org/document/9750886"> RA-L paper</a>. BibTex Citation<pre><code>
-@article{zhao2022finding,
-  title={Finding the right place: Sensor placement for UWB time difference of arrival localization in cluttered indoor environments},
-  author={Zhao, Wenda and Goudar, Abhishek and Schoellig, Angela P},
-  journal={IEEE Robotics and Automation Letters},
-  volume={7},
-  number={3},
-  pages={6075--6082},
-  year={2022},
-  publisher={IEEE}
-}
-</code></pre></li> 
+<li>Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. "Finding the right place: Sensor placement for uwb time difference of arrival localization in cluttered indoor environments." IEEE Robotics and Automation Letters 7, no. 3 (2022): 6075-6082. <a href="https://ieeexplore.ieee.org/document/9750886"> Paper Link</a>.
+</li> 
     </ul> </p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
     <p>&nbsp;</p>
   </div>
 </div>
