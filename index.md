@@ -11,49 +11,17 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
   <li>Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." arXiv preprint arXiv:2301.09033,(2023). <a href="https://arxiv.org/pdf/2301.09033.pdf"> Paper Link</a>, <a href="https://github.com/KIT-ISAS/SFUISE"> Open Source Code</a>.
   </li>
 </ul>
+<div style="text-align: center;">
 <img src="files/videos/util_sequences.gif" alt="" width="600">
-
-<ul>
-  <li>Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. "Finding the right place: Sensor placement for uwb time difference of arrival localization in cluttered indoor environments." IEEE Robotics and Automation Letters 7, no. 3 (2022): 6075-6082. <a href="https://ieeexplore.ieee.org/document/9750886"> Paper Link</a>.
-  </li> 
-</ul>
-<img src="files/images/optimal_sensor_placement.png" alt="" width="600">
-
-
-
-<!-- <div style="clear: both;">
-  <div style="float: right; margin-left 5em;">
-     &nbsp; &nbsp;&nbsp;&nbsp;
-    <img src="files/videos/util_sequences.gif" alt="" width="400">
-    &nbsp; &nbsp;&nbsp;&nbsp;
-  </div>
-  <div>
-    <p> <ul>
-    <li>Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." arXiv preprint arXiv:2301.09033,(2023). <a href="https://arxiv.org/pdf/2301.09033.pdf"> Paper Link</a>, <a href="https://github.com/KIT-ISAS/SFUISE"> Open Source Code</a>.
-    </li>
-    </ul> </p>
-    <p>&nbsp;</p>
-  </div>
 </div>
 
-<div style="clear: both;">
-  <div style="float: right; margin-left 5em;">
-     &nbsp; &nbsp;&nbsp;&nbsp;
-    <img src="files/images/optimal_sensor_placement.png" alt="" width="400">
-    &nbsp; &nbsp;&nbsp;&nbsp;
-  </div>
-  <div>
-    <p> <ul>
-<li>Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. "Finding the right place: Sensor placement for uwb time difference of arrival localization in cluttered indoor environments." IEEE Robotics and Automation Letters 7, no. 3 (2022): 6075-6082. <a href="https://ieeexplore.ieee.org/document/9750886"> Paper Link</a>.
-</li> 
-    </ul> </p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-  </div>
-</div> -->
+<ul>
+  <li>Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. "Finding the right place: Sensor placement for UWB time difference of arrival localization in cluttered indoor environments." IEEE Robotics and Automation Letters 7, no. 3 (2022): 6075-6082. <a href="https://ieeexplore.ieee.org/document/9750886"> Paper Link</a>.
+  </li> 
+</ul>
+<div style="text-align: center;">
+<img src="files/images/optimal_sensor_placement.png" alt="" width="600">
+</div>
 
 ---
 ## Identification Dataset
