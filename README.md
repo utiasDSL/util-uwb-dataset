@@ -3,7 +3,6 @@ Detailed information and instructions: [https://utiasdsl.github.io/util-uwb-data
 
 The dataset paper:  [https://arxiv.org/pdf/2203.14471.pdf](https://arxiv.org/pdf/2203.14471.pdf)
 
-(The dataset is subject to changes in current stage)
 
 ## Dataset Usage
 * Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." arXiv preprint arXiv:2301.09033,(2023). [Paper Link](https://arxiv.org/pdf/2301.09033.pdf), [Open Source Code](https://github.com/KIT-ISAS/SFUISE). 
