@@ -4,6 +4,57 @@
 ## Overview
 Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has recently emerged as a promising, low-cost, and scalable indoor localization solution, which is especially suited for multi-robot applications. To benchmark the emerging UWB TDOA positioning technology in cluttered indoor environments, we present a comprehensive dataset consists of UWB TDOA identification experiments and flight experiments based on Decawave's DWM1000 UWB modules. In the identification experiments, we collected low-level signal information, including signal-to-noise ratio (SNR) and power difference values, in various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. For the flight experiments, we conducted a cumulative ~150 minutes of real-world flights with an average speed of 0.45 m/s using four different anchor constellations. Raw sensor data including UWB TDOA, inertial measurement unit (IMU), optical flow, time-of-flight (ToF) laser, and millimeter-accurate ground truth data were collected during the flights. We use the [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/) to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
 
+
+## Dataset Usage
+<!-- word -- left, fig -- right -->
+<div style="clear: both;">
+  <div style="float: right; margin-left 5em;">
+     &nbsp; &nbsp;&nbsp;&nbsp;
+    <img src="files/videos/util_sequences.gif" alt="" width="400">
+    &nbsp; &nbsp;&nbsp;&nbsp;
+  </div>
+  <div>
+    <p> <ul>
+    <li>Spline Fusion-based Ultra-wideband-Inertial State Estimation (SFUISE), <a href="https://arxiv.org/pdf/2301.09033.pdf"> paper on arXiv</a>,  <a href="https://github.com/KIT-ISAS/SFUISE"> open source code</a>. BibTex Citation<pre><code>
+@article{arXiv23_Li,
+ author = {Kailai Li and Ziyu Cao and Uwe D. Hanebeck},
+ title = {Continuous-Time Ultra-Wideband-Inertial Fusion},
+ journal = {arXiv preprint arXiv:2301.09033},
+ month = {January},
+ url = {https://arxiv.org/abs/2301.09033},
+ year = {2023}
+}
+</code></pre></li>
+    </ul> </p>
+    <p>&nbsp;</p>
+  </div>
+</div>
+
+<div style="clear: both;">
+  <div style="float: right; margin-left 5em;">
+     &nbsp; &nbsp;&nbsp;&nbsp;
+    <img src="files/images/optimal_sensor_placement.png" alt="" width="400">
+    &nbsp; &nbsp;&nbsp;&nbsp;
+  </div>
+  <div>
+    <p> <ul>
+<li>Optimal Sensor Placement for Ultra-wideband Localization Systems, <a href="https://ieeexplore.ieee.org/document/9750886"> RA-L paper</a>. BibTex Citation<pre><code>
+@article{zhao2022finding,
+  title={Finding the right place: Sensor placement for UWB time difference of arrival localization in cluttered indoor environments},
+  author={Zhao, Wenda and Goudar, Abhishek and Schoellig, Angela P},
+  journal={IEEE Robotics and Automation Letters},
+  volume={7},
+  number={3},
+  pages={6075--6082},
+  year={2022},
+  publisher={IEEE}
+}
+</code></pre></li> 
+    </ul> </p>
+    <p>&nbsp;</p>
+  </div>
+</div>
+
 ---
 ## Identification Dataset
 <!-- To identify the UWB TDOA measurement performance in different scenarios, we designed a variety of identification experiments in LOS and NLOS scenarios. Two UWB anchors and one [Crazyflie nano-quadrotor](https://www.bitcraze.io/products/old-products/crazyflie-2-0/) equipped with an UWB tag are placed on wooden structures. A millimeter-level accurate Vicon motion capture system measures the poses of the tag and the anchors for ground truth data. We demonstrate our experimental setups in the following figure.
