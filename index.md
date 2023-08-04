@@ -14,6 +14,10 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
 <div style="text-align: center;">
 <img src="files/videos/util_sequences.gif" alt="" width="600">
 </div>
+<ul>
+  <li>Kailai Li. "On Embedding B-Splines in Recursive State Estimation." arXiv preprint arXiv:2307.00637,(2023). <a href="https://arxiv.org/pdf/2307.00637.pdf"> Paper Link</a>.
+  </li>
+</ul>
 
 <ul>
   <li>Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. "Finding the right place: Sensor placement for UWB time difference of arrival localization in cluttered indoor environments." IEEE Robotics and Automation Letters 7, no. 3 (2022): 6075-6082. <a href="https://ieeexplore.ieee.org/document/9750886"> Paper Link</a>.
