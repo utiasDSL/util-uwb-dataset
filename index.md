@@ -299,7 +299,7 @@ This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abh
       doi={}
 }
 ```
-<img src="files/images/logos.jpg" alt="start-img" 
+<img src="files/images/logos_v1.png" alt="start-img" 
 width="1000">
 
 -----
