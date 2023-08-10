@@ -303,4 +303,6 @@ This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abh
 width="1000">
 
 -----
-> University of Toronto's [Dynamic Systems Lab](https://github.com/utiasDSL) / [Vector Institute](https://github.com/VectorInstitute)/ [UofT Robotics Institute](https://robotics.utoronto.ca/)
+> [University of Toronto](https://www.utoronto.ca/) / [UofT Robotics Institute](https://robotics.utoronto.ca/) / [Vector Institute](https://github.com/VectorInstitute)/ [Technical University of Munich](https://www.tum.de/en/)
+
+<!-- [Learning Systems and Robotics Lab](https://github.com/utiasDSL) -->
