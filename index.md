@@ -5,22 +5,30 @@
 Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has recently emerged as a promising, low-cost, and scalable indoor localization solution, which is especially suited for multi-robot applications. To benchmark the emerging UWB TDOA positioning technology in cluttered indoor environments, we present a comprehensive dataset consists of UWB TDOA identification experiments and flight experiments based on Decawave's DWM1000 UWB modules. In the identification experiments, we collected low-level signal information, including signal-to-noise ratio (SNR) and power difference values, in various line-of-sight (LOS) and non-line-of-sight (NLOS) conditions. For the flight experiments, we conducted a cumulative ~150 minutes of real-world flights with an average speed of 0.45 m/s using four different anchor constellations. Raw sensor data including UWB TDOA, inertial measurement unit (IMU), optical flow, time-of-flight (ToF) laser, and millimeter-accurate ground truth data were collected during the flights. We use the [Loco Positioning System (LPS)](https://www.bitcraze.io/documentation/system/positioning/loco-positioning-system/) from [Bitcraze](https://www.bitcraze.io/) to create this dataset. We hope this dataset can help researchers develop and compare reliable estimation methods for emerging UWB TDOA-based indoor localization technology. 
 
 
-## Dataset Usage
+## Exploring the Possibilities: A Glimpse into Selected Dataset Usage
 <!-- word -- left, fig -- right -->
 <ul>
-  <li>Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." arXiv preprint arXiv:2301.09033,(2023). <a href="https://arxiv.org/pdf/2301.09033.pdf"> Paper Link</a>, <a href="https://github.com/KIT-ISAS/SFUISE"> Open Source Code</a>.
+  <li>Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." arXiv preprint arXiv:2301.09033, 2023. <a href="https://arxiv.org/pdf/2301.09033.pdf"> Paper Link</a>, <a href="https://github.com/KIT-ISAS/SFUISE"> Open Source Code</a>.
   </li>
 </ul>
 <div style="text-align: center;">
 <img src="files/videos/util_sequences.gif" alt="" width="600">
 </div>
+
+
 <ul>
-  <li>Kailai Li. "On Embedding B-Splines in Recursive State Estimation." arXiv preprint arXiv:2307.00637,(2023). <a href="https://arxiv.org/pdf/2307.00637.pdf"> Paper Link</a>.
+  <li>Kailai Li. "On Embedding B-Splines in Recursive State Estimation." arXiv preprint arXiv:2307.00637, 2023. <a href="https://arxiv.org/pdf/2307.00637.pdf"> Paper Link</a>.
   </li>
 </ul>
 
 <ul>
-  <li>Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. "Finding the right place: Sensor placement for UWB time difference of arrival localization in cluttered indoor environments." IEEE Robotics and Automation Letters 7, no. 3 (2022): 6075-6082. <a href="https://ieeexplore.ieee.org/document/9750886"> Paper Link</a>.
+  <li>H. A. Hashim, A. E. E. Eltoukhy, K. G. Vamvoudakis, and M. I. Abouheaf ”Nonlinear Deterministic Observer for Inertial
+Navigation using Ultra-wideband and IMU Sensor Fusion,” IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), pp. 1-6, 2023. <a href="https://arxiv.org/pdf/2308.08023.pdf"> Paper Link</a>.
+  </li>
+</ul>
+
+<ul>
+  <li>Wenda Zhao, Abhishek Goudar, and Angela P. Schoellig. "Finding the right place: Sensor placement for UWB time difference of arrival localization in cluttered indoor environments." IEEE Robotics and Automation Letters 7, no. 3, 2022: 6075-6082. <a href="https://ieeexplore.ieee.org/document/9750886"> Paper Link</a>.
   </li> 
 </ul>
 <div style="text-align: center;">
