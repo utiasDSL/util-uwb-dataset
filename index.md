@@ -311,6 +311,6 @@ This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abh
 width="1000">
 
 -----
-> [University of Toronto](https://www.utoronto.ca/) / [UofT Robotics Institute](https://robotics.utoronto.ca/) / [Vector Institute](https://github.com/VectorInstitute)/ [Technical University of Munich](https://www.tum.de/en/)
+> [University of Toronto](https://www.utoronto.ca/) / [University of Toronto Robotics Institute](https://robotics.utoronto.ca/) / [Vector Institute](https://github.com/VectorInstitute)/ [Technical University of Munich](https://www.tum.de/en/)/ [Munich Institute of Robotics and Machine Intelligence](https://www.mirmi.tum.de/en/mirmi/munich-institute-of-robotics-and-machine-intelligence-mirmi/)
 
 <!-- [Learning Systems and Robotics Lab](https://github.com/utiasDSL) -->
