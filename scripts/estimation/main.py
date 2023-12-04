@@ -69,6 +69,8 @@ if __name__ == "__main__":
     csv_name = os.path.split(sys.argv[-1])[1] 
     print("ESKF estimation with: " + str(csv_name) + "\n")
 
+    TDOA2 = True
+
     # --------------- extract csv file --------------- #
     gt_pose = extract_gt(df)
     tdoa    = extract_tdoa(df)
@@ -100,16 +102,20 @@ if __name__ == "__main__":
     # ------ downsample the raw data
     t_imu = downsamp(t_imu)
     imu   = downsamp(imu)
-    # extract tdoa meas.
-    tdoa_70, tdoa_01, tdoa_12, tdoa_23, tdoa_34, tdoa_45, tdoa_56, tdoa_67 = extract_tdoa_meas(tdoa[:,0], tdoa[:,1:4]) 
-    # downsample uwb tdoa data
-    tdoa_70_ds = downsamp(tdoa_70);    tdoa_01_ds = downsamp(tdoa_01)
-    tdoa_12_ds = downsamp(tdoa_12);    tdoa_23_ds = downsamp(tdoa_23)
-    tdoa_34_ds = downsamp(tdoa_34);    tdoa_45_ds = downsamp(tdoa_45)
-    tdoa_56_ds = downsamp(tdoa_56);    tdoa_67_ds = downsamp(tdoa_67)
-    # convert back to tdoa
-    tdoa_c = np.concatenate((tdoa_70_ds, tdoa_01_ds, tdoa_12_ds, tdoa_23_ds,\
-                             tdoa_34_ds, tdoa_45_ds, tdoa_56_ds, tdoa_67_ds), axis = 0)
+
+    if TDOA2:
+        # extract tdoa meas.
+        tdoa_70, tdoa_01, tdoa_12, tdoa_23, tdoa_34, tdoa_45, tdoa_56, tdoa_67 = extract_tdoa_meas(tdoa[:,0], tdoa[:,1:4]) 
+        # downsample uwb tdoa data
+        tdoa_70_ds = downsamp(tdoa_70);    tdoa_01_ds = downsamp(tdoa_01)
+        tdoa_12_ds = downsamp(tdoa_12);    tdoa_23_ds = downsamp(tdoa_23)
+        tdoa_34_ds = downsamp(tdoa_34);    tdoa_45_ds = downsamp(tdoa_45)
+        tdoa_56_ds = downsamp(tdoa_56);    tdoa_67_ds = downsamp(tdoa_67)
+        # convert back to tdoa
+        tdoa_c = np.concatenate((tdoa_70_ds, tdoa_01_ds, tdoa_12_ds, tdoa_23_ds,\
+                                tdoa_34_ds, tdoa_45_ds, tdoa_56_ds, tdoa_67_ds), axis = 0)
+    else:
+        tdoa_c = downsamp(tdoa)
 
     sort_id=np.argsort(tdoa_c[:,0])
     t_uwb = tdoa_c[sort_id, 0].reshape(-1,1)
