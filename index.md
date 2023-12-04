@@ -250,6 +250,7 @@ $ cd scripts/estimation
 $ python3 main.py -i [ANCHOR_SURVEY_NPZ] [CSV_DATA]                      
 # e.g. python3 main.py -i ../../dataset/flight-dataset/survey-results/anchor_const1.npz ../../dataset/flight-dataset/csv-data/const1/const1-trial1-tdoa2.csv
 ```
+Note, for TDOA3 trials, please set the "TDOA2" flag to "False" in the ```main.py``` script to facilitate a simple TDOA3 data downsampling process. 
 
 ### Processing raw data for flight dataset
 We provided the converted csv and rosbag data in the "*dataset/flight-dataset/" folder. Also, the converted survey results (npz and txt files) in inertial frame are provided in the folder: "*dataset/flight-dataset/survey-results/*". Users can also use the following commands to process the raw data manually.  
