@@ -121,6 +121,22 @@ For the flight experiments, we collected the raw UWB TDOA meaurements, gyroscope
   </div>
 </div>
 
+<div style="clear: both;">
+  <div style="float: right; margin-left 3em;">
+    <img src="files/images/anchor_const_summary.png" alt="" width="400">
+  </div>
+  <div>
+    <p>To ensure the accuracy of our dataset, we performed anchor surveying for each of our data collection sessions, leading to four different anchor constellations. A comparison of the four different anchor constellations is shown in the figure (right). Since the localization performance of TDOA-based positioning systems relies heavily on the geometries of the sensor-tags, it is worth comparing the positioning performance of the same flight trajectory in different constellations.
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    </p> 
+  </div>
+</div>
+
+
+
 ### Quadrotor platform
 <div style="clear: both;">
   <div style="float: right; margin-left 3em;">
