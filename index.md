@@ -8,19 +8,28 @@ Ultra-wideband (UWB) time-difference-of-arrival (TDOA)-based localization has re
 ## Exploring the Possibilities: A Glimpse into Selected Dataset Usage
 <!-- word -- left, fig -- right -->
 <ul>
-  <li>Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." arXiv preprint arXiv:2301.09033, 2023. <a href="https://arxiv.org/pdf/2301.09033.pdf"> Paper Link</a>, <a href="https://github.com/KIT-ISAS/SFUISE"> Open Source Code</a>.
+  <li>Kailai Li, Ziyu Cao, and Uwe D. Hanebeck. "Continuous-Time Ultra-Wideband-Inertial Fusion." IEEE Robotics and Automation Letters 8, no 7, 2023: 4338-4345. <a href="https://arxiv.org/pdf/2301.09033.pdf"> Paper Link</a>, <a href="https://github.com/KIT-ISAS/SFUISE"> Open Source Code</a>.
   </li>
 </ul>
 <div style="text-align: center;">
 <img src="files/videos/util_sequences.gif" alt="" width="600">
 </div>
 
-
 <ul>
-  <li>Kailai Li. "On Embedding B-Splines in Recursive State Estimation." arXiv preprint arXiv:2307.00637, 2023. <a href="https://arxiv.org/pdf/2307.00637.pdf"> Paper Link</a>.
+  <li>Thien-Minh Nguyen, Ziyu Cao, Kailai Li, William Talbot, Tongxing Jin, Shenghai Yuan, Timothy D. Barfoot, and Lihua Xie. "A Third-Order Gaussian Process Trajectory Representation Framework with Closed-Form Kinematics for Continuous-Time Motion Estimation." arXiv preprint arXiv:2410.22931, 2025. <a href="https://arxiv.org/abs/2410.22931"> Paper Link</a>, <a href="https://github.com/brytsknguyen/gptr"> Open Source Code</a>.
   </li>
 </ul>
+<div style="text-align: center;">
+<img src="files/videos/gptr_ui_video.gif" alt="" width="600">
+</div>
 
+<ul>
+  <li>Kailai Li. "On Embedding B-Splines in Recursive State Estimation." IEEE Transactions on Aerospace and Electronic Systems, 2025. <a href="https://ieeexplore.ieee.org/document/11029614"> Paper Link</a>.
+  </li>
+</ul>
+<div style="text-align: center;">
+<img src="files/images/bspline_rse.png" alt="" width="600">
+</div>
 <ul>
   <li>H. A. Hashim, A. E. E. Eltoukhy, K. G. Vamvoudakis, and M. I. Abouheaf ”Nonlinear Deterministic Observer for Inertial
 Navigation using Ultra-wideband and IMU Sensor Fusion,” IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), pp. 1-6, 2023. <a href="https://arxiv.org/pdf/2308.08023.pdf"> Paper Link</a>.
@@ -209,6 +218,20 @@ $ source devel/setup.bash
 
 NOTE: remember to [source both your ROS environment and workspace.](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment#Managing_Your_Environment)
 
+### ROS2 support
+---
+Thanks to [Kailai Li](https://kailaili.github.io/) and [Ziyu Cao](https://scholar.google.com/citations?user=Us6Ey14AAAAJ&hl=en)'s great project, [SFUISE2](https://github.com/ASIG-X/SFUISE2), we now support ROS2 packages in our UTIL dataset. 
+#### Dataset conversion
+We recommend to use ```ros2bag_convert_util.sh``` from [SFUISE2](https://github.com/ASIG-X/SFUISE2) to convert the UTIL dataset to ROS2 bag. Further details on ROS1–to–ROS2 bag file conversion can be found in the [rosbags-convert](https://ternaris.gitlab.io/rosbags/topics/convert.html) documentation.
+
+#### Compilation cf_msgs
+```
+cd ros2_ws/src/
+git clone https://github.com/ASIG-X/SFUISE2
+cd ..
+colcon build --symlink-install --packages-select cf_msgs
+```
+
 ---
 ### Data parsing scripts for flight dataset
 
@@ -313,15 +336,15 @@ $ python3 nlos_visual.py [NLOS_DATA_FOLDER]
 
 This dataset was the work of [Wenda Zhao](https://williamwenda.github.io/), [Abhishek Goudar](https://www.linkedin.com/in/abhishek-goudar-47b46090/), [Xianyuan Qiao](https://www.linkedin.com/in/xinyuan-sam-qiao-8b15ba17a/?originalSubdomain=ca) and [Angela P. Schoellig](https://www.dynsyslab.org/prof-angela-schoellig/). If you use the data provided by this website in your own work, please use the following citation:
 ```
-@INPROCEEDINGS{zhao2022uwbData,
-      title={UTIL: An Ultra-wideband Time-difference-of-arrival Indoor Localization Dataset}, 
-      author={Wenda Zhao and Abhishek Goudar and Xianyuan Qiao and Angela P. Schoellig},
-      booktitle={International Journal of Robotics Research (IJRR)},
-      year={2022},
-      volume={},
-      number={},
-      pages={},
-      doi={}
+@article{zhao2024util,
+  title={UTIL: An Ultra-wideband Time-difference-of-arrival Indoor Localization Dataset},
+  author={Wenda, Zhao and Abhishek, Goudar and Xinyuan, Qiao and Angela P. Schoellig},
+  journal={The International Journal of Robotics Research},
+  volume={43},
+  number={10},
+  pages={1443--1456},
+  year={2024},
+  publisher={SAGE Publications Sage UK: London, England}
 }
 ```
 <img src="files/images/logos_v1.png" alt="start-img" 
